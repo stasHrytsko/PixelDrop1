@@ -1,0 +1,50 @@
+{
+  "name": "game-template",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Android game template: DOM shell + Phaser mechanic + Capacitor.",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4173",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test",
+    "e2e:install": "playwright install --with-deps chromium",
+    "check": "npm run typecheck && npm run lint && npm test && npm run build && npm run e2e",
+    "new-game": "tsx scripts/new-game.ts",
+    "verify-template": "tsx scripts/check-placeholders.ts",
+    "cap:sync": "npm run build && cap sync android",
+    "android:add": "cap add android",
+    "android:open": "cap open android",
+    "postinstall": "tsx scripts/sync-phaser-skills.ts || exit 0",
+    "skills:sync": "tsx scripts/sync-phaser-skills.ts"
+  },
+  "dependencies": {
+    "@capacitor/android": "8.5.0",
+    "@capacitor/app": "8.1.1",
+    "@capacitor/core": "8.5.0",
+    "@capacitor/preferences": "8.0.1",
+    "phaser": "4.2.1"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.5.0",
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.62.1",
+    "eslint": "10.9.1",
+    "globals": "17.11.0",
+    "jsdom": "29.1.1",
+    "tsx": "4.23.12",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.68.0",
+    "vite": "8.2.2",
+    "vitest": "4.1.11"
+  }
+}

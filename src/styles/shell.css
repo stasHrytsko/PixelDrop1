@@ -1,0 +1,331 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#app {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--shell-max-width);
+  min-height: 100dvh;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* --- Screens ------------------------------------------------------------ */
+
+.screen {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: calc(var(--safe-top) + var(--space-5)) calc(var(--safe-right) + var(--space-4))
+    calc(var(--safe-bottom) + var(--space-5)) calc(var(--safe-left) + var(--space-4));
+}
+
+.screen--game {
+  gap: var(--space-3);
+  padding-top: calc(var(--safe-top) + var(--space-3));
+  padding-bottom: calc(var(--safe-bottom) + var(--space-3));
+}
+
+.screen__spacer {
+  flex: 1;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(28px, 9vw, 40px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.tagline {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* --- Rule list ---------------------------------------------------------- */
+
+.rules {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rules__item {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.rules__marker {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--text-inverse);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 22px;
+  text-align: center;
+}
+
+/* --- Buttons ------------------------------------------------------------ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap-target);
+  padding: var(--space-3) var(--space-5);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn--primary {
+  background: var(--accent);
+  color: var(--text-inverse);
+}
+
+.btn--ghost {
+  border-color: var(--border);
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* --- Level grid --------------------------------------------------------- */
+
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.level-cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  border: 2px solid var(--band);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--band) 14%, var(--surface));
+  color: var(--text);
+  font-family: inherit;
+  font-size: 24px;
+  font-weight: 800;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.level-cell[data-band='easy'] {
+  --band: var(--easy);
+}
+.level-cell[data-band='medium'] {
+  --band: var(--medium);
+}
+.level-cell[data-band='hard'] {
+  --band: var(--hard);
+}
+
+.level-cell[data-state='locked'] {
+  --band: var(--locked);
+  color: var(--text-muted);
+  cursor: default;
+}
+
+.level-cell__badge {
+  position: absolute;
+  right: var(--space-2);
+  bottom: var(--space-1);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.legend {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.legend__dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: var(--space-1);
+  border-radius: 50%;
+}
+
+/* --- Game screen -------------------------------------------------------- */
+
+.game-header {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.game-header__back {
+  min-height: 40px;
+  padding: var(--space-2) var(--space-3);
+  font-size: 15px;
+}
+
+.game-header__stats {
+  color: var(--text-muted);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.game-surface {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  overflow: hidden;
+  /* The mechanic owns every gesture inside this box. */
+  touch-action: none;
+}
+
+.game-surface canvas {
+  display: block;
+}
+
+/* --- Popup -------------------------------------------------------------- */
+
+.popup-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: var(--space-4);
+  padding-bottom: calc(var(--safe-bottom) + var(--space-4));
+  background: rgb(6 8 12 / 72%);
+}
+
+.popup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-5) var(--space-4) var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  text-align: center;
+}
+
+.popup__emoji {
+  font-size: 44px;
+  line-height: 1;
+}
+
+.popup__title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.popup__body {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.popup__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* --- Mechanic-owned HUD -------------------------------------------------- */
+/* Styled by the shell stylesheet so the canvas overlay matches the tokens,
+   but created and controlled by src/mechanic — the shell never writes to it. */
+
+.mechanic-hud {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-4);
+  color: var(--text-muted);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
