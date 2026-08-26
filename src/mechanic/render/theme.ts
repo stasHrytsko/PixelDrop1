@@ -1,3 +1,5 @@
+import type { ColorId } from '../engine/types.ts';
+
 /**
  * Bridge between the CSS design tokens and the Phaser scene.
  *
@@ -7,18 +9,30 @@
  */
 export interface SceneTheme {
   background: number;
-  target: number;
-  targetStroke: number;
-  cleared: number;
-  text: string;
+  cellEmpty: number;
+  cellInactive: number;
+  cellBorder: number;
+  hintOk: number;
+  hintWrong: number;
+  hintPending: number;
+  colors: Readonly<Record<ColorId, number>>;
 }
 
 const FALLBACK: SceneTheme = {
   background: 0x171a21,
-  target: 0x5b8cff,
-  targetStroke: 0x7aa2ff,
-  cleared: 0x333a46,
-  text: '#98a2b3',
+  cellEmpty: 0x171a21,
+  cellInactive: 0x14161b,
+  cellBorder: 0x2a3039,
+  hintOk: 0x34d399,
+  hintWrong: 0xf87171,
+  hintPending: 0x98a2b3,
+  colors: {
+    red: 0xef4444,
+    blue: 0x3b82f6,
+    green: 0x22c55e,
+    yellow: 0xeab308,
+    purple: 0xa855f7,
+  },
 };
 
 function hexToNumber(value: string, fallback: number): number {
@@ -30,12 +44,22 @@ function hexToNumber(value: string, fallback: number): number {
 export function readTheme(root: Element = document.documentElement): SceneTheme {
   const styles = getComputedStyle(root);
   const token = (name: string): string => styles.getPropertyValue(name);
+  const color = (name: string, fallback: number): number => hexToNumber(token(name), fallback);
 
   return {
-    background: hexToNumber(token('--surface'), FALLBACK.background),
-    target: hexToNumber(token('--accent'), FALLBACK.target),
-    targetStroke: hexToNumber(token('--accent-hover'), FALLBACK.targetStroke),
-    cleared: hexToNumber(token('--locked'), FALLBACK.cleared),
-    text: token('--text-muted').trim() || FALLBACK.text,
+    background: color('--surface', FALLBACK.background),
+    cellEmpty: color('--pixel-cell-empty', FALLBACK.cellEmpty),
+    cellInactive: color('--pixel-cell-inactive', FALLBACK.cellInactive),
+    cellBorder: color('--pixel-cell-border', FALLBACK.cellBorder),
+    hintOk: color('--pixel-hint-ok', FALLBACK.hintOk),
+    hintWrong: color('--pixel-hint-wrong', FALLBACK.hintWrong),
+    hintPending: color('--pixel-hint-pending', FALLBACK.hintPending),
+    colors: {
+      red: color('--pixel-red', FALLBACK.colors.red),
+      blue: color('--pixel-blue', FALLBACK.colors.blue),
+      green: color('--pixel-green', FALLBACK.colors.green),
+      yellow: color('--pixel-yellow', FALLBACK.colors.yellow),
+      purple: color('--pixel-purple', FALLBACK.colors.purple),
+    },
   };
 }

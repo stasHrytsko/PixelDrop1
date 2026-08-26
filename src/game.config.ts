@@ -44,7 +44,7 @@ export interface GameDefinition {
 
 /**
  * Which template revision this game was created from. When a shell fix lands in
- * game-template, this field tells you which games are worth updating by hand —
+ * pixel-drop, this field tells you which games are worth updating by hand —
  * the template is copied, not inherited.
  *
  * Still 0.9.0: the automated pipeline is green end to end, but the manual pass
@@ -55,10 +55,10 @@ export interface GameDefinition {
 export const TEMPLATE_VERSION = '0.9.0';
 
 export const GAME: GameDefinition = {
-  id: 'game-template',
-  appId: 'com.example.gametemplate',
-  title: 'Game Template',
-  tagline: 'Заглушка механики: собери все круги',
+  id: 'pixel-drop',
+  appId: 'com.stashrytsko.pixeldrop',
+  title: 'Pixel Drop',
+  tagline: 'Собери картинку по подсказкам на полях',
   version: 1,
 
   levelCount: 9,
@@ -67,14 +67,16 @@ export const GAME: GameDefinition = {
     version: 1,
     title: 'Как играть',
     rules: [
-      'Нажимай на круги на поле',
-      'Собери все круги, чтобы пройти уровень',
-      'С каждым уровнем кругов больше',
-      'Уровни открываются по порядку',
+      'Число показывает, сколько одинаковых клеток должно идти подряд',
+      'Иконка рядом с числом показывает, какого типа должны быть эти клетки',
+      'Подсказки слева — для строк, сверху — для столбцов. Это условие, а не загадка',
+      'Выбери фигуру и тапни клетку, куда хочешь её поставить',
+      'Ищи место, которое подходит и строке, и столбцу одновременно',
+      'Откаты ограничены — сначала проверь ход, потом ставь',
     ],
   },
 
   signal: {
-    topic: 'REPLACE_ME_WITH_A_RANDOM_TOPIC',
+    topic: 'l3mscGoSAZIfBzbaRRILZILViBvU3x0T',
   },
 };

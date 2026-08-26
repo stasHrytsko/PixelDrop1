@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.example.gametemplate',
-  appName: 'Game Template',
+  appId: 'com.stashrytsko.pixeldrop',
+  appName: 'Pixel Drop',
   webDir: 'dist',
   android: {
     // Matches --bg in src/styles/tokens.css so there is no white flash on boot.

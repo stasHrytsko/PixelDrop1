@@ -30,6 +30,27 @@
   --hard: #f87171;
   --locked: #333a46;
 
+  /*
+   * Pixel Drop's five piece colours (ColorId). Chosen to stay distinct at a
+   * glance and to leave --easy/--medium/--hard alone, since the level-select
+   * grid and the board share this stylesheet. Colour is never the only signal
+   * for a ColorId — every run also carries a shape icon (docs/rules.md §7) —
+   * so these do not need to be colourblind-safe on their own.
+   */
+  --pixel-red: #ef4444;
+  --pixel-blue: #3b82f6;
+  --pixel-green: #22c55e;
+  --pixel-yellow: #eab308;
+  --pixel-purple: #a855f7;
+
+  /* Board chrome, shared by every ColorId */
+  --pixel-cell-empty: var(--surface);
+  --pixel-cell-inactive: #14161b;
+  --pixel-cell-border: var(--border);
+  --pixel-hint-ok: var(--easy);
+  --pixel-hint-wrong: var(--hard);
+  --pixel-hint-pending: var(--text-muted);
+
   /* Spacing scale */
   --space-1: 4px;
   --space-2: 8px;
