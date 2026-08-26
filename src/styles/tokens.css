@@ -1,0 +1,68 @@
+/*
+ * The one place where the visual language lives.
+ *
+ * The DOM shell and the Phaser canvas have to look like the same application,
+ * and they render through completely different stacks. Every colour a scene
+ * uses is read from here at runtime (see src/mechanic/render/theme.ts) so the
+ * two halves cannot drift apart.
+ */
+:root {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --bg: #0f1115;
+  --surface: #171a21;
+  --surface-raised: #1f232c;
+  --border: #2a3039;
+
+  /* Text */
+  --text: #e8ecf3;
+  --text-muted: #98a2b3;
+  --text-inverse: #0b1020;
+
+  /* Accent */
+  --accent: #5b8cff;
+  --accent-hover: #7aa2ff;
+
+  /* Difficulty bands on the level grid */
+  --easy: #34d399;
+  --medium: #fbbf24;
+  --hard: #f87171;
+  --locked: #333a46;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+
+  --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --shell-max-width: 430px;
+  --tap-target: 48px;
+
+  /*
+   * Android 15+ is edge-to-edge by default: the WebView fills the display and
+   * the status bar / gesture bar sit on top of our layout unless we pad.
+   *
+   * Two mechanisms, in priority order:
+   *   1. Capacitor's built-in SystemBars plugin (@capacitor/android core,
+   *      insetsHandling: "css") sets --safe-area-inset-* as an inline style on
+   *      documentElement. This is what actually works on Android.
+   *   2. env(safe-area-inset-*) covers iOS and desktop browsers, where
+   *      Capacitor injects nothing.
+   * Using only env() looks fine in Chrome and clips under the status bar on a
+   * real phone, which is exactly the bug that only shows up on device.
+   */
+  --safe-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
+  --safe-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
+  --safe-left: var(--safe-area-inset-left, env(safe-area-inset-left, 0px));
+  --safe-right: var(--safe-area-inset-right, env(safe-area-inset-right, 0px));
+}
