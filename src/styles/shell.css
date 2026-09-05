@@ -115,7 +115,7 @@ body {
   justify-content: center;
   min-height: var(--tap-target);
   padding: var(--space-3) var(--space-5);
-  border: 1px solid transparent;
+  border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface-raised);
   color: var(--text);
@@ -124,6 +124,7 @@ body {
   font-weight: 600;
   cursor: pointer;
   touch-action: manipulation;
+  box-shadow: 0 1px 2px rgb(31 35 51 / 6%);
 }
 
 .btn:active {
@@ -131,6 +132,7 @@ body {
 }
 
 .btn--primary {
+  border-color: transparent;
   background: var(--accent);
   color: var(--text-inverse);
 }
@@ -139,6 +141,7 @@ body {
   border-color: var(--border);
   background: transparent;
   color: var(--text-muted);
+  box-shadow: none;
 }
 
 .btn--block {

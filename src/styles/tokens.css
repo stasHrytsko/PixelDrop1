@@ -7,28 +7,33 @@
  * two halves cannot drift apart.
  */
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  /* Surfaces */
-  --bg: #0f1115;
-  --surface: #171a21;
-  --surface-raised: #1f232c;
-  --border: #2a3039;
+  /*
+   * Light, card-based look — see docs/decisions.md D-012. `--bg` is the page's
+   * soft lavender ground; `--surface`/`--surface-raised` are the white cards
+   * that sit on top of it, so a card needs a border or shadow to read against
+   * the page rather than relying on a colour difference alone.
+   */
+  --bg: #eef0f7;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --border: #e3e6f0;
 
   /* Text */
-  --text: #e8ecf3;
-  --text-muted: #98a2b3;
-  --text-inverse: #0b1020;
+  --text: #1f2333;
+  --text-muted: #767c94;
+  --text-inverse: #ffffff;
 
   /* Accent */
-  --accent: #5b8cff;
-  --accent-hover: #7aa2ff;
+  --accent: #5b6bff;
+  --accent-hover: #4453e6;
 
   /* Difficulty bands on the level grid */
-  --easy: #34d399;
-  --medium: #fbbf24;
-  --hard: #f87171;
-  --locked: #333a46;
+  --easy: #22b573;
+  --medium: #e2a63a;
+  --hard: #ef5757;
+  --locked: #d7dae6;
 
   /*
    * Pixel Drop's seven piece colours (ColorId). Chosen to stay distinct at a
@@ -41,13 +46,13 @@
   --pixel-blue: #3b82f6;
   --pixel-green: #22c55e;
   --pixel-yellow: #eab308;
-  --pixel-purple: #a855f7;
-  --pixel-orange: #f97316;
+  --pixel-purple: #9d6bff;
+  --pixel-orange: #f9a13e;
   --pixel-pink: #f472b6;
 
   /* Board chrome, shared by every ColorId */
-  --pixel-cell-empty: var(--surface);
-  --pixel-cell-border: var(--border);
+  --pixel-cell-empty: #eceefa;
+  --pixel-cell-border: #dde1ef;
   /* Drag feedback: a valid / invalid placement preview, reusing the same
      green/red the level grid already uses for difficulty so no new meaning
      is introduced. */

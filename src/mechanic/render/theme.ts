@@ -9,10 +9,16 @@ import type { ColorId } from '../engine/types.ts';
  * halves cannot drift apart.
  */
 export interface SceneTheme {
+  /** The page's own background, behind every card. */
   background: number;
+  /** White card surface — the board, the thumbnail, each tray slot. */
+  card: number;
+  cardBorder: number;
   cellEmpty: number;
   cellBorder: number;
-  /** Drop feedback: a valid placement preview / a successful drop. */
+  text: number;
+  textMuted: number;
+  /** Drop feedback: a valid placement preview / a successful drop. Also the checkmark colour. */
   ok: number;
   /** Drop feedback: an invalid placement preview / a rejected drop. */
   error: number;
@@ -20,18 +26,22 @@ export interface SceneTheme {
 }
 
 const FALLBACK: SceneTheme = {
-  background: 0x171a21,
-  cellEmpty: 0x171a21,
-  cellBorder: 0x2a3039,
-  ok: 0x34d399,
-  error: 0xf87171,
+  background: 0xeef0f7,
+  card: 0xffffff,
+  cardBorder: 0xe3e6f0,
+  cellEmpty: 0xeceefa,
+  cellBorder: 0xdde1ef,
+  text: 0x1f2333,
+  textMuted: 0x767c94,
+  ok: 0x22b573,
+  error: 0xef5757,
   colors: {
     red: 0xef4444,
     blue: 0x3b82f6,
     green: 0x22c55e,
     yellow: 0xeab308,
-    purple: 0xa855f7,
-    orange: 0xf97316,
+    purple: 0x9d6bff,
+    orange: 0xf9a13e,
     pink: 0xf472b6,
   },
 };
@@ -48,9 +58,13 @@ export function readTheme(root: Element = document.documentElement): SceneTheme 
   const color = (name: string, fallback: number): number => hexToNumber(token(name), fallback);
 
   return {
-    background: color('--surface', FALLBACK.background),
+    background: color('--bg', FALLBACK.background),
+    card: color('--surface', FALLBACK.card),
+    cardBorder: color('--border', FALLBACK.cardBorder),
     cellEmpty: color('--pixel-cell-empty', FALLBACK.cellEmpty),
     cellBorder: color('--pixel-cell-border', FALLBACK.cellBorder),
+    text: color('--text', FALLBACK.text),
+    textMuted: color('--text-muted', FALLBACK.textMuted),
     ok: color('--pixel-ok', FALLBACK.ok),
     error: color('--pixel-error', FALLBACK.error),
     colors: {
