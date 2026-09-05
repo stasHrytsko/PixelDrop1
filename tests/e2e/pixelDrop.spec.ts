@@ -2,50 +2,72 @@ import { expect, test, type Page } from '@playwright/test';
 import { openLevelSelect, testId } from './helpers.ts';
 
 /**
- * Mirrors src/mechanic/render/PixelDropScene.ts's #computeLayout exactly —
- * duplicated here rather than exposed from the scene, the same trade-off
- * docs/decisions.md D-010 already made for the progress storage key: the test
- * knows one fragile constant, documented at the source, rather than src/
- * carrying a test-only hook. Level 1's board is small enough (4×4) that
- * getting this formula wrong would show up immediately as a mis-hit tap.
+ * Mirrors src/mechanic/render/PixelDropScene.ts's #computeLayout and the
+ * always-lifted drop math exactly — duplicated here rather than exposed from
+ * the scene, the same trade-off docs/decisions.md D-010 already made for the
+ * progress storage key: the test knows a handful of fragile constants,
+ * documented at the source, rather than src/ carrying a test-only hook.
+ *
+ * The shipped level's 6 pieces are all 2×2 squares (docs/rules.md §3
+ * "Текущий прототип"), so MAX_SPAN and PIECE_COUNT below are this level's
+ * actual shape, not a guess.
  */
-const HINT_MARGIN_CELLS = 2;
-const GRID_SIZE = 8;
-const TRAY_ROWS = 1.3;
-const TRAY_GAP_CELLS = 0.25;
-const MIN_CELL_SIZE = 18;
+const ROWS = 6;
+const COLS = 6;
+const PIECE_COUNT = 6;
+const MAX_SPAN = 2;
+const THUMB_SCALE = 0.42;
+const GAP_UNITS = 0.5;
+const TRAY_SLOT_PADDING = 0.5;
+const MIN_CELL_SIZE = 26;
+const LIFT_PX = 34;
 
 interface CanvasLayout {
   cellSize: number;
   boardX: number;
   boardY: number;
-  traySlotCenter: (slot: 0 | 1 | 2) => { x: number; y: number };
+  trayX: number;
+  trayY: number;
+  traySlotSize: number;
+  trayColumns: number;
 }
 
 function computeLayout(box: { x: number; y: number; width: number; height: number }): CanvasLayout {
-  const totalCols = HINT_MARGIN_CELLS + GRID_SIZE;
-  const totalRows = HINT_MARGIN_CELLS + GRID_SIZE + TRAY_ROWS;
-  const cellSize = Math.max(MIN_CELL_SIZE, Math.min(box.width / totalCols, box.height / totalRows));
+  const traySlotUnits = MAX_SPAN + TRAY_SLOT_PADDING;
+  const trayColumns = Math.max(1, Math.floor(COLS / traySlotUnits));
+  const trayRows = Math.ceil(PIECE_COUNT / trayColumns);
 
-  const usedWidth = cellSize * totalCols;
-  const usedHeight = cellSize * totalRows;
-  const offsetX = (box.width - usedWidth) / 2;
-  const offsetY = (box.height - usedHeight) / 2;
+  const totalRowUnits = ROWS * THUMB_SCALE + GAP_UNITS + ROWS + GAP_UNITS + trayRows * traySlotUnits;
+  const cellSize = Math.max(MIN_CELL_SIZE, Math.min(box.width / COLS, box.height / totalRowUnits));
 
-  const boardX = box.x + offsetX + cellSize * HINT_MARGIN_CELLS;
-  const boardY = box.y + offsetY + cellSize * HINT_MARGIN_CELLS;
-  const trayY = boardY + cellSize * GRID_SIZE + cellSize * TRAY_GAP_CELLS;
-  const trayHeight = cellSize * (TRAY_ROWS - TRAY_GAP_CELLS);
-  const traySlotWidth = (cellSize * GRID_SIZE) / 3;
+  const contentHeight = cellSize * totalRowUnits;
+  const offsetY = (box.height - contentHeight) / 2;
+  const thumbHeight = ROWS * cellSize * THUMB_SCALE;
+  const thumbY = box.y + offsetY;
 
+  const boardWidth = COLS * cellSize;
+  const boardHeight = ROWS * cellSize;
+  const boardX = box.x + (box.width - boardWidth) / 2;
+  const boardY = thumbY + thumbHeight + GAP_UNITS * cellSize;
+
+  const traySlotSize = traySlotUnits * cellSize;
+  const trayWidth = trayColumns * traySlotSize;
+  const trayX = boardX + (boardWidth - trayWidth) / 2;
+  const trayY = boardY + boardHeight + GAP_UNITS * cellSize;
+
+  return { cellSize, boardX, boardY, trayX, trayY, traySlotSize, trayColumns };
+}
+
+function cellCenter(layout: CanvasLayout, row: number, col: number): { x: number; y: number } {
+  return { x: layout.boardX + (col + 0.5) * layout.cellSize, y: layout.boardY + (row + 0.5) * layout.cellSize };
+}
+
+function traySlotCenter(layout: CanvasLayout, index: number): { x: number; y: number } {
+  const col = index % layout.trayColumns;
+  const row = Math.floor(index / layout.trayColumns);
   return {
-    cellSize,
-    boardX,
-    boardY,
-    traySlotCenter: (slot) => ({
-      x: boardX + traySlotWidth * (slot + 0.5),
-      y: trayY + trayHeight / 2,
-    }),
+    x: layout.trayX + col * layout.traySlotSize + layout.traySlotSize / 2,
+    y: layout.trayY + row * layout.traySlotSize + layout.traySlotSize / 2,
   };
 }
 
@@ -57,48 +79,90 @@ async function getLayout(page: Page): Promise<CanvasLayout> {
   return computeLayout(box);
 }
 
+/**
+ * Drags whatever currently sits in tray slot 0 onto the board cell
+ * (targetRow, targetCol). Dropping on a cell's centre with a piece grabbed
+ * from the tray lands its anchor there exactly, because a tray grab always
+ * uses grabOffset (0, 0) — see PixelDropScene's #onPointerDown.
+ *
+ * The drop's Y is nudged up by LIFT_PX to compensate for the scene lifting
+ * the drag visually before computing the drop cell from it — see #lifted.
+ */
+async function dragFirstTrayPieceTo(page: Page, layout: CanvasLayout, targetRow: number, targetCol: number): Promise<void> {
+  const from = traySlotCenter(layout, 0);
+  const to = cellCenter(layout, targetRow, targetCol);
+
+  await page.mouse.move(from.x, from.y);
+  await page.mouse.down();
+  await page.mouse.move(to.x, to.y + LIFT_PX, { steps: 5 });
+  await page.mouse.up();
+}
+
+// src/mechanic/levels/levels.json's solutionPlacements, in the same order as
+// the level's pieces array — dragging in that order always pulls the next
+// piece from tray slot 0 (docs/rules.md §3 "Старт уровня").
+const SOLUTION: readonly (readonly [number, number])[] = [
+  [0, 1], // roof-left
+  [0, 3], // roof-right
+  [2, 0], // wall-left
+  [2, 2], // wall-mid
+  [2, 4], // wall-right
+  [4, 2], // door
+];
+
 test.describe('Pixel Drop board', () => {
-  test('placing the first piece, then undoing it, round-trips through real taps', async ({ page }) => {
+  test('dragging every piece to its solved position wins the level', async ({ page }) => {
     await openLevelSelect(page);
     await testId(page, 'level-1').click();
 
     const layout = await getLayout(page);
-    const undo = testId(page, 'pixel-drop-undo');
-    const restart = testId(page, 'pixel-drop-restart');
-    await expect(undo).toBeDisabled();
-    await expect(restart).toBeEnabled();
+    const hud = testId(page, 'mechanic-hud');
+    await expect(hud).toHaveAttribute('data-game-state', 'playing');
 
-    // Level 1's trayPieces[0] targets activeCells[0] = (row 0, col 0) by
-    // construction (scripts/generate-levels.ts deals pieces in the same
-    // row-major order it lists activeCells in).
-    const trayCenter = layout.traySlotCenter(0);
-    await page.mouse.click(trayCenter.x, trayCenter.y);
+    for (const [row, col] of SOLUTION) {
+      await dragFirstTrayPieceTo(page, layout, row, col);
+    }
 
-    const targetX = layout.boardX + layout.cellSize * 0.5;
-    const targetY = layout.boardY + layout.cellSize * 0.5;
-    await page.touchscreen.tap(targetX, targetY);
-
-    // Placing a piece does not spend the undo budget — only undoing does.
-    await expect(undo).toBeEnabled();
-    await expect(undo).toHaveText(/Откат \(3\)/);
-
-    await undo.click();
-    await expect(undo).toBeDisabled();
-    await expect(undo).toHaveText(/Откат \(2\)/);
+    await expect(hud).toHaveAttribute('data-game-state', 'won');
+    await expect(testId(page, 'win-popup')).toBeVisible();
+    await expect(testId(page, 'replay-level')).toBeVisible();
   });
 
-  test('Restart puts an in-progress level back to its starting state', async ({ page }) => {
+  test('an invalid drop is rejected, and Restart genuinely returns every piece to the tray', async ({ page }) => {
     await openLevelSelect(page);
     await testId(page, 'level-1').click();
 
     const layout = await getLayout(page);
-    await page.mouse.click(layout.traySlotCenter(0).x, layout.traySlotCenter(0).y);
-    await page.touchscreen.tap(layout.boardX + layout.cellSize * 0.5, layout.boardY + layout.cellSize * 0.5);
+    const hud = testId(page, 'mechanic-hud');
 
-    const undo = testId(page, 'pixel-drop-undo');
-    await expect(undo).toBeEnabled();
+    // Off the board entirely (row -1 is out of bounds for a 2×2 piece) — rejected, nothing changes.
+    await dragFirstTrayPieceTo(page, layout, -1, 0);
+    await expect(hud).toHaveAttribute('data-game-state', 'playing');
+
+    // A valid, if "wrong", placement is accepted (docs/rules.md §3
+    // "Проверка размещения" rule 2) — (4, 4) is not roof-left's solved spot.
+    await dragFirstTrayPieceTo(page, layout, 4, 4);
+    await expect(hud).toHaveAttribute('data-game-state', 'playing');
 
     await testId(page, 'pixel-drop-restart').click();
-    await expect(undo).toBeDisabled();
+
+    // If Restart had not put roof-left back at tray slot 0, this full solve
+    // would drag the wrong pieces to each spot and never reach 'won'.
+    for (const [row, col] of SOLUTION) {
+      await dragFirstTrayPieceTo(page, layout, row, col);
+    }
+    await expect(hud).toHaveAttribute('data-game-state', 'won');
+  });
+
+  test('the "?" help panel opens and closes without leaving the level', async ({ page }) => {
+    await openLevelSelect(page);
+    await testId(page, 'level-1').click();
+
+    await expect(testId(page, 'pixel-drop-help-panel')).toBeHidden();
+    await testId(page, 'pixel-drop-help').click();
+    await expect(testId(page, 'pixel-drop-help-panel')).toBeVisible();
+
+    await testId(page, 'pixel-drop-help-close').click();
+    await expect(testId(page, 'pixel-drop-help-panel')).toBeHidden();
   });
 });

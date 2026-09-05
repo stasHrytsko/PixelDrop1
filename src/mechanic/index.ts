@@ -1,9 +1,48 @@
 import Phaser from 'phaser';
+import { GAME } from '../game.config.ts';
 import type { CreateLevelParams, LevelSession, MechanicHost } from '../shell-contract.ts';
 import type { LevelState } from './engine/types.ts';
 import { getLevel } from './levels/loadLevels.ts';
 import { PixelDropScene } from './render/PixelDropScene.ts';
 import { readTheme } from './render/theme.ts';
+import { PreferencesSaveRepository } from './save/PreferencesSaveRepository.ts';
+import type { SavedPlacements, SaveRepository } from './save/SaveRepository.ts';
+
+function toSavedPlacements(state: LevelState): SavedPlacements {
+  const result: Record<string, { row: number; col: number }> = {};
+  for (const [pieceId, placement] of Object.entries(state.placements)) {
+    if (placement !== null) result[pieceId] = placement;
+  }
+  return result;
+}
+
+/** docs/rules.md §7: the "?" button — the same rules text as the menu's onboarding, without leaving the level. */
+function buildHelpPanel(): HTMLElement {
+  const panel = document.createElement('div');
+  panel.className = 'mechanic-help';
+  panel.dataset['testid'] = 'pixel-drop-help-panel';
+  panel.hidden = true;
+
+  const list = document.createElement('ol');
+  list.className = 'mechanic-help__list';
+  for (const rule of GAME.onboarding.rules) {
+    const item = document.createElement('li');
+    item.textContent = rule;
+    list.append(item);
+  }
+
+  const close = document.createElement('button');
+  close.type = 'button';
+  close.className = 'btn btn--primary btn--block';
+  close.textContent = 'Понятно';
+  close.dataset['testid'] = 'pixel-drop-help-close';
+  close.addEventListener('click', () => {
+    panel.hidden = true;
+  });
+
+  panel.append(list, close);
+  return panel;
+}
 
 /**
  * The mechanic's only export, and the only thing src/main.ts is allowed to
@@ -14,16 +53,24 @@ import { readTheme } from './render/theme.ts';
  * state can leak from one level into the next.
  */
 export function createMechanicHost(): MechanicHost {
+  const saves: SaveRepository = new PreferencesSaveRepository(GAME.id);
+
   return {
     createLevel(params: CreateLevelParams): LevelSession {
       const level = getLevel(params.levelIndex);
       const theme = readTheme();
 
       // The container belongs to the mechanic, so its HUD lives here rather
-      // than in the shell — the shell must not know what "undo budget" means.
+      // than in the shell — the shell must not know what a "piece" is.
       const hud = document.createElement('div');
       hud.className = 'mechanic-hud pixel-drop-hud';
       hud.dataset['testid'] = 'mechanic-hud';
+
+      const helpButton = document.createElement('button');
+      helpButton.type = 'button';
+      helpButton.className = 'btn btn--ghost pixel-drop-help-button';
+      helpButton.textContent = '?';
+      helpButton.dataset['testid'] = 'pixel-drop-help';
 
       const restartButton = document.createElement('button');
       restartButton.type = 'button';
@@ -31,19 +78,12 @@ export function createMechanicHost(): MechanicHost {
       restartButton.textContent = 'Заново';
       restartButton.dataset['testid'] = 'pixel-drop-restart';
 
-      const undoButton = document.createElement('button');
-      undoButton.type = 'button';
-      undoButton.className = 'btn btn--ghost';
-      undoButton.dataset['testid'] = 'pixel-drop-undo';
-
-      hud.append(undoButton, restartButton);
+      hud.append(helpButton, restartButton);
+      const help = buildHelpPanel();
 
       const onStateChange = (state: LevelState): void => {
-        undoButton.textContent = `Откат (${String(state.undoBudget)})`;
-        undoButton.disabled = state.history.length === 0 || state.undoBudget === 0;
-        hud.dataset['undoBudget'] = String(state.undoBudget);
-        hud.dataset['stuck'] = String(state.isStuck);
         hud.dataset['gameState'] = state.gameState;
+        void saves.save(level.id, level.version, toSavedPlacements(state));
       };
 
       const scene = new PixelDropScene({
@@ -53,8 +93,8 @@ export function createMechanicHost(): MechanicHost {
         onStateChange,
       });
 
-      undoButton.addEventListener('click', () => {
-        scene.undo();
+      helpButton.addEventListener('click', () => {
+        help.hidden = !help.hidden;
       });
       restartButton.addEventListener('click', () => {
         scene.restart();
@@ -74,7 +114,14 @@ export function createMechanicHost(): MechanicHost {
         scene: [scene],
       });
 
-      params.container.append(hud);
+      params.container.append(hud, help);
+
+      // Fire-and-forget: the scene starts from a blank board and folds the
+      // save in once it arrives, rather than making mount async — the shell
+      // contract's createLevel is synchronous (docs/rules.md §9).
+      void saves.load(level.id, level.version).then((saved) => {
+        if (saved !== null) scene.restore(saved);
+      });
 
       // params.onExit exists for mechanics that own their own exit affordance
       // (a pause menu inside the canvas). This one does not: the shell header
@@ -86,6 +133,7 @@ export function createMechanicHost(): MechanicHost {
           if (destroyed) return;
           destroyed = true;
           hud.remove();
+          help.remove();
           game.destroy(true);
         },
       };

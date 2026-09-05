@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { MemoryProgressRepository } from '../../src/shell/progress/MemoryProgressRepository.ts';
 import {
-  allLevelsCompleted,
   emptyProgress,
   isLevelCompleted,
   isLevelUnlocked,
@@ -10,7 +9,6 @@ import {
   parseProgress,
   PROGRESS_SCHEMA_VERSION,
   withLevelCompleted,
-  withMoreAsked,
   withOnboardingSeen,
 } from '../../src/shell/progress/ProgressRepository.ts';
 
@@ -35,13 +33,6 @@ describe('progress rules', () => {
     expect(twice).toBe(once);
   });
 
-  it('reports completion of the whole game', () => {
-    let state = emptyProgress();
-    for (let i = 0; i < 9; i += 1) state = withLevelCompleted(state, i);
-    expect(allLevelsCompleted(state, 9)).toBe(true);
-    expect(allLevelsCompleted(state, 10)).toBe(false);
-  });
-
   it('stops offering a next level after the last one', () => {
     expect(nextLevelIndex(0, 9)).toBe(1);
     expect(nextLevelIndex(8, 9)).toBeNull();
@@ -56,10 +47,6 @@ describe('progress rules', () => {
   it('never walks the onboarding version backwards', () => {
     const seen = withOnboardingSeen(emptyProgress(), 5);
     expect(withOnboardingSeen(seen, 2).onboardingVersion).toBe(5);
-  });
-
-  it('records that the "more?" question was asked', () => {
-    expect(withMoreAsked(emptyProgress()).moreAsked).toBe(true);
   });
 });
 
@@ -79,7 +66,7 @@ describe('parseProgress', () => {
     ['missing fields', { schemaVersion: PROGRESS_SCHEMA_VERSION }],
     [
       'non-numeric levels',
-      { schemaVersion: PROGRESS_SCHEMA_VERSION, onboardingVersion: 0, completedLevels: ['x'], moreAsked: false },
+      { schemaVersion: PROGRESS_SCHEMA_VERSION, onboardingVersion: 0, completedLevels: ['x'] },
     ],
   ])('rejects %s', (_label, raw) => {
     expect(parseProgress(raw)).toBeNull();
@@ -90,7 +77,6 @@ describe('parseProgress', () => {
       schemaVersion: PROGRESS_SCHEMA_VERSION,
       onboardingVersion: 1,
       completedLevels: [3, 1, 1, 0],
-      moreAsked: false,
     });
     expect(parsed?.completedLevels).toEqual([0, 1, 3]);
   });

@@ -1,11 +1,9 @@
 import type { GameDefinition } from '../game.config.ts';
 import type { LevelSession, MechanicHost } from '../shell-contract.ts';
 import {
-  allLevelsCompleted,
   needsOnboarding,
   nextLevelIndex,
   withLevelCompleted,
-  withMoreAsked,
   withOnboardingSeen,
   type ProgressRepository,
   type ProgressState,
@@ -14,7 +12,6 @@ import type { Screen } from './Screen.ts';
 import { GameScreen } from './screens/GameScreen.ts';
 import { LevelSelect } from './screens/LevelSelect.ts';
 import { MainMenu } from './screens/MainMenu.ts';
-import { MoreScreen } from './screens/MoreScreen.ts';
 import { Onboarding } from './screens/Onboarding.ts';
 import { Popup } from './screens/Popup.ts';
 import type { SignalSink } from './signal/SignalSink.ts';
@@ -179,35 +176,25 @@ export class ShellApp {
     else this.goLevelSelect();
   }
 
+  /**
+   * docs/rules.md §7: v2 always shows the same win popup — "Сыграть снова",
+   * plus "Следующий уровень" once there is one. There is no "Ещё?" ask after
+   * the last level (that was v1's ntfy-signal flow); SignalSink stays wired
+   * in ShellAppDeps for other games, this one just never calls it.
+   */
   async #levelCompleted(levelIndex: number, screen: ReturnType<typeof GameScreen>): Promise<void> {
     this.#state = withLevelCompleted(this.#state, levelIndex);
     await this.#deps.progress.save(this.#state);
 
-    const { game, levelCount } = { game: this.#deps.game, levelCount: this.#deps.game.levelCount };
-    const finishedEverything = allLevelsCompleted(this.#state, levelCount) && !this.#state.moreAsked;
-
-    if (finishedEverything) {
-      screen.showOverlay(
-        MoreScreen({
-          onYes: () => {
-            void this.#answerMore(true);
-          },
-          onNo: () => {
-            void this.#answerMore(false);
-          },
-        }),
-      );
-      return;
-    }
-
-    const next = nextLevelIndex(levelIndex, levelCount);
+    const { game } = this.#deps;
+    const next = nextLevelIndex(levelIndex, game.levelCount);
 
     screen.showOverlay(
       Popup({
         testId: 'win-popup',
         emoji: '🎉',
-        title: 'Поздравляю, прошёл!',
-        body: `Уровень ${String(levelIndex + 1)} из ${String(levelCount)} — ${game.title}`,
+        title: 'Рисунок собран!',
+        body: `Уровень ${String(levelIndex + 1)} из ${String(game.levelCount)} — ${game.title}`,
         actions: [
           ...(next === null
             ? []
@@ -222,7 +209,8 @@ export class ShellApp {
                 },
               ]),
           {
-            text: 'Ещё раз',
+            text: 'Сыграть снова',
+            variant: next === null ? ('primary' as const) : undefined,
             testId: 'replay-level',
             onClick: (): void => {
               this.goLevel(levelIndex);
@@ -239,17 +227,6 @@ export class ShellApp {
         ],
       }),
     );
-  }
-
-  async #answerMore(wantsMore: boolean): Promise<void> {
-    this.#state = withMoreAsked(this.#state);
-    await this.#deps.progress.save(this.#state);
-
-    if (wantsMore) {
-      await this.#deps.signal.send({ event: 'more_yes', gameId: this.#deps.game.id });
-    }
-
-    this.goLevelSelect();
   }
 
   // --- Screen plumbing ----------------------------------------------------

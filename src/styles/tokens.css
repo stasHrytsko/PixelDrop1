@@ -31,10 +31,10 @@
   --locked: #333a46;
 
   /*
-   * Pixel Drop's five piece colours (ColorId). Chosen to stay distinct at a
+   * Pixel Drop's seven piece colours (ColorId). Chosen to stay distinct at a
    * glance and to leave --easy/--medium/--hard alone, since the level-select
    * grid and the board share this stylesheet. Colour is never the only signal
-   * for a ColorId — every run also carries a shape icon (docs/rules.md §7) —
+   * for a ColorId — every piece also carries a shape icon (docs/rules.md §8) —
    * so these do not need to be colourblind-safe on their own.
    */
   --pixel-red: #ef4444;
@@ -42,14 +42,17 @@
   --pixel-green: #22c55e;
   --pixel-yellow: #eab308;
   --pixel-purple: #a855f7;
+  --pixel-orange: #f97316;
+  --pixel-pink: #f472b6;
 
   /* Board chrome, shared by every ColorId */
   --pixel-cell-empty: var(--surface);
-  --pixel-cell-inactive: #14161b;
   --pixel-cell-border: var(--border);
-  --pixel-hint-ok: var(--easy);
-  --pixel-hint-wrong: var(--hard);
-  --pixel-hint-pending: var(--text-muted);
+  /* Drag feedback: a valid / invalid placement preview, reusing the same
+     green/red the level grid already uses for difficulty so no new meaning
+     is introduced. */
+  --pixel-ok: var(--easy);
+  --pixel-error: var(--hard);
 
   /* Spacing scale */
   --space-1: 4px;

@@ -94,7 +94,7 @@ Phaser, чего сторонний плагин обеспечить не мо�
 
 ### Слой интерфейса: DOM shell
 
-Shell (`MainMenu`, `Onboarding`, `LevelSelect`, `GameScreen`, `MoreScreen`) —
+Shell (`MainMenu`, `Onboarding`, `LevelSelect`, `GameScreen`) —
 HTML/CSS вокруг canvas. Phaser отвечает только за игру.
 
 ```
@@ -157,7 +157,7 @@ game-template/
 │   │   ├── App.ts             # весь роутинг приложения, один файл
 │   │   ├── Screen.ts / dom.ts / difficulty.ts
 │   │   ├── screens/           # MainMenu, Onboarding, LevelSelect,
-│   │   │                      # GameScreen, Popup, MoreScreen
+│   │   │                      # GameScreen, Popup
 │   │   ├── progress/
 │   │   │   ├── ProgressRepository.ts            # интерфейс + чистые правила
 │   │   │   ├── PreferencesProgressRepository.ts # @capacitor/preferences
@@ -273,20 +273,17 @@ Onboarding — если сохранённый onboardingVersion < текуще�
    ↓
 Level Select (levelCount ячеек, три полосы сложности, замки по порядку)
    ↓
-Уровень ──onComplete──► попап победы: «Уровень N+1 →» / «Ещё раз» / «К уровням»
-   ↓
-После последнего уровня — вместо попапа победы попап «Ещё?»
-   ↓
-«Да» → SignalSink.send({ event: 'more_yes' })
-«Нет» / закрыл → не отправляется ничего
+Уровень ──onComplete──► попап победы: «Уровень N+1 →» / «Сыграть снова» / «К уровням»
 ```
 
 Сохраняется не флаг `onboardingSeen: true`, а `onboardingVersion: number`.
 Поменял правила — поднял версию — игрок увидит обновлённый онбординг.
 
-Попап «Ещё?» показывается ровно один раз за установку: после ответа
-`moreAsked` становится `true` и повторное прохождение девятого уровня даёт
-обычный попап победы.
+**Изменено в Pixel Drop v2 (см. `docs/decisions.md` D-011):** попапа «Ещё?»
+после последнего уровня и вызова `SignalSink.send` из `ShellApp` больше нет —
+`docs/rules.md` §7 этой игры прямо исключает такой попап. `SignalSink`
+остаётся в шаблоне как инфраструктура (`ShellAppDeps.signal`), но `ShellApp`
+её не вызывает; игра, которой этот сигнал нужен, вызывает его сама.
 
 Аппаратная кнопка «назад» на Android идёт по тому же графу
 (`ShellApp.handleBack()`); на главном экране она возвращает `false`, и

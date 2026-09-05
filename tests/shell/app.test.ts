@@ -220,54 +220,30 @@ describe('playing a level', () => {
   });
 });
 
-describe('finishing the game', () => {
-  async function finishEveryLevel(): Promise<void> {
+describe('finishing the last level', () => {
+  /**
+   * v2 (docs/rules.md §7): there is no "Ещё?" popup after the last level —
+   * SignalSink stays wired in ShellAppDeps for other games, but ShellApp
+   * itself never calls it (docs/decisions.md D-011). The last level's win
+   * just has no "next level" button.
+   */
+  it('shows the ordinary win popup with no next-level button and sends no signal', async () => {
     await launch(withOnboardingSeen(emptyProgress(), 2));
     click('play');
     click('level-1');
-
-    for (let level = 0; level < GAME.levelCount; level += 1) {
+    for (let level = 0; level < GAME.levelCount - 1; level += 1) {
       mechanic.finishLevel();
       await flush();
-      if (level < GAME.levelCount - 1) click('next-level');
+      click('next-level');
     }
-  }
 
-  it('asks for more instead of the usual win popup', async () => {
-    await finishEveryLevel();
-    expect(find('more-popup')).not.toBeNull();
-    expect(find('win-popup')).toBeNull();
-  });
-
-  it('sends exactly one signal when the player says yes', async () => {
-    await finishEveryLevel();
-    click('more-yes');
-    await flush();
-
-    expect(signal.sent).toEqual([{ event: 'more_yes', gameId: 'test-game' }]);
-    expect((await progress.load()).moreAsked).toBe(true);
-  });
-
-  it('sends nothing at all when the player says no', async () => {
-    await finishEveryLevel();
-    click('more-no');
-    await flush();
-
-    expect(signal.sent).toEqual([]);
-    expect((await progress.load()).moreAsked).toBe(true);
-  });
-
-  it('never asks a second time', async () => {
-    await finishEveryLevel();
-    click('more-no');
-    await flush();
-
-    click('level-3');
     mechanic.finishLevel();
     await flush();
 
-    expect(find('more-popup')).toBeNull();
     expect(find('win-popup')).not.toBeNull();
+    expect(find('next-level')).toBeNull();
+    expect(find('replay-level')).not.toBeNull();
+    expect(signal.sent).toEqual([]);
   });
 });
 

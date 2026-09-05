@@ -25,11 +25,10 @@ test.describe('shell', () => {
     await expect(testId(page, 'onboarding')).toBeHidden();
   });
 
-  test('locks every level but the first', async ({ page }) => {
+  test('the shipped pack has exactly one, unlocked level', async ({ page }) => {
     await openLevelSelect(page);
     await expect(testId(page, 'level-1')).toHaveAttribute('data-state', 'unlocked');
-    await expect(testId(page, 'level-2')).toHaveAttribute('data-state', 'locked');
-    await expect(testId(page, 'level-9')).toBeVisible();
+    await expect(testId(page, 'level-2')).toHaveCount(0);
   });
 
   test('mounts and tears down the canvas around a level', async ({ page }) => {

@@ -157,3 +157,36 @@ There is deliberately **no** test-only sink, query flag or `window` hook in
 production code. **Cost:** the test knows `@capacitor/preferences` stores under
 `CapacitorStorage.<key>` in the browser, used to seed progress in one test.
 That coupling is documented at the constant.
+
+---
+
+## D-011 — Pixel Drop v2: the "Ещё?" popup is gone, and mechanic gets its own save repository
+
+Two changes made while rewriting the mechanic to v2 (`docs/rules.md`), both
+touching `src/shell/**` — worth recording per `CLAUDE.md`'s own rule that a
+shell change needs a deliberate reason.
+
+**"Ещё?" removed.** `ShellApp.#levelCompleted` used to special-case "every
+level completed and not yet asked" into `MoreScreen` (`onYes` →
+`SignalSink.send`). Pixel Drop v2's ТЗ excludes that popup explicitly: after
+any level, only "Сыграть снова" / "Следующий уровень →" / "К уровням". With
+`levelCount = 1`, the old branch would have fired on the very first win —
+not a corner case, the common case.
+
+**Decision:** deleted `src/shell/screens/MoreScreen.ts` and the
+`moreAsked`/`withMoreAsked`/`allLevelsCompleted` fields off
+`ProgressRepository` — dead code once nothing calls them. `SignalSink`
+(`ShellAppDeps.signal`) stays; `ShellApp` just never calls it. **Reversal:** a
+future game that wants the "want more?" prompt adds the branch back to its
+own copy of `ShellApp.#levelCompleted` — `Popup()` is generic enough that
+`MoreScreen` was always just a call to it, per D-007's own reasoning.
+
+**`LevelSaveRepository` is mechanic-owned, not shell-owned.** v2 needs
+autosave of an in-progress placement, which is per-game data
+(`Record<pieceId, {row, col}>`) the shell has no business parsing. Rather than
+widen `ProgressState` (shell-generic) or `src/shell-contract.ts` (would make
+every future game's `CreateLevelParams` carry a save-loading concern), the
+save lives entirely inside `src/mechanic/save/` — same interface +
+Preferences/Memory pattern as `ProgressRepository`, wired up only by
+`src/mechanic/index.ts`. `src/mechanic/engine/**` still touches no storage at
+all; the eslint boundary on `engine/**` did not need to change.

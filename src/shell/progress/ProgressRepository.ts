@@ -12,8 +12,6 @@ export interface ProgressState {
   readonly onboardingVersion: number;
   /** 0-based indices of solved levels. Unordered, unique. */
   readonly completedLevels: readonly number[];
-  /** The "Ещё?" popup has already been shown — never ask twice. */
-  readonly moreAsked: boolean;
 }
 
 export const PROGRESS_SCHEMA_VERSION = 1;
@@ -29,7 +27,6 @@ export function emptyProgress(): ProgressState {
     schemaVersion: PROGRESS_SCHEMA_VERSION,
     onboardingVersion: 0,
     completedLevels: [],
-    moreAsked: false,
   };
 }
 
@@ -44,7 +41,6 @@ export function parseProgress(raw: unknown): ProgressState | null {
 
   if (candidate['schemaVersion'] !== PROGRESS_SCHEMA_VERSION) return null;
   if (typeof candidate['onboardingVersion'] !== 'number') return null;
-  if (typeof candidate['moreAsked'] !== 'boolean') return null;
 
   const levels = candidate['completedLevels'];
   if (!Array.isArray(levels)) return null;
@@ -56,7 +52,6 @@ export function parseProgress(raw: unknown): ProgressState | null {
     schemaVersion: PROGRESS_SCHEMA_VERSION,
     onboardingVersion: candidate['onboardingVersion'],
     completedLevels: [...new Set(levels)].sort((a, b) => a - b),
-    moreAsked: candidate['moreAsked'],
   };
 }
 
@@ -83,18 +78,6 @@ export function withLevelCompleted(state: ProgressState, levelIndex: number): Pr
 export function withOnboardingSeen(state: ProgressState, onboardingVersion: number): ProgressState {
   if (state.onboardingVersion >= onboardingVersion) return state;
   return { ...state, onboardingVersion };
-}
-
-export function withMoreAsked(state: ProgressState): ProgressState {
-  if (state.moreAsked) return state;
-  return { ...state, moreAsked: true };
-}
-
-export function allLevelsCompleted(state: ProgressState, levelCount: number): boolean {
-  for (let i = 0; i < levelCount; i += 1) {
-    if (!isLevelCompleted(state, i)) return false;
-  }
-  return true;
 }
 
 /** The next level to offer after finishing `levelIndex`, or null if that was the last. */

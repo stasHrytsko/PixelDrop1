@@ -1,12 +1,11 @@
 import { GAME } from '../../game.config.ts';
-import { GRID_SIZE } from '../engine/types.ts';
-import type { ColorId, LevelConfig, LineHint, Piece, PieceCell } from '../engine/types.ts';
+import type { Cell, ColorId, LevelConfig, Piece, PieceCell } from '../engine/types.ts';
 import rawLevelPack from './levels.json';
 
-export const LEVELS_SCHEMA_VERSION = 1;
+export const LEVELS_SCHEMA_VERSION = 2;
 
-const COLOR_IDS: readonly ColorId[] = ['red', 'blue', 'green', 'yellow', 'purple'];
-const ONBOARDING_STEPS = ['runs', 'forcing', 'intersection', 'repeated_color', 'multicolor'] as const;
+const COLOR_IDS: readonly ColorId[] = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink'];
+const PIECE_CELL_COUNT = 4;
 
 function isColorId(value: unknown): value is ColorId {
   return typeof value === 'string' && (COLOR_IDS as readonly string[]).includes(value);
@@ -17,9 +16,10 @@ function isColorId(value: unknown): value is ColorId {
  * this is the one place in the mechanic where `unknown` is the correct type.
  * Everything downstream gets a fully narrowed `LevelConfig`.
  *
- * This checks shape, not solvability: whether a level's rowHints/colHints are
- * jointly satisfiable by its trayPieces is an authoring-time question, worked
- * out by the solver described in docs/rules.md §6 — it does not run here.
+ * This checks shape, not solvability: whether solutionPlacements actually
+ * reaches `targetGrid` through the engine is an authoring-time question,
+ * worked out by tests/mechanic/levels.test.ts (docs/rules.md §6) — it does
+ * not run here.
  *
  * Validation throws rather than repairing: a level pack that does not match
  * the game is a bug to fix at build time, not a condition to survive at
@@ -60,127 +60,67 @@ function parseLevel(entry: unknown, index: number): LevelConfig {
   if (level['id'] !== index + 1) {
     throw new Error(`${where}.id must be ${String(index + 1)}, got ${String(level['id'])}.`);
   }
-  if (level['gridSize'] !== GRID_SIZE) {
-    throw new Error(`${where}.gridSize must be ${String(GRID_SIZE)}, got ${String(level['gridSize'])}.`);
+
+  const version = level['version'];
+  if (typeof version !== 'number' || !Number.isInteger(version) || version < 1) {
+    throw new Error(`${where}.version must be a positive integer, got ${String(version)}.`);
   }
 
-  const activeCells = parseActiveCells(level['activeCells'], `${where}.activeCells`);
-  const rowHints = parseLineHints(level['rowHints'], `${where}.rowHints`);
-  const colHints = parseLineHints(level['colHints'], `${where}.colHints`);
-  const trayPieces = parseTrayPieces(level['trayPieces'], `${where}.trayPieces`);
+  const rows = parseDimension(level['rows'], `${where}.rows`);
+  const cols = parseDimension(level['cols'], `${where}.cols`);
+  const palette = parsePalette(level['palette'], `${where}.palette`);
+  const targetGrid = parseGrid(level['targetGrid'], rows, cols, `${where}.targetGrid`);
+  const pieces = parsePieces(level['pieces'], `${where}.pieces`);
+  const solutionPlacements = parseSolutionPlacements(level['solutionPlacements'], pieces, rows, cols, `${where}.solutionPlacements`);
 
-  const undoBudget = level['undoBudget'];
-  if (typeof undoBudget !== 'number' || !Number.isInteger(undoBudget) || undoBudget < 0) {
-    throw new Error(`${where}.undoBudget must be a non-negative integer, got ${String(undoBudget)}.`);
-  }
+  checkPaletteCoversPieces(palette, pieces, where);
+  checkFilledCellCountMatchesPieces(targetGrid, pieces, where);
 
-  const onboardingStep = level['onboardingStep'];
-  if (onboardingStep !== null && !(ONBOARDING_STEPS as readonly unknown[]).includes(onboardingStep)) {
-    throw new Error(
-      `${where}.onboardingStep must be one of ${JSON.stringify(ONBOARDING_STEPS)} or null, got ${JSON.stringify(onboardingStep)}.`,
-    );
-  }
-
-  checkActiveCellsIsRectangle(activeCells, where);
-  checkNoColorRepeatsInAnyHint(rowHints, `${where}.rowHints`);
-  checkNoColorRepeatsInAnyHint(colHints, `${where}.colHints`);
-
-  return {
-    id: index + 1,
-    gridSize: GRID_SIZE,
-    activeCells,
-    rowHints,
-    colHints,
-    trayPieces,
-    undoBudget,
-    onboardingStep: onboardingStep as LevelConfig['onboardingStep'],
-  };
+  return { id: index + 1, version, rows, cols, palette, targetGrid, pieces, solutionPlacements };
 }
 
-function parseCoord(value: unknown, where: string): readonly [number, number] {
-  if (
-    !Array.isArray(value) ||
-    value.length !== 2 ||
-    typeof value[0] !== 'number' ||
-    typeof value[1] !== 'number' ||
-    !Number.isInteger(value[0]) ||
-    !Number.isInteger(value[1])
-  ) {
-    throw new Error(`${where} must be a [row, col] pair of integers, got ${JSON.stringify(value)}.`);
+function parseDimension(value: unknown, where: string): number {
+  if (typeof value !== 'number' || !Number.isInteger(value) || value < 1) {
+    throw new Error(`${where} must be a positive integer, got ${String(value)}.`);
   }
-  if (value[0] < 0 || value[0] >= GRID_SIZE || value[1] < 0 || value[1] >= GRID_SIZE) {
-    throw new Error(`${where} must be within 0..${String(GRID_SIZE - 1)}, got ${JSON.stringify(value)}.`);
-  }
-  return [value[0], value[1]];
+  return value;
 }
 
-function parseActiveCells(value: unknown, where: string): readonly (readonly [number, number])[] {
+function parsePalette(value: unknown, where: string): readonly ColorId[] {
   if (!Array.isArray(value) || value.length === 0) {
-    throw new Error(`${where} must be a non-empty array of [row, col] pairs.`);
+    throw new Error(`${where} must be a non-empty array of colours.`);
   }
-  const seen = new Set<string>();
   return value.map((entry, i) => {
-    const coord = parseCoord(entry, `${where}[${String(i)}]`);
-    const key = `${String(coord[0])},${String(coord[1])}`;
-    if (seen.has(key)) throw new Error(`${where}[${String(i)}] duplicates an earlier cell: ${key}.`);
-    seen.add(key);
-    return coord;
+    if (!isColorId(entry)) {
+      throw new Error(`${where}[${String(i)}] must be one of ${JSON.stringify(COLOR_IDS)}, got ${String(entry)}.`);
+    }
+    return entry;
   });
 }
 
-/** docs/rules.md §6: "активная область должна быть прямоугольником". */
-function checkActiveCellsIsRectangle(cells: readonly (readonly [number, number])[], where: string): void {
-  const rows = cells.map(([r]) => r);
-  const cols = cells.map(([, c]) => c);
-  const minRow = Math.min(...rows);
-  const maxRow = Math.max(...rows);
-  const minCol = Math.min(...cols);
-  const maxCol = Math.max(...cols);
-  const expectedCount = (maxRow - minRow + 1) * (maxCol - minCol + 1);
-
-  if (cells.length !== expectedCount) {
-    throw new Error(
-      `${where}.activeCells must form a solid rectangle: bounding box ` +
-        `rows ${String(minRow)}-${String(maxRow)} × cols ${String(minCol)}-${String(maxCol)} ` +
-        `needs ${String(expectedCount)} cells, got ${String(cells.length)}.`,
-    );
+function parseCell(value: unknown, where: string): Cell {
+  if (value === null) return null;
+  if (typeof value !== 'object') {
+    throw new Error(`${where} must be null or { color }, got ${JSON.stringify(value)}.`);
   }
-}
-
-function parseRun(value: unknown, where: string): { count: number; color: ColorId } {
-  if (typeof value !== 'object' || value === null) {
-    throw new Error(`${where} must be an object.`);
-  }
-  const run = value as Record<string, unknown>;
-  const count = run['count'];
-  const color = run['color'];
-  if (typeof count !== 'number' || !Number.isInteger(count) || count < 1) {
-    throw new Error(`${where}.count must be a positive integer, got ${String(count)}.`);
-  }
+  const cell = value as Record<string, unknown>;
+  const color = cell['color'];
   if (!isColorId(color)) {
     throw new Error(`${where}.color must be one of ${JSON.stringify(COLOR_IDS)}, got ${String(color)}.`);
   }
-  return { count, color };
+  return { color };
 }
 
-function parseLineHints(value: unknown, where: string): readonly LineHint[] {
-  if (!Array.isArray(value) || value.length !== GRID_SIZE) {
-    throw new Error(`${where} must be an array of exactly ${String(GRID_SIZE)} line hints.`);
+function parseGrid(value: unknown, rows: number, cols: number, where: string): readonly (readonly Cell[])[] {
+  if (!Array.isArray(value) || value.length !== rows) {
+    throw new Error(`${where} must be an array of exactly ${String(rows)} rows.`);
   }
-  return value.map((line, i) => {
-    const lineWhere = `${where}[${String(i)}]`;
-    if (!Array.isArray(line)) throw new Error(`${lineWhere} must be an array of runs.`);
-    return line.map((run, j) => parseRun(run, `${lineWhere}[${String(j)}]`));
-  });
-}
-
-/** docs/rules.md §3 rule 25: one colour forms at most one run per line — an authoring invariant. */
-function checkNoColorRepeatsInAnyHint(hints: readonly LineHint[], where: string): void {
-  hints.forEach((hint, i) => {
-    const colors = hint.map((run) => run.color);
-    if (new Set(colors).size !== colors.length) {
-      throw new Error(`${where}[${String(i)}] names the same colour in two runs: ${JSON.stringify(colors)}.`);
+  return value.map((row, r) => {
+    const rowWhere = `${where}[${String(r)}]`;
+    if (!Array.isArray(row) || row.length !== cols) {
+      throw new Error(`${rowWhere} must be an array of exactly ${String(cols)} cells.`);
     }
+    return row.map((cell, c) => parseCell(cell, `${rowWhere}[${String(c)}]`));
   });
 }
 
@@ -207,6 +147,38 @@ function parsePieceCell(value: unknown, where: string): PieceCell {
   return { offset: [offset[0], offset[1]], color };
 }
 
+/** docs/rules.md §3 "Фигуры" rule 1: four cells, connected side-to-side (4-neighbour). */
+function checkTetrominoConnectivity(cells: readonly PieceCell[], where: string): void {
+  const key = (r: number, c: number): string => `${String(r)},${String(c)}`;
+  const positions = new Set(cells.map((cell) => key(cell.offset[0], cell.offset[1])));
+  if (positions.size !== cells.length) {
+    throw new Error(`${where}.cells must not repeat the same offset (docs/rules.md §3 "Фигуры").`);
+  }
+
+  const visited = new Set<string>();
+  const start = cells[0];
+  if (start === undefined) throw new Error(`${where}.cells must not be empty.`);
+  const queue: [number, number][] = [[start.offset[0], start.offset[1]]];
+  visited.add(key(start.offset[0], start.offset[1]));
+
+  while (queue.length > 0) {
+    const next = queue.pop();
+    if (next === undefined) break;
+    const [r, c] = next;
+    for (const [dr, dc] of [[-1, 0], [1, 0], [0, -1], [0, 1]] as const) {
+      const neighbourKey = key(r + dr, c + dc);
+      if (positions.has(neighbourKey) && !visited.has(neighbourKey)) {
+        visited.add(neighbourKey);
+        queue.push([r + dr, c + dc]);
+      }
+    }
+  }
+
+  if (visited.size !== cells.length) {
+    throw new Error(`${where}.cells must form one connected tetromino (docs/rules.md §3 "Фигуры" rule 1).`);
+  }
+}
+
 function parsePiece(value: unknown, where: string): Piece {
   if (typeof value !== 'object' || value === null) {
     throw new Error(`${where} must be an object.`);
@@ -217,20 +189,21 @@ function parsePiece(value: unknown, where: string): Piece {
     throw new Error(`${where}.id must be a non-empty string.`);
   }
   const cells = piece['cells'];
-  if (!Array.isArray(cells) || cells.length < 1 || cells.length > 5) {
-    throw new Error(`${where}.cells must have between 1 and 5 cells (docs/rules.md §3 rule 3).`);
+  if (!Array.isArray(cells) || cells.length !== PIECE_CELL_COUNT) {
+    throw new Error(`${where}.cells must have exactly ${String(PIECE_CELL_COUNT)} cells (docs/rules.md §3 "Фигуры").`);
   }
   const parsedCells = cells.map((cell, i) => parsePieceCell(cell, `${where}.cells[${String(i)}]`));
 
   const anchor = parsedCells[0];
   if (anchor === undefined || anchor.offset[0] !== 0 || anchor.offset[1] !== 0) {
-    throw new Error(`${where}.cells[0] must be the anchor cell with offset [0, 0] (docs/rules.md §3 rule 4).`);
+    throw new Error(`${where}.cells[0] must be the anchor cell with offset [0, 0] (docs/rules.md §3 "Фигуры" rule 4).`);
   }
+  checkTetrominoConnectivity(parsedCells, where);
 
   return { id, cells: parsedCells };
 }
 
-function parseTrayPieces(value: unknown, where: string): readonly Piece[] {
+function parsePieces(value: unknown, where: string): readonly Piece[] {
   if (!Array.isArray(value) || value.length === 0) {
     throw new Error(`${where} must be a non-empty array.`);
   }
@@ -243,6 +216,76 @@ function parseTrayPieces(value: unknown, where: string): readonly Piece[] {
     seenIds.add(piece.id);
     return piece;
   });
+}
+
+function parseAnchor(value: unknown, rows: number, cols: number, where: string): { row: number; col: number } {
+  if (typeof value !== 'object' || value === null) {
+    throw new Error(`${where} must be an object.`);
+  }
+  const anchor = value as Record<string, unknown>;
+  const row = anchor['row'];
+  const col = anchor['col'];
+  if (typeof row !== 'number' || typeof col !== 'number' || !Number.isInteger(row) || !Number.isInteger(col)) {
+    throw new Error(`${where} must be { row, col } integers, got ${JSON.stringify(value)}.`);
+  }
+  if (row < 0 || row >= rows || col < 0 || col >= cols) {
+    throw new Error(`${where} must be within the board, got ${JSON.stringify(value)}.`);
+  }
+  return { row, col };
+}
+
+/** docs/rules.md §6 authoring check 2: solutionPlacements covers every piece exactly once. */
+function parseSolutionPlacements(
+  value: unknown,
+  pieces: readonly Piece[],
+  rows: number,
+  cols: number,
+  where: string,
+): Readonly<Record<string, { row: number; col: number }>> {
+  if (typeof value !== 'object' || value === null) {
+    throw new Error(`${where} must be an object.`);
+  }
+  const raw = value as Record<string, unknown>;
+  const result: Record<string, { row: number; col: number }> = {};
+
+  for (const piece of pieces) {
+    if (!(piece.id in raw)) {
+      throw new Error(`${where} is missing a placement for piece ${JSON.stringify(piece.id)}.`);
+    }
+    result[piece.id] = parseAnchor(raw[piece.id], rows, cols, `${where}.${piece.id}`);
+  }
+  if (Object.keys(raw).length !== pieces.length) {
+    throw new Error(`${where} must have exactly one entry per piece, got ${String(Object.keys(raw).length)}.`);
+  }
+
+  return result;
+}
+
+/** docs/rules.md §6 authoring check: palette lists at least every colour a piece actually uses. */
+function checkPaletteCoversPieces(palette: readonly ColorId[], pieces: readonly Piece[], where: string): void {
+  const declared = new Set(palette);
+  for (const piece of pieces) {
+    for (const cell of piece.cells) {
+      if (!declared.has(cell.color)) {
+        throw new Error(`${where}.palette does not list colour ${cell.color} used by piece ${piece.id}.`);
+      }
+    }
+  }
+}
+
+/** docs/rules.md §6 authoring check 4: filled cells in targetGrid === 4 × piece count. */
+function checkFilledCellCountMatchesPieces(
+  targetGrid: readonly (readonly Cell[])[],
+  pieces: readonly Piece[],
+  where: string,
+): void {
+  const filled = targetGrid.reduce((sum, row) => sum + row.filter((cell) => cell !== null).length, 0);
+  const expected = PIECE_CELL_COUNT * pieces.length;
+  if (filled !== expected) {
+    throw new Error(
+      `${where}.targetGrid has ${String(filled)} filled cells but ${String(pieces.length)} pieces cover ${String(expected)}.`,
+    );
+  }
 }
 
 /** Validated at module load: a broken level pack must fail loudly and early. */

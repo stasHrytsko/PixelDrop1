@@ -1,24 +1,37 @@
 import { describe, expect, it } from 'vitest';
 import { GAME } from '../../src/game.config.ts';
-import { pixelDropEngine, validAnchorsForPiece } from '../../src/mechanic/engine/pixelDropEngine.ts';
+import { restoreFromPlacements } from '../../src/mechanic/engine/pixelDropEngine.ts';
 import { getLevel, LEVELS, parseLevelPack } from '../../src/mechanic/levels/loadLevels.ts';
 
 function validLevel(overrides: Record<string, unknown> = {}): Record<string, unknown> {
   return {
     id: 1,
-    gridSize: 8,
-    activeCells: [[0, 0]],
-    rowHints: [[{ count: 1, color: 'red' }], [], [], [], [], [], [], []],
-    colHints: [[{ count: 1, color: 'red' }], [], [], [], [], [], [], []],
-    trayPieces: [{ id: 'p1', cells: [{ offset: [0, 0], color: 'red' }] }],
-    undoBudget: 3,
-    onboardingStep: null,
+    version: 1,
+    rows: 2,
+    cols: 2,
+    palette: ['red'],
+    targetGrid: [
+      [{ color: 'red' }, { color: 'red' }],
+      [{ color: 'red' }, { color: 'red' }],
+    ],
+    pieces: [
+      {
+        id: 'p1',
+        cells: [
+          { offset: [0, 0], color: 'red' },
+          { offset: [0, 1], color: 'red' },
+          { offset: [1, 0], color: 'red' },
+          { offset: [1, 1], color: 'red' },
+        ],
+      },
+    ],
+    solutionPlacements: { p1: { row: 0, col: 0 } },
     ...overrides,
   };
 }
 
 function pack(levels: Record<string, unknown>[] = [validLevel()], overrides: Record<string, unknown> = {}): unknown {
-  return { schemaVersion: 1, levels, ...overrides };
+  return { schemaVersion: 2, levels, ...overrides };
 }
 
 describe('shipped level pack', () => {
@@ -33,38 +46,14 @@ describe('shipped level pack', () => {
   });
 
   /**
-   * A greedy solvability check, not a full backtracking solver: for every
-   * piece the queue deals, place it on the first valid anchor found (scanning
-   * row-major) and assert the level ends up won. This is correct for the
-   * current placeholder content (§ generate-levels.ts) because every piece
-   * is a single cell, so which specific piece fills a same-coloured cell
-   * never changes the resulting picture. It is not a proof of solvability
-   * for arbitrary multi-cell pieces — that is the real solver's job
-   * (docs/rules.md §6), still to be built.
+   * docs/rules.md §6 authoring check 3: solutionPlacements, replayed through
+   * the real engine, must reach the real targetGrid. This is what actually
+   * proves a level is solvable — parseLevelPack only checks shape.
    */
-  it('every shipped level is solvable by taking the first valid move each time', () => {
+  it('every shipped level is solved by its own solutionPlacements', () => {
     for (const level of LEVELS) {
-      let state = pixelDropEngine.create(level);
-      let guard = 0;
-
-      while (state.gameState !== 'won') {
-        guard += 1;
-        if (guard > 200) throw new Error(`Level ${String(level.id)} did not resolve within 200 moves.`);
-
-        const slot = state.tray.findIndex((piece) => piece !== null);
-        if (slot === -1) throw new Error(`Level ${String(level.id)}: tray exhausted without a win.`);
-
-        const piece = state.tray[slot];
-        if (piece === null || piece === undefined) throw new Error('Unreachable: findIndex guaranteed a piece.');
-        const anchors = validAnchorsForPiece(state.grid, state.activeCells, piece);
-        const anchor = anchors[0];
-        if (anchor === undefined) throw new Error(`Level ${String(level.id)}: piece ${piece.id} has no valid move.`);
-
-        state = pixelDropEngine.apply(state, { type: 'tap_piece', traySlot: slot as 0 | 1 | 2 });
-        state = pixelDropEngine.apply(state, { type: 'tap_cell', row: anchor.row, col: anchor.col });
-      }
-
-      expect(state.gameState).toBe('won');
+      const solved = restoreFromPlacements(level, level.solutionPlacements);
+      expect(solved.gameState).toBe('won');
     }
   });
 });
@@ -75,7 +64,7 @@ describe('parseLevelPack', () => {
   });
 
   it('rejects a wrong schema version', () => {
-    expect(() => parseLevelPack(pack(undefined, { schemaVersion: 2 }), 1)).toThrow(/schemaVersion/);
+    expect(() => parseLevelPack(pack(undefined, { schemaVersion: 1 }), 1)).toThrow(/schemaVersion/);
   });
 
   it('rejects a level count that disagrees with GameDefinition', () => {
@@ -86,64 +75,94 @@ describe('parseLevelPack', () => {
     expect(() => parseLevelPack(pack([validLevel({ id: 7 })]), 1)).toThrow(/id must be 1/);
   });
 
-  it('rejects a gridSize other than 8', () => {
-    expect(() => parseLevelPack(pack([validLevel({ gridSize: 6 })]), 1)).toThrow(/gridSize/);
+  it('rejects a non-integer version', () => {
+    expect(() => parseLevelPack(pack([validLevel({ version: 0 })]), 1)).toThrow(/version/);
   });
 
-  it('rejects an active area that is not a solid rectangle', () => {
+  it('rejects a grid whose row count disagrees with `rows`', () => {
+    const level = validLevel({ targetGrid: [[{ color: 'red' }, { color: 'red' }]] });
+    expect(() => parseLevelPack(pack([level]), 1)).toThrow(/exactly 2 rows/);
+  });
+
+  it('rejects a palette missing a colour a piece actually uses', () => {
+    expect(() => parseLevelPack(pack([validLevel({ palette: ['blue'] })]), 1)).toThrow(/does not list colour/);
+  });
+
+  it('rejects a piece without exactly 4 cells', () => {
     const level = validLevel({
-      activeCells: [
-        [0, 0],
-        [0, 1],
-        [1, 1], // (1,0) missing — an L, not a rectangle
-      ],
-      rowHints: [[{ count: 2, color: 'red' }], [{ count: 1, color: 'red' }], [], [], [], [], [], []],
-      colHints: [[{ count: 1, color: 'red' }], [{ count: 2, color: 'red' }], [], [], [], [], [], []],
+      pieces: [{ id: 'p1', cells: [{ offset: [0, 0], color: 'red' }] }],
+      solutionPlacements: { p1: { row: 0, col: 0 } },
     });
-    expect(() => parseLevelPack(pack([level]), 1)).toThrow(/solid rectangle/);
-  });
-
-  it('rejects a hint array with the wrong number of lines', () => {
-    expect(() => parseLevelPack(pack([validLevel({ rowHints: [[]] })]), 1)).toThrow(/exactly 8/);
-  });
-
-  it('rejects a hint that names the same colour twice in one line', () => {
-    const level = validLevel({ rowHints: [[{ count: 1, color: 'red' }, { count: 1, color: 'red' }], [], [], [], [], [], [], []] });
-    expect(() => parseLevelPack(pack([level]), 1)).toThrow(/same colour in two runs/);
-  });
-
-  it('rejects an empty trayPieces array', () => {
-    expect(() => parseLevelPack(pack([validLevel({ trayPieces: [] })]), 1)).toThrow(/non-empty array/);
-  });
-
-  it('rejects a piece with more than 5 cells', () => {
-    const cells = Array.from({ length: 6 }, (_, i) => ({ offset: [0, i], color: 'red' }));
-    expect(() => parseLevelPack(pack([validLevel({ trayPieces: [{ id: 'p', cells }] })]), 1)).toThrow(/between 1 and 5/);
+    expect(() => parseLevelPack(pack([level]), 1)).toThrow(/exactly 4 cells/);
   });
 
   it('rejects a piece whose first cell is not the [0, 0] anchor', () => {
     const level = validLevel({
-      trayPieces: [{ id: 'p', cells: [{ offset: [0, 1], color: 'red' }] }],
+      pieces: [
+        {
+          id: 'p1',
+          cells: [
+            { offset: [0, 1], color: 'red' },
+            { offset: [0, 0], color: 'red' },
+            { offset: [1, 0], color: 'red' },
+            { offset: [1, 1], color: 'red' },
+          ],
+        },
+      ],
     });
     expect(() => parseLevelPack(pack([level]), 1)).toThrow(/anchor cell with offset \[0, 0\]/);
   });
 
-  it('rejects duplicate piece ids within a level', () => {
+  it('rejects a piece whose four cells are not one connected tetromino', () => {
     const level = validLevel({
-      activeCells: [[0, 0], [0, 1]],
-      trayPieces: [
-        { id: 'same', cells: [{ offset: [0, 0], color: 'red' }] },
-        { id: 'same', cells: [{ offset: [0, 0], color: 'red' }] },
+      pieces: [
+        {
+          id: 'p1',
+          cells: [
+            { offset: [0, 0], color: 'red' },
+            { offset: [0, 1], color: 'red' },
+            { offset: [5, 5], color: 'red' },
+            { offset: [5, 6], color: 'red' },
+          ],
+        },
       ],
+    });
+    expect(() => parseLevelPack(pack([level]), 1)).toThrow(/connected tetromino/);
+  });
+
+  it('rejects duplicate piece ids within a level', () => {
+    const square = [
+      { offset: [0, 0], color: 'red' },
+      { offset: [0, 1], color: 'red' },
+      { offset: [1, 0], color: 'red' },
+      { offset: [1, 1], color: 'red' },
+    ];
+    const level = validLevel({
+      pieces: [
+        { id: 'same', cells: square },
+        { id: 'same', cells: square },
+      ],
+      solutionPlacements: { same: { row: 0, col: 0 } },
     });
     expect(() => parseLevelPack(pack([level]), 1)).toThrow(/not unique/);
   });
 
-  it('rejects a negative undoBudget', () => {
-    expect(() => parseLevelPack(pack([validLevel({ undoBudget: -1 })]), 1)).toThrow(/undoBudget/);
+  it('rejects solutionPlacements missing an entry for a piece', () => {
+    expect(() => parseLevelPack(pack([validLevel({ solutionPlacements: {} })]), 1)).toThrow(/missing a placement/);
   });
 
-  it('rejects an unknown onboardingStep', () => {
-    expect(() => parseLevelPack(pack([validLevel({ onboardingStep: 'nonsense' })]), 1)).toThrow(/onboardingStep/);
+  it('rejects solutionPlacements with an anchor outside the board', () => {
+    const level = validLevel({ solutionPlacements: { p1: { row: 9, col: 9 } } });
+    expect(() => parseLevelPack(pack([level]), 1)).toThrow(/within the board/);
+  });
+
+  it('rejects a filled-cell count that disagrees with 4 × piece count', () => {
+    const level = validLevel({
+      targetGrid: [
+        [{ color: 'red' }, { color: 'red' }],
+        [{ color: 'red' }, null],
+      ],
+    });
+    expect(() => parseLevelPack(pack([level]), 1)).toThrow(/but 1 pieces cover 4/);
   });
 });
