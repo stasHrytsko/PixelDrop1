@@ -29,6 +29,13 @@ test.describe('Pixel Drop picture board', () => {
     await expect(testId(page, 'pixel-drop-progress')).toHaveText('1 / 6 фигур');
     await expect(testId(page, 'pixel-drop-piece-2')).toHaveClass(/used/);
 
+    for (const [row, col] of [[0, 2], [0, 3], [1, 2], [1, 3]]) {
+      await expect(testId(page, 'pixel-drop-cell-' + String(row) + '-' + String(col))).toHaveCSS(
+        'background-color',
+        'rgb(245, 164, 84)',
+      );
+    }
+
     await testId(page, 'pixel-drop-restart').click();
     await expect(testId(page, 'pixel-drop-progress')).toHaveText('0 / 6 фигур');
     await expect(testId(page, 'pixel-drop-piece-2')).not.toHaveClass(/used/);

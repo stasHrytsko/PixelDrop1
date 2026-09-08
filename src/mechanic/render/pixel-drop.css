@@ -161,12 +161,12 @@
   touch-action: none;
 }
 
-.pixel-drop-board-cell:nth-child(12n + 2),
-.pixel-drop-board-cell:nth-child(12n + 4),
-.pixel-drop-board-cell:nth-child(12n + 6),
-.pixel-drop-board-cell:nth-child(12n + 7),
-.pixel-drop-board-cell:nth-child(12n + 9),
-.pixel-drop-board-cell:nth-child(12n + 11) {
+.pixel-drop-board-cell:not(.occupied):nth-child(12n + 2),
+.pixel-drop-board-cell:not(.occupied):nth-child(12n + 4),
+.pixel-drop-board-cell:not(.occupied):nth-child(12n + 6),
+.pixel-drop-board-cell:not(.occupied):nth-child(12n + 7),
+.pixel-drop-board-cell:not(.occupied):nth-child(12n + 9),
+.pixel-drop-board-cell:not(.occupied):nth-child(12n + 11) {
   background: #eef1f7;
 }
 
