@@ -32,10 +32,10 @@ Phaser, cannot import anything under `mechanic/`, and cannot touch
 - TypeScript strict. No `any` anywhere. `unknown` only where untrusted input
   enters (`parseProgress`, `parseLevelPack`) and is narrowed immediately.
 - `src/mechanic/engine` — pure functions. No mutation of the state passed in.
-- Shell screens are HTML/CSS. Phaser renders the game only.
-- Colours, spacing and fonts live in `src/styles/tokens.css`. The Phaser scene
-  reads them at runtime via `src/mechanic/render/theme.ts` — do not hard-code a
-  colour in a scene.
+- Shell screens and the current picture-mode mechanic are HTML/CSS. Phaser is
+  still available for mechanics that need a canvas renderer.
+- Shared shell colours, spacing and fonts live in `src/styles/tokens.css`.
+  Game-specific colors stay scoped to `src/mechanic/render/pixel-drop.css`.
 - Levels: versioned JSON in `src/mechanic/levels`, validated on load.
 - Progress via `ProgressRepository` — never `window.localStorage` directly.
 - Signals via `SignalSink` — never call ntfy from shell logic.

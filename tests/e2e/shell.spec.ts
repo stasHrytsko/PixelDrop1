@@ -32,15 +32,14 @@ test.describe('shell', () => {
     await expect(testId(page, 'level-9')).toBeVisible();
   });
 
-  test('mounts and tears down the canvas around a level', async ({ page }) => {
+  test('mounts and tears down the mechanic around a level', async ({ page }) => {
     await openLevelSelect(page);
     await testId(page, 'level-1').click();
 
-    const canvas = testId(page, 'game-surface').locator('canvas');
-    await expect(canvas).toBeVisible();
+    await expect(testId(page, 'pixel-drop-app')).toBeVisible();
 
     await testId(page, 'game-back').click();
     await expect(testId(page, 'level-select')).toBeVisible();
-    await expect(page.locator('canvas')).toHaveCount(0);
+    await expect(testId(page, 'pixel-drop-app')).toHaveCount(0);
   });
 });

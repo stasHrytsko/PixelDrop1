@@ -1,426 +1,398 @@
-import Phaser from 'phaser';
-import { pixelDropEngine, validAnchorsForPiece } from '../engine/pixelDropEngine.ts';
-import { GRID_SIZE, TRAY_SIZE, type ColorId, type LevelConfig, type LevelState, type Piece } from '../engine/types.ts';
-import type { SceneTheme } from './theme.ts';
-
-/** Board margin reserved for row/col hints, in cell units. */
-const HINT_MARGIN_CELLS = 2;
-/** Vertical space reserved for the tray below the board, in cell units. */
-const TRAY_ROWS = 1.3;
-const TRAY_GAP_CELLS = 0.25;
-const MIN_CELL_SIZE = 18;
-
-const CELL_PADDING_RATIO = 0.06;
-const ICON_RATIO = 0.32;
+import { pixelDropEngine } from '../engine/pixelDropEngine.ts';
+import { GRID_SIZE, type ColorId, type LevelConfig, type LevelState, type Piece } from '../engine/types.ts';
 
 export interface PixelDropSceneOptions {
-  level: LevelConfig;
-  theme: SceneTheme;
-  onComplete: () => void;
-  onStateChange: (state: LevelState) => void;
+  readonly level: LevelConfig;
+  readonly onComplete: () => void;
 }
 
-type HitTarget =
-  | { type: 'cell'; row: number; col: number }
-  | { type: 'piece'; slot: 0 | 1 | 2 }
-  | { type: 'background' };
-
-interface Layout {
-  cellSize: number;
-  boardX: number;
-  boardY: number;
-  trayY: number;
-  trayHeight: number;
-  traySlotWidth: number;
+interface DragState {
+  readonly pieceId: string;
+  readonly pointerId: number;
+  readonly startX: number;
+  readonly startY: number;
+  readonly offsetRow: number;
+  readonly offsetCol: number;
+  moved: boolean;
+  preview: HTMLElement | null;
 }
 
-/**
- * The rendering and input half of the mechanic.
- *
- * All rules live in ../engine — this scene only draws state and turns pointer
- * events into engine inputs. Hit-testing is a single geometric lookup against
- * the layout computed on resize, rather than per-object hitareas on 60+ board
- * cells: simpler, and it is what makes distinguishing "tapped nothing"
- * (rule "tap_background") from "tapped a cell" trivial.
- */
-export class PixelDropScene extends Phaser.Scene {
+const SYMBOLS: Readonly<Record<ColorId, string>> = {
+  coral: '◆',
+  rose: '●',
+  purple: '▲',
+};
+
+const COLOR_NAMES: Readonly<Record<ColorId, string>> = {
+  coral: 'оранжевый',
+  rose: 'розовый',
+  purple: 'фиолетовый',
+};
+
+function div(className: string): HTMLDivElement {
+  const element = document.createElement('div');
+  element.className = className;
+  return element;
+}
+
+export class PixelDropScene {
   readonly #options: PixelDropSceneOptions;
   #state: LevelState;
+  #root!: HTMLElement;
+  #board!: HTMLElement;
+  #progress!: HTMLElement;
+  #tray!: HTMLElement;
+  #boardCells: HTMLButtonElement[] = [];
+  #traySlots: HTMLButtonElement[] = [];
+  #drag: DragState | null = null;
+  #suppressClick = false;
+  #completeTimer: number | null = null;
   #completed = false;
-  #layout: Layout | null = null;
-
-  #board!: Phaser.GameObjects.Graphics;
-  #hints!: Phaser.GameObjects.Graphics;
-  #tray!: Phaser.GameObjects.Graphics;
-  #texts: Phaser.GameObjects.Text[] = [];
-  #stuckText!: Phaser.GameObjects.Text;
-
-  #handleResize = (gameSize: Phaser.Structs.Size): void => {
-    this.cameras.resize(gameSize.width, gameSize.height);
-    this.#computeLayout(gameSize.width, gameSize.height);
-    this.#redraw();
-  };
 
   constructor(options: PixelDropSceneOptions) {
-    super({ key: 'pixel-drop' });
     this.#options = options;
     this.#state = pixelDropEngine.create(options.level);
   }
 
-  create(): void {
-    this.cameras.main.setBackgroundColor(this.#options.theme.background);
-
-    this.#hints = this.add.graphics();
-    this.#board = this.add.graphics();
-    this.#tray = this.add.graphics();
-    this.#stuckText = this.add
-      .text(0, 0, 'Нет ходов — откати или начни заново', {
-        fontSize: '14px',
-        color: this.#colorToCss(this.#options.theme.hintWrong),
-      })
-      .setOrigin(0.5)
-      .setVisible(false);
-
-    this.#computeLayout(this.scale.width, this.scale.height);
-    this.#redraw();
-    this.#options.onStateChange(this.#state);
-
-    this.input.on(Phaser.Input.Events.POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
-      this.#handleTap(pointer.x, pointer.y);
-    });
-
-    this.scale.on(Phaser.Scale.Events.RESIZE, this.#handleResize);
-    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
-      this.scale.off(Phaser.Scale.Events.RESIZE, this.#handleResize);
-    });
-  }
-
-  /** Called by the mechanic's own Undo/Restart buttons — see src/mechanic/index.ts. */
-  undo(): void {
-    this.#applyInput({ type: 'tap_undo' });
+  mount(container: HTMLElement): void {
+    this.#root = this.#build();
+    container.replaceChildren(this.#root);
+    this.#root.addEventListener('click', this.#onClick);
+    this.#root.addEventListener('pointerdown', this.#onPointerDown);
+    window.addEventListener('pointermove', this.#onPointerMove, { passive: false });
+    window.addEventListener('pointerup', this.#onPointerUp);
+    window.addEventListener('pointercancel', this.#onPointerUp);
+    this.#render();
   }
 
   restart(): void {
-    this.#state = pixelDropEngine.create(this.#options.level);
+    if (this.#completeTimer !== null) window.clearTimeout(this.#completeTimer);
+    this.#completeTimer = null;
     this.#completed = false;
-    this.#redraw();
-    this.#options.onStateChange(this.#state);
+    this.#state = pixelDropEngine.create(this.#options.level);
+    this.#render();
   }
 
-  // --- Layout --------------------------------------------------------------
-
-  #computeLayout(width: number, height: number): void {
-    const totalCols = HINT_MARGIN_CELLS + GRID_SIZE;
-    const totalRows = HINT_MARGIN_CELLS + GRID_SIZE + TRAY_ROWS;
-    const cellSize = Math.max(MIN_CELL_SIZE, Math.min(width / totalCols, height / totalRows));
-
-    const usedWidth = cellSize * totalCols;
-    const usedHeight = cellSize * totalRows;
-    const offsetX = (width - usedWidth) / 2;
-    const offsetY = (height - usedHeight) / 2;
-
-    const boardX = offsetX + cellSize * HINT_MARGIN_CELLS;
-    const boardY = offsetY + cellSize * HINT_MARGIN_CELLS;
-    const trayY = boardY + cellSize * GRID_SIZE + cellSize * TRAY_GAP_CELLS;
-
-    this.#layout = {
-      cellSize,
-      boardX,
-      boardY,
-      trayY,
-      trayHeight: cellSize * (TRAY_ROWS - TRAY_GAP_CELLS),
-      traySlotWidth: (cellSize * GRID_SIZE) / TRAY_SIZE,
-    };
+  destroy(): void {
+    if (this.#completeTimer !== null) window.clearTimeout(this.#completeTimer);
+    window.removeEventListener('pointermove', this.#onPointerMove);
+    window.removeEventListener('pointerup', this.#onPointerUp);
+    window.removeEventListener('pointercancel', this.#onPointerUp);
+    this.#removeDragPreview();
+    this.#root.remove();
   }
 
-  #hitTest(x: number, y: number): HitTarget {
-    const layout = this.#layout;
-    if (layout === null) return { type: 'background' };
-    const boardSize = layout.cellSize * GRID_SIZE;
+  #build(): HTMLElement {
+    const root = document.createElement('article');
+    root.className = 'pixel-drop-app';
+    root.style.setProperty('--size', String(GRID_SIZE));
+    root.dataset['testid'] = 'pixel-drop-app';
 
-    if (x >= layout.boardX && x < layout.boardX + boardSize && y >= layout.boardY && y < layout.boardY + boardSize) {
-      const col = Math.floor((x - layout.boardX) / layout.cellSize);
-      const row = Math.floor((y - layout.boardY) / layout.cellSize);
-      return { type: 'cell', row, col };
-    }
+    const intro = document.createElement('section');
+    intro.className = 'pixel-drop-intro';
+    const copy = div('pixel-drop-intro__copy');
+    const title = document.createElement('h1');
+    title.textContent = this.#options.level.title;
+    const instruction = document.createElement('p');
+    instruction.className = 'pixel-drop-instruction';
+    instruction.textContent = this.#options.level.instruction;
+    copy.append(title, instruction);
+    intro.append(copy, this.#buildSample());
 
-    if (
-      x >= layout.boardX &&
-      x < layout.boardX + boardSize &&
-      y >= layout.trayY &&
-      y < layout.trayY + layout.trayHeight
-    ) {
-      const slot = Math.min(TRAY_SIZE - 1, Math.floor((x - layout.boardX) / layout.traySlotWidth));
-      return { type: 'piece', slot: slot as 0 | 1 | 2 };
-    }
+    const card = div('pixel-drop-board-card');
+    card.dataset['testid'] = 'pixel-drop-board-card';
+    const meta = div('pixel-drop-board-meta');
+    const metaTitle = document.createElement('span');
+    metaTitle.textContent = 'СОБЕРИ РИСУНОК';
+    this.#progress = document.createElement('span');
+    this.#progress.dataset['testid'] = 'pixel-drop-progress';
+    meta.append(metaTitle, this.#progress);
 
-    return { type: 'background' };
-  }
-
-  // --- Input -----------------------------------------------------------------
-
-  #handleTap(x: number, y: number): void {
-    if (this.#completed) return;
-    const target = this.#hitTest(x, y);
-
-    switch (target.type) {
-      case 'cell':
-        this.#applyInput({ type: 'tap_cell', row: target.row, col: target.col }, x, y);
-        return;
-      case 'piece':
-        this.#applyInput({ type: 'tap_piece', traySlot: target.slot });
-        return;
-      case 'background':
-        this.#applyInput({ type: 'tap_background' });
-    }
-  }
-
-  #applyInput(input: Parameters<typeof pixelDropEngine.apply>[1], flashX?: number, flashY?: number): void {
-    const before = this.#state;
-    const after = pixelDropEngine.apply(before, input);
-
-    // A tap_cell with a selection that changed nothing was a rejected
-    // placement (out of bounds or occupied) — rule "короткая анимация
-    // ошибки". A no-op with no selection is silent, matching docs/rules.md.
-    if (after === before) {
-      if (input.type === 'tap_cell' && before.selectedPieceIdx !== null && flashX !== undefined && flashY !== undefined) {
-        this.#flashError(flashX, flashY);
+    const layout = div('pixel-drop-board-layout');
+    this.#board = div('pixel-drop-board');
+    this.#board.setAttribute('role', 'grid');
+    this.#board.setAttribute('aria-label', 'Игровое поле 6 на 6');
+    this.#board.dataset['testid'] = 'pixel-drop-board';
+    for (let row = 0; row < GRID_SIZE; row += 1) {
+      for (let col = 0; col < GRID_SIZE; col += 1) {
+        const cell = document.createElement('button');
+        cell.type = 'button';
+        cell.className = 'pixel-drop-board-cell';
+        cell.setAttribute('role', 'gridcell');
+        cell.setAttribute('aria-label', 'Строка ' + String(row + 1) + ', столбец ' + String(col + 1));
+        cell.dataset['row'] = String(row);
+        cell.dataset['col'] = String(col);
+        cell.dataset['testid'] = 'pixel-drop-cell-' + String(row) + '-' + String(col);
+        this.#boardCells.push(cell);
+        this.#board.append(cell);
       }
-      return;
     }
+    layout.append(this.#board);
 
-    this.#state = after;
-    this.#redraw();
-    this.#options.onStateChange(this.#state);
+    const caption = div('pixel-drop-board-caption');
+    const captionDot = document.createElement('span');
+    captionDot.className = 'pixel-drop-caption-dot';
+    caption.append(captionDot, 'Можно переставлять сколько угодно');
+    card.append(meta, layout, caption);
 
-    if (pixelDropEngine.isComplete(this.#state) && !this.#completed) {
+    const trayArea = document.createElement('section');
+    trayArea.className = 'pixel-drop-tray-area';
+    trayArea.setAttribute('aria-label', 'Доступные фигуры');
+    const trayHeading = div('pixel-drop-tray-heading');
+    const trayTitle = document.createElement('h2');
+    trayTitle.append('Твои фигуры ');
+    const trayCount = document.createElement('span');
+    trayCount.textContent = String(this.#state.pieces.length);
+    trayTitle.append(trayCount);
+    const trayHint = document.createElement('span');
+    trayHint.textContent = 'Перетаскивай на поле';
+    trayHeading.append(trayTitle, trayHint);
+
+    this.#tray = div('pixel-drop-tray');
+    this.#state.pieces.forEach((piece, index) => {
+      const slot = document.createElement('button');
+      slot.type = 'button';
+      slot.className = 'pixel-drop-tray-slot';
+      slot.dataset['pieceId'] = piece.id;
+      slot.dataset['testid'] = 'pixel-drop-piece-' + String(index + 1);
+      slot.setAttribute('aria-label', this.#pieceAriaLabel(piece));
+      this.#traySlots.push(slot);
+      this.#tray.append(slot);
+    });
+    trayArea.append(trayHeading, this.#tray);
+
+    const footer = document.createElement('footer');
+    footer.className = 'pixel-drop-footer';
+    const footerCopy = document.createElement('span');
+    footerCopy.textContent = 'Двигай и пробуй свободно.';
+    const restart = document.createElement('button');
+    restart.type = 'button';
+    restart.dataset['action'] = 'restart';
+    restart.dataset['testid'] = 'pixel-drop-restart';
+    restart.innerHTML = '<span aria-hidden="true">↻</span> Заново';
+    footer.append(footerCopy, restart);
+
+    root.append(intro, card, trayArea, footer);
+    return root;
+  }
+
+  #buildSample(): HTMLElement {
+    const box = div('pixel-drop-sample-box');
+    const sample = div('pixel-drop-sample');
+    sample.setAttribute('role', 'img');
+    sample.setAttribute('aria-label', this.#options.level.sampleAlt);
+    this.#options.level.target.flat().forEach((color) => {
+      const cell = document.createElement('span');
+      if (color !== null) cell.className = color;
+      sample.append(cell);
+    });
+    const label = document.createElement('span');
+    label.textContent = 'ОБРАЗЕЦ';
+    box.append(sample, label);
+    return box;
+  }
+
+  #buildPiece(piece: Piece, cellSize: number): HTMLElement {
+    const shape = div('pixel-drop-piece-shape');
+    const maxRow = Math.max(...piece.cells.map((cell) => cell.offset[0]));
+    const maxCol = Math.max(...piece.cells.map((cell) => cell.offset[1]));
+    shape.style.width = String((maxCol + 1) * cellSize) + 'px';
+    shape.style.height = String((maxRow + 1) * cellSize) + 'px';
+
+    for (const pieceCell of piece.cells) {
+      const pixel = document.createElement('span');
+      pixel.className = 'pixel-drop-pixel ' + pieceCell.color;
+      pixel.dataset['dr'] = String(pieceCell.offset[0]);
+      pixel.dataset['dc'] = String(pieceCell.offset[1]);
+      pixel.style.left = String(pieceCell.offset[1] * cellSize) + 'px';
+      pixel.style.top = String(pieceCell.offset[0] * cellSize) + 'px';
+      pixel.style.width = String(cellSize) + 'px';
+      pixel.style.height = String(cellSize) + 'px';
+      const symbol = document.createElement('i');
+      symbol.textContent = SYMBOLS[pieceCell.color];
+      pixel.append(symbol);
+      shape.append(pixel);
+    }
+    return shape;
+  }
+
+  #pieceAriaLabel(piece: Piece): string {
+    return 'Фигура ' + piece.label + ', ' + piece.cells.map((cell) => COLOR_NAMES[cell.color]).join(', ');
+  }
+
+  #render(): void {
+    this.#progress.textContent = String(this.#state.placements.length) + ' / ' + String(this.#state.pieces.length) + ' фигур';
+    this.#board.classList.toggle('won', this.#state.gameState === 'won');
+
+    this.#boardCells.forEach((button, index) => {
+      const row = Math.floor(index / GRID_SIZE);
+      const col = index % GRID_SIZE;
+      const cell = this.#state.grid[row]?.[col] ?? null;
+      button.className = 'pixel-drop-board-cell';
+      button.replaceChildren();
+      delete button.dataset['pieceId'];
+      if (cell === null) return;
+      button.classList.add('occupied', cell.color);
+      button.dataset['pieceId'] = cell.pieceId;
+      if (this.#state.selectedPieceId === cell.pieceId) button.classList.add('selected');
+      const symbol = document.createElement('span');
+      symbol.className = 'pixel-drop-cell-symbol';
+      symbol.textContent = SYMBOLS[cell.color];
+      button.append(symbol);
+    });
+
+    this.#traySlots.forEach((slot, index) => {
+      const piece = this.#state.pieces[index];
+      if (piece === undefined) return;
+      const isPlaced = this.#state.placements.some((placement) => placement.pieceId === piece.id);
+      slot.className = 'pixel-drop-tray-slot';
+      slot.replaceChildren();
+      slot.setAttribute('aria-pressed', String(this.#state.selectedPieceId === piece.id));
+      if (isPlaced) {
+        slot.classList.add('used');
+      } else {
+        slot.append(this.#buildPiece(piece, 22));
+      }
+      if (this.#state.selectedPieceId === piece.id) slot.classList.add('chosen');
+    });
+  }
+
+  #applyPlace(pieceId: string, row: number, col: number): boolean {
+    const next = pixelDropEngine.apply(this.#state, { type: 'place_piece', pieceId, row, col });
+    if (next === this.#state) return false;
+    this.#state = next;
+    this.#render();
+    if (next.gameState === 'won' && !this.#completed) {
       this.#completed = true;
-      this.#playWinAnimation();
+      this.#completeTimer = window.setTimeout(() => this.#options.onComplete(), 560);
     }
+    return true;
   }
 
-  // --- Drawing -----------------------------------------------------------------
+  readonly #onClick = (event: MouseEvent): void => {
+    if (this.#suppressClick) return;
+    const target = event.target;
+    if (!(target instanceof Element)) return;
 
-  #redraw(): void {
-    const layout = this.#layout;
-    if (layout === null) return;
-
-    for (const text of this.#texts) text.destroy();
-    this.#texts = [];
-
-    this.#drawBoard(layout);
-    this.#drawHints(layout);
-    this.#drawTray(layout);
-
-    this.#stuckText.setVisible(this.#state.isStuck);
-    if (this.#state.isStuck) {
-      this.#stuckText.setPosition(layout.boardX + (layout.cellSize * GRID_SIZE) / 2, layout.trayY + layout.trayHeight + 14);
-    }
-  }
-
-  #drawBoard(layout: Layout): void {
-    this.#board.clear();
-    const theme = this.#options.theme;
-    const pad = layout.cellSize * CELL_PADDING_RATIO;
-
-    const selectedPiece = this.#selectedPiece();
-    const validAnchors =
-      selectedPiece === null ? [] : validAnchorsForPiece(this.#state.grid, this.#state.activeCells, selectedPiece);
-    const validAnchorKeys = new Set(validAnchors.map((a) => `${String(a.row)},${String(a.col)}`));
-
-    for (let row = 0; row < GRID_SIZE; row += 1) {
-      for (let col = 0; col < GRID_SIZE; col += 1) {
-        const x = layout.boardX + col * layout.cellSize;
-        const y = layout.boardY + row * layout.cellSize;
-        const active = this.#state.activeCells[row]?.[col] === true;
-        const cell = this.#state.grid[row]?.[col] ?? null;
-
-        if (!active) {
-          this.#board.fillStyle(theme.cellInactive, 1);
-          this.#board.fillRect(x + pad, y + pad, layout.cellSize - pad * 2, layout.cellSize - pad * 2);
-          continue;
-        }
-
-        const isValidAnchor = validAnchorKeys.has(`${String(row)},${String(col)}`);
-        this.#board.fillStyle(isValidAnchor ? theme.hintOk : theme.cellEmpty, isValidAnchor ? 0.22 : 1);
-        this.#board.fillRect(x + pad, y + pad, layout.cellSize - pad * 2, layout.cellSize - pad * 2);
-        this.#board.lineStyle(1, theme.cellBorder, 1);
-        this.#board.strokeRect(x + pad, y + pad, layout.cellSize - pad * 2, layout.cellSize - pad * 2);
-
-        if (cell !== null) {
-          this.#drawIcon(this.#board, cell.color, x + layout.cellSize / 2, y + layout.cellSize / 2, layout.cellSize * ICON_RATIO);
-        }
-      }
-    }
-  }
-
-  #drawHints(layout: Layout): void {
-    this.#hints.clear();
-    const iconSize = layout.cellSize * 0.16;
-
-    this.#state.rowHints.forEach((hint, row) => {
-      if (hint.length === 0) return;
-      const status = this.#state.lineStatus.rows[row] ?? 'pending';
-      const cy = layout.boardY + row * layout.cellSize + layout.cellSize / 2;
-      const stepX = (layout.cellSize * HINT_MARGIN_CELLS) / (hint.length + 1);
-
-      hint.forEach((run, i) => {
-        const cx = layout.boardX - layout.cellSize * HINT_MARGIN_CELLS + stepX * (i + 0.5);
-        this.#drawIcon(this.#hints, run.color, cx, cy - iconSize * 0.9, iconSize);
-        this.#addText(String(run.count), cx, cy + iconSize * 0.9, this.#statusColor(status));
-      });
-    });
-
-    for (let col = 0; col < GRID_SIZE; col += 1) {
-      const hint = this.#state.colHints[col] ?? [];
-      if (hint.length === 0) continue;
-      const status = this.#state.lineStatus.cols[col] ?? 'pending';
-      const cx = layout.boardX + col * layout.cellSize + layout.cellSize / 2;
-      const stepY = (layout.cellSize * HINT_MARGIN_CELLS) / (hint.length + 1);
-
-      hint.forEach((run, i) => {
-        const cy = layout.boardY - layout.cellSize * HINT_MARGIN_CELLS + stepY * (i + 0.5);
-        this.#drawIcon(this.#hints, run.color, cx - iconSize * 0.9, cy, iconSize);
-        this.#addText(String(run.count), cx + iconSize * 0.9, cy, this.#statusColor(status));
-      });
-    }
-  }
-
-  #drawTray(layout: Layout): void {
-    this.#tray.clear();
-    const theme = this.#options.theme;
-
-    this.#state.tray.forEach((piece, slot) => {
-      const slotX = layout.boardX + layout.traySlotWidth * slot;
-      const selected = this.#state.selectedPieceIdx === slot;
-      const scale = selected ? 1.12 : 1;
-
-      this.#tray.lineStyle(selected ? 2 : 1, selected ? theme.hintOk : theme.cellBorder, 1);
-      this.#tray.strokeRect(slotX + 4, layout.trayY + 4, layout.traySlotWidth - 8, layout.trayHeight - 8);
-
-      if (piece === null) return;
-
-      const cx = slotX + layout.traySlotWidth / 2;
-      const cy = layout.trayY + layout.trayHeight / 2;
-      const miniCell = (layout.trayHeight * 0.34) * scale;
-      const offsets = piece.cells.map((c) => c.offset);
-      const rows = offsets.map((o) => o[0]);
-      const cols = offsets.map((o) => o[1]);
-      const midRow = (Math.min(...rows) + Math.max(...rows)) / 2;
-      const midCol = (Math.min(...cols) + Math.max(...cols)) / 2;
-
-      for (const pieceCell of piece.cells) {
-        const px = cx + (pieceCell.offset[1] - midCol) * miniCell;
-        const py = cy + (pieceCell.offset[0] - midRow) * miniCell;
-        this.#tray.fillStyle(theme.colors[pieceCell.color], 1);
-        this.#tray.fillRect(px - miniCell / 2 + 1, py - miniCell / 2 + 1, miniCell - 2, miniCell - 2);
-      }
-    });
-  }
-
-  #selectedPiece(): Piece | null {
-    if (this.#state.selectedPieceIdx === null) return null;
-    return this.#state.tray[this.#state.selectedPieceIdx] ?? null;
-  }
-
-  #drawIcon(g: Phaser.GameObjects.Graphics, color: ColorId, cx: number, cy: number, r: number): void {
-    const theme = this.#options.theme;
-    g.fillStyle(theme.colors[color], 1);
-
-    switch (color) {
-      case 'red':
-        g.fillCircle(cx, cy, r);
-        return;
-      case 'blue':
-        g.fillRect(cx - r, cy - r, r * 2, r * 2);
-        return;
-      case 'green':
-        g.fillTriangle(cx, cy - r, cx - r, cy + r * 0.8, cx + r, cy + r * 0.8);
-        return;
-      case 'yellow':
-        g.fillPoints(
-          [
-            new Phaser.Math.Vector2(cx, cy - r),
-            new Phaser.Math.Vector2(cx + r, cy),
-            new Phaser.Math.Vector2(cx, cy + r),
-            new Phaser.Math.Vector2(cx - r, cy),
-          ],
-          true,
-        );
-        return;
-      case 'purple':
-        g.fillRect(cx - r * 0.32, cy - r, r * 0.64, r * 2);
-        g.fillRect(cx - r, cy - r * 0.32, r * 2, r * 0.64);
-    }
-  }
-
-  #addText(text: string, x: number, y: number, color: string): void {
-    const node = this.add.text(x, y, text, { fontSize: '11px', color }).setOrigin(0.5);
-    this.#texts.push(node);
-  }
-
-  #statusColor(status: 'ok' | 'pending' | 'wrong'): string {
-    const theme = this.#options.theme;
-    if (status === 'ok') return this.#colorToCss(theme.hintOk);
-    if (status === 'wrong') return this.#colorToCss(theme.hintWrong);
-    return this.#colorToCss(theme.hintPending);
-  }
-
-  #colorToCss(color: number): string {
-    return `#${color.toString(16).padStart(6, '0')}`;
-  }
-
-  #flashError(x: number, y: number): void {
-    const marker = this.add.circle(x, y, 6, this.#options.theme.hintWrong, 0.8);
-    this.tweens.add({
-      targets: marker,
-      scale: 2,
-      alpha: 0,
-      duration: 200,
-      ease: 'Quad.easeOut',
-      onComplete: () => {
-        marker.destroy();
-      },
-    });
-  }
-
-  /** Rule: cells "проявляются волной от центра" — nearer cells pop first. */
-  #playWinAnimation(): void {
-    const layout = this.#layout;
-    if (layout === null) {
-      this.#options.onComplete();
+    if (target.closest('[data-action="restart"]') !== null) {
+      this.restart();
       return;
     }
 
-    const boardCenterX = layout.boardX + (layout.cellSize * GRID_SIZE) / 2;
-    const boardCenterY = layout.boardY + (layout.cellSize * GRID_SIZE) / 2;
-    let maxDelay = 0;
+    const slot = target.closest<HTMLButtonElement>('.pixel-drop-tray-slot');
+    if (slot !== null) {
+      const pieceId = slot.dataset['pieceId'];
+      if (pieceId === undefined || slot.classList.contains('used')) return;
+      this.#state = pixelDropEngine.apply(this.#state, { type: 'select_piece', pieceId });
+      this.#render();
+      return;
+    }
 
-    for (let row = 0; row < GRID_SIZE; row += 1) {
-      for (let col = 0; col < GRID_SIZE; col += 1) {
-        if (this.#state.grid[row]?.[col] === null || this.#state.activeCells[row]?.[col] !== true) continue;
+    const cell = target.closest<HTMLButtonElement>('.pixel-drop-board-cell');
+    if (cell === null) return;
+    const row = Number(cell.dataset['row']);
+    const col = Number(cell.dataset['col']);
+    if (this.#state.selectedPieceId !== null) {
+      if (!this.#applyPlace(this.#state.selectedPieceId, row, col)) this.#flashInvalid(cell);
+      return;
+    }
+    const pieceId = cell.dataset['pieceId'];
+    if (pieceId !== undefined) {
+      this.#state = pixelDropEngine.apply(this.#state, { type: 'select_piece', pieceId });
+      this.#render();
+    }
+  };
 
-        const x = layout.boardX + col * layout.cellSize + layout.cellSize / 2;
-        const y = layout.boardY + row * layout.cellSize + layout.cellSize / 2;
-        const distance = Phaser.Math.Distance.Between(x, y, boardCenterX, boardCenterY);
-        const delay = Math.min(400, distance * 4);
-        maxDelay = Math.max(maxDelay, delay);
+  readonly #onPointerDown = (event: PointerEvent): void => {
+    if (this.#state.gameState === 'won') return;
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const slot = target.closest<HTMLButtonElement>('.pixel-drop-tray-slot:not(.used)');
+    const boardCell = target.closest<HTMLButtonElement>('.pixel-drop-board-cell.occupied');
+    const pieceId = slot?.dataset['pieceId'] ?? boardCell?.dataset['pieceId'];
+    if (pieceId === undefined) return;
 
-        const pop = this.add.circle(x, y, layout.cellSize * 0.1, this.#options.theme.hintOk, 0);
-        this.tweens.add({
-          targets: pop,
-          scale: { from: 0.2, to: 4 },
-          alpha: { from: 0.9, to: 0 },
-          delay,
-          duration: 220,
-          ease: 'Quad.easeOut',
-          onComplete: () => {
-            pop.destroy();
-          },
-        });
+    let offsetRow = Number(target.closest<HTMLElement>('.pixel-drop-pixel')?.dataset['dr'] ?? 0);
+    let offsetCol = Number(target.closest<HTMLElement>('.pixel-drop-pixel')?.dataset['dc'] ?? 0);
+    if (boardCell !== null) {
+      const placement = this.#state.placements.find((item) => item.pieceId === pieceId);
+      if (placement !== undefined) {
+        offsetRow = Number(boardCell.dataset['row']) - placement.row;
+        offsetCol = Number(boardCell.dataset['col']) - placement.col;
       }
     }
 
-    this.time.delayedCall(maxDelay + 250, this.#options.onComplete);
+    this.#drag = {
+      pieceId,
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      offsetRow,
+      offsetCol,
+      moved: false,
+      preview: null,
+    };
+    event.preventDefault();
+  };
+
+  readonly #onPointerMove = (event: PointerEvent): void => {
+    const drag = this.#drag;
+    if (drag === null || drag.pointerId !== event.pointerId) return;
+    const distance = Math.hypot(event.clientX - drag.startX, event.clientY - drag.startY);
+    if (!drag.moved && distance < 5) return;
+    if (!drag.moved) {
+      drag.moved = true;
+      this.#suppressClick = true;
+      const piece = this.#state.pieces.find((item) => item.id === drag.pieceId);
+      if (piece === undefined) return;
+      drag.preview = this.#buildPiece(piece, this.#boardCells[0]?.getBoundingClientRect().width ?? 44);
+      drag.preview.classList.add('pixel-drop-drag-piece');
+      document.body.append(drag.preview);
+      this.#root.querySelectorAll<HTMLElement>('[data-piece-id="' + drag.pieceId + '"]').forEach((cell) => {
+        if (cell.classList.contains('pixel-drop-board-cell')) cell.classList.add('being-dragged');
+      });
+    }
+    this.#positionDrag(event.clientX, event.clientY);
+    event.preventDefault();
+  };
+
+  readonly #onPointerUp = (event: PointerEvent): void => {
+    const drag = this.#drag;
+    if (drag === null || drag.pointerId !== event.pointerId) return;
+    if (drag.moved) {
+      const hit = document.elementFromPoint(event.clientX, event.clientY)?.closest<HTMLElement>('.pixel-drop-board-cell');
+      if (hit !== null && hit !== undefined) {
+        const row = Number(hit.dataset['row']) - drag.offsetRow;
+        const col = Number(hit.dataset['col']) - drag.offsetCol;
+        if (!this.#applyPlace(drag.pieceId, row, col)) this.#flashInvalid(hit);
+      }
+    }
+    this.#removeDragPreview();
+    this.#drag = null;
+    window.setTimeout(() => {
+      this.#suppressClick = false;
+    }, 0);
+  };
+
+  #positionDrag(clientX: number, clientY: number): void {
+    const drag = this.#drag;
+    if (drag?.preview === null || drag?.preview === undefined) return;
+    const cellSize = this.#boardCells[0]?.getBoundingClientRect().width ?? 44;
+    drag.preview.style.left = String(clientX - (drag.offsetCol + 0.5) * cellSize) + 'px';
+    drag.preview.style.top = String(clientY - (drag.offsetRow + 0.5) * cellSize) + 'px';
+  }
+
+  #removeDragPreview(): void {
+    this.#drag?.preview?.remove();
+    if (this.#root !== undefined) {
+      this.#root.querySelectorAll('.being-dragged').forEach((cell) => cell.classList.remove('being-dragged'));
+    }
+  }
+
+  #flashInvalid(cell: HTMLElement): void {
+    cell.classList.remove('invalid');
+    void cell.offsetWidth;
+    cell.classList.add('invalid');
+    window.setTimeout(() => cell.classList.remove('invalid'), 220);
   }
 }

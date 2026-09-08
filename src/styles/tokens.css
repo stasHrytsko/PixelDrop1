@@ -1,28 +1,26 @@
 /*
  * The one place where the visual language lives.
  *
- * The DOM shell and the Phaser canvas have to look like the same application,
- * and they render through completely different stacks. Every colour a scene
- * uses is read from here at runtime (see src/mechanic/render/theme.ts) so the
- * two halves cannot drift apart.
+ * Shared visual tokens for the shell. The picture-mode mechanic keeps its
+ * reference-specific colors in a scoped mechanic stylesheet.
  */
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
   /* Surfaces */
-  --bg: #0f1115;
-  --surface: #171a21;
-  --surface-raised: #1f232c;
-  --border: #2a3039;
+  --bg: #f7f8fc;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --border: #e5e7f0;
 
   /* Text */
-  --text: #e8ecf3;
-  --text-muted: #98a2b3;
-  --text-inverse: #0b1020;
+  --text: #303444;
+  --text-muted: #828798;
+  --text-inverse: #ffffff;
 
   /* Accent */
-  --accent: #5b8cff;
-  --accent-hover: #7aa2ff;
+  --accent: #7576d4;
+  --accent-hover: #6668c8;
 
   /* Difficulty bands on the level grid */
   --easy: #34d399;
@@ -37,16 +35,14 @@
    * for a ColorId — every run also carries a shape icon (docs/rules.md §7) —
    * so these do not need to be colourblind-safe on their own.
    */
-  --pixel-red: #ef4444;
-  --pixel-blue: #3b82f6;
-  --pixel-green: #22c55e;
-  --pixel-yellow: #eab308;
-  --pixel-purple: #a855f7;
+  --pixel-coral: #f5a454;
+  --pixel-rose: #e96f94;
+  --pixel-purple: #9b81d5;
 
   /* Board chrome, shared by every ColorId */
-  --pixel-cell-empty: var(--surface);
-  --pixel-cell-inactive: #14161b;
-  --pixel-cell-border: var(--border);
+  --pixel-cell-empty: #f3f5fa;
+  --pixel-cell-inactive: #eef1f7;
+  --pixel-cell-border: #e2e5ee;
   --pixel-hint-ok: var(--easy);
   --pixel-hint-wrong: var(--hard);
   --pixel-hint-pending: var(--text-muted);
@@ -66,7 +62,7 @@
 
   --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
-  --shell-max-width: 430px;
+  --shell-max-width: 460px;
   --tap-target: 48px;
 
   /*
