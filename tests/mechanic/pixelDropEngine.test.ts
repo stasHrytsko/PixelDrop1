@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { pixelDropEngine, validAnchorsForPiece } from '../../src/mechanic/engine/pixelDropEngine.ts';
+import { validAnchorsForPiece } from '../../src/mechanic/engine/board.ts';
+import { pixelDropEngine } from '../../src/mechanic/engine/pixelDropEngine.ts';
 import type { LevelConfig, LevelState } from '../../src/mechanic/engine/types.ts';
-import { getLevel } from '../../src/mechanic/levels/loadLevels.ts';
+import { getLevel } from '../../src/mechanic/levels/index.ts';
 
 function pieceId(level: LevelConfig, suffix: string): string {
   const piece = level.pieces.find((item) => item.id.endsWith(suffix));

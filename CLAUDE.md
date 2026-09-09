@@ -1,10 +1,11 @@
-# Game Template
+# Pixel Drop
 
-Android game template: DOM shell + Phaser mechanic + Capacitor.
+Mobile puzzle game: DOM shell + isolated TypeScript mechanic + Capacitor.
 
 ## Architecture
 
 - `docs/architecture.md` — why the project is shaped this way. Read it once.
+- `docs/pixel-drop-architecture.md` — current mechanic layers and dependency flow.
 - `docs/decisions.md` — decisions taken while building, with their trade-offs.
 - `docs/rules.md` — the rules of the **current** game. Rewritten per game.
 - `src/shell-contract.ts` — the Shell ↔ Mechanic boundary.
@@ -13,8 +14,8 @@ Android game template: DOM shell + Phaser mechanic + Capacitor.
 ## Boundaries
 
 - `src/shell/**` — do not modify unless explicitly asked to fix a shell bug.
-- `src/mechanic/**` — this is what changes per game. Implement `MechanicHost`
-  from `src/shell-contract.ts`.
+- `src/mechanic/**` — the Pixel Drop mechanic. `index.ts` implements
+  `MechanicHost` from `src/shell-contract.ts`.
 - Do not change `src/shell-contract.ts` without approval. Every field added
   there is a field every future game has to care about.
 - Read `docs/rules.md` before writing mechanic code. If a rule is missing or
@@ -22,10 +23,12 @@ Android game template: DOM shell + Phaser mechanic + Capacitor.
   what a complete rules document must answer; use it to name precisely what is
   missing instead of reporting a vague "unclear".
 
-The linter enforces the boundaries; it is not a style preference. `src/mechanic/engine/**`
-cannot import Phaser, the DOM, storage or `fetch`. `src/shell/**` cannot import
-Phaser, cannot import anything under `mechanic/`, and cannot touch
-`window.localStorage`. If a rule is in your way, that is the design talking.
+The linter enforces the boundaries; it is not a style preference. The mechanic
+is split into `engine` (rules), `levels` (content), `render` (graphics), `input`
+(gestures), and `application` (orchestration). `engine` cannot import those outer
+layers, the DOM, storage or `fetch`. `src/shell/**` cannot import anything under
+`mechanic/` and cannot touch `window.localStorage`. If a rule is in your way,
+that is the design talking.
 
 ## Tech
 
@@ -33,7 +36,7 @@ Phaser, cannot import anything under `mechanic/`, and cannot touch
   enters (`parseProgress`, `parseLevelPack`) and is narrowed immediately.
 - `src/mechanic/engine` — pure functions. No mutation of the state passed in.
 - Shell screens and the current picture-mode mechanic are HTML/CSS. Phaser is
-  still available for mechanics that need a canvas renderer.
+  installed but is not part of the current mechanic dependency graph.
 - Shared shell colours, spacing and fonts live in `src/styles/tokens.css`.
   Game-specific colors stay scoped to `src/mechanic/render/pixel-drop.css`.
 - Levels: versioned JSON in `src/mechanic/levels`, validated on load.

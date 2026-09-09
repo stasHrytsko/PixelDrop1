@@ -48,6 +48,9 @@ export default tseslint.config(
         {
           patterns: [
             { group: ['phaser', 'phaser/*'], message: 'engine must stay pure — no Phaser imports.' },
+            { group: ['**/application/**'], message: 'engine must not depend on application orchestration.' },
+            { group: ['**/input/**'], message: 'engine must not depend on input adapters.' },
+            { group: ['**/levels/**'], message: 'engine must not depend on level content.' },
             { group: ['**/render/**'], message: 'engine must not depend on rendering.' },
             { group: ['**/shell/**'], message: 'engine must not depend on the shell.' },
             { group: ['@capacitor/*'], message: 'engine must stay pure — no platform imports.' },
@@ -60,6 +63,74 @@ export default tseslint.config(
         { name: 'document', message: 'engine must stay pure — no DOM.' },
         { name: 'localStorage', message: 'engine must stay pure — no storage.' },
         { name: 'fetch', message: 'engine must stay pure — no I/O.' },
+      ],
+    },
+  },
+
+  {
+    // Level files are data and validation only. They may share domain types,
+    // but cannot reach into presentation, input, or application lifecycle code.
+    files: ['src/mechanic/levels/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            { group: ['phaser', 'phaser/*'], message: 'levels are data — no renderer imports.' },
+            { group: ['**/application/**'], message: 'levels must not depend on application orchestration.' },
+            { group: ['**/input/**'], message: 'levels must not depend on input adapters.' },
+            { group: ['**/render/**'], message: 'levels must not depend on rendering.' },
+            { group: ['**/shell/**'], message: 'levels must not depend on the shell.' },
+            { group: ['@capacitor/*'], message: 'levels must stay platform-independent.' },
+          ],
+        },
+      ],
+      'no-restricted-globals': [
+        'error',
+        { name: 'window', message: 'levels must stay independent from the DOM.' },
+        { name: 'document', message: 'levels must stay independent from the DOM.' },
+        { name: 'localStorage', message: 'levels must not own persistence.' },
+        { name: 'fetch', message: 'levels are bundled content — no runtime I/O.' },
+      ],
+    },
+  },
+
+  {
+    // Rendering consumes state and emits no game decisions.
+    files: ['src/mechanic/render/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            { group: ['**/application/**'], message: 'rendering must not control the game lifecycle.' },
+            { group: ['**/input/**'], message: 'rendering must not interpret input.' },
+            { group: ['**/levels/**'], message: 'rendering consumes LevelConfig instead of loading content.' },
+            { group: ['**/engine/board.ts'], message: 'rendering must not run board rules.' },
+            { group: ['**/engine/pixelDropEngine.ts'], message: 'rendering must not mutate game state.' },
+            { group: ['**/shell/**'], message: 'rendering must not depend on the shell.' },
+          ],
+        },
+      ],
+    },
+  },
+
+  {
+    // Pointer/touch handling translates gestures into callbacks. Only the
+    // application layer is allowed to apply those actions to the engine.
+    files: ['src/mechanic/input/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            { group: ['**/application/**'], message: 'input must not own the application lifecycle.' },
+            { group: ['**/levels/**'], message: 'input must not load level content.' },
+            { group: ['**/engine/board.ts'], message: 'input must not run board rules.' },
+            { group: ['**/engine/pixelDropEngine.ts'], message: 'input emits actions instead of mutating state.' },
+            { group: ['**/shell/**'], message: 'input must not depend on the shell.' },
+          ],
+        },
       ],
     },
   },

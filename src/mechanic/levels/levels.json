@@ -1,16 +1,7 @@
 {
-  "schemaVersion": 2,
-  "board": {
-    "gridSize": 6,
-    "target": [
-      [null, null, "coral", "coral", null, null],
-      [null, "coral", "coral", "coral", "coral", null],
-      ["coral", "coral", "coral", "coral", "coral", "coral"],
-      [null, "rose", "rose", "rose", "rose", null],
-      [null, "rose", "purple", "purple", "rose", null],
-      [null, "rose", "purple", "purple", "rose", null]
-    ],
-    "pieces": [
+  "schemaVersion": 3,
+  "pieceSets": {
+    "classic-six": [
       {
         "id": "j-mixed",
         "label": "J",
@@ -74,14 +65,149 @@
     ]
   },
   "levels": [
-    { "id": 1, "title": "Теперь шесть деталей.", "instruction": "Собери такой же домик.", "sampleAlt": "Образец: домик с оранжевой крышей, розовыми стенами и фиолетовой дверью" },
-    { "id": 2, "title": "Собери домик целиком.", "instruction": "Каждая деталь найдёт своё место.", "sampleAlt": "Образец: домик с оранжевой крышей, розовыми стенами и фиолетовой дверью" },
-    { "id": 3, "title": "Смотри на образец.", "instruction": "Цвета и форма должны совпасть.", "sampleAlt": "Образец: домик с оранжевой крышей, розовыми стенами и фиолетовой дверью" },
-    { "id": 4, "title": "Все детали перед тобой.", "instruction": "Перетаскивай их свободно.", "sampleAlt": "Образец: домик с оранжевой крышей, розовыми стенами и фиолетовой дверью" },
-    { "id": 5, "title": "Собери рисунок.", "instruction": "Повтори картинку клетка в клетку.", "sampleAlt": "Образец: домик с оранжевой крышей, розовыми стенами и фиолетовой дверью" },
-    { "id": 6, "title": "Шесть деталей — один дом.", "instruction": "Начни с крыши или со стен.", "sampleAlt": "Образец: домик с оранжевой крышей, розовыми стенами и фиолетовой дверью" },
-    { "id": 7, "title": "Форма уже подсказана.", "instruction": "Остаётся собрать её на поле.", "sampleAlt": "Образец: домик с оранжевой крышей, розовыми стенами и фиолетовой дверью" },
-    { "id": 8, "title": "Собери без спешки.", "instruction": "Фигуры можно переставлять.", "sampleAlt": "Образец: домик с оранжевой крышей, розовыми стенами и фиолетовой дверью" },
-    { "id": 9, "title": "Последний домик.", "instruction": "Повтори образец ещё раз.", "sampleAlt": "Образец: домик с оранжевой крышей, розовыми стенами и фиолетовой дверью" }
+    {
+      "id": 1,
+      "gridSize": 6,
+      "pieceSet": "classic-six",
+      "title": "Теперь шесть деталей.",
+      "instruction": "Собери такой же домик.",
+      "sampleAlt": "Образец: домик с оранжевой крышей, розовыми стенами и фиолетовой дверью",
+      "target": [
+        [null, null, "coral", "coral", null, null],
+        [null, "coral", "coral", "coral", "coral", null],
+        ["coral", "coral", "coral", "coral", "coral", "coral"],
+        [null, "rose", "rose", "rose", "rose", null],
+        [null, "rose", "purple", "purple", "rose", null],
+        [null, "rose", "purple", "purple", "rose", null]
+      ]
+    },
+    {
+      "id": 2,
+      "gridSize": 6,
+      "pieceSet": "classic-six",
+      "title": "Сложи первый силуэт.",
+      "instruction": "Начни с верхнего ряда.",
+      "sampleAlt": "Образец второго уровня",
+      "target": [
+        [null, null, null, null, null, null],
+        [null, null, "coral", "rose", "rose", "rose"],
+        ["rose", "coral", "coral", "coral", "coral", "rose"],
+        ["rose", "purple", "purple", "coral", "coral", "coral"],
+        ["coral", "coral", "rose", "purple", "purple", "rose"],
+        ["coral", "coral", null, null, null, null]
+      ]
+    },
+    {
+      "id": 3,
+      "gridSize": 6,
+      "pieceSet": "classic-six",
+      "title": "Цвета меняют направление.",
+      "instruction": "Сверяй край каждой фигуры.",
+      "sampleAlt": "Образец третьего уровня",
+      "target": [
+        [null, null, null, null, null, null],
+        [null, null, "coral", "rose", "rose", "rose"],
+        ["rose", "coral", "coral", "coral", "coral", "rose"],
+        ["rose", "purple", "purple", "coral", "coral", "coral"],
+        ["rose", "purple", "purple", "rose", "coral", "coral"],
+        [null, null, null, null, "coral", "coral"]
+      ]
+    },
+    {
+      "id": 4,
+      "gridSize": 6,
+      "pieceSet": "classic-six",
+      "title": "Заполни середину.",
+      "instruction": "Длинная фигура связывает половины.",
+      "sampleAlt": "Образец четвёртого уровня",
+      "target": [
+        [null, null, null, null, null, null],
+        [null, "coral", null, null, "coral", null],
+        ["coral", "coral", "coral", "coral", "coral", "coral"],
+        ["coral", "coral", "rose", "purple", "purple", "rose"],
+        ["coral", "coral", "rose", "rose", "rose", "rose"],
+        [null, null, "rose", "purple", "purple", "rose"]
+      ]
+    },
+    {
+      "id": 5,
+      "gridSize": 6,
+      "pieceSet": "classic-six",
+      "title": "Две стороны.",
+      "instruction": "Собери рисунок сверху вниз.",
+      "sampleAlt": "Образец пятого уровня",
+      "target": [
+        [null, "coral", null, null, "coral", null],
+        ["coral", "coral", "coral", "coral", "coral", "coral"],
+        ["rose", "rose", "rose", "rose", "coral", "coral"],
+        ["rose", "purple", "purple", "rose", "coral", "coral"],
+        ["rose", "purple", "purple", "rose", null, null],
+        [null, null, null, null, null, null]
+      ]
+    },
+    {
+      "id": 6,
+      "gridSize": 6,
+      "pieceSet": "classic-six",
+      "title": "Почти симметрия.",
+      "instruction": "Отличие спрятано в нижнем ряду.",
+      "sampleAlt": "Образец шестого уровня",
+      "target": [
+        [null, "coral", null, null, "coral", null],
+        ["coral", "coral", "coral", "coral", "coral", "coral"],
+        ["rose", "rose", "rose", "rose", "coral", "coral"],
+        ["rose", "purple", "purple", "rose", "coral", "coral"],
+        [null, null, "rose", "purple", "purple", "rose"],
+        [null, null, null, null, null, null]
+      ]
+    },
+    {
+      "id": 7,
+      "gridSize": 6,
+      "pieceSet": "classic-six",
+      "title": "Собери башню.",
+      "instruction": "Опирайся на центральную полосу.",
+      "sampleAlt": "Образец седьмого уровня",
+      "target": [
+        [null, null, "rose", "rose", "rose", null],
+        [null, null, "coral", "coral", "rose", null],
+        [null, "coral", "coral", "coral", "coral", null],
+        ["coral", "coral", "coral", "coral", "coral", "coral"],
+        [null, "rose", "rose", "purple", "purple", "rose"],
+        [null, "rose", "purple", "purple", null, null]
+      ]
+    },
+    {
+      "id": 8,
+      "gridSize": 6,
+      "pieceSet": "classic-six",
+      "title": "Последние повороты.",
+      "instruction": "Фигуры не вращаются — ищи их контур.",
+      "sampleAlt": "Образец восьмого уровня",
+      "target": [
+        [null, null, "coral", "coral", null, null],
+        [null, null, "coral", "coral", null, null],
+        [null, null, "coral", "rose", "rose", "rose"],
+        ["rose", "coral", "coral", "coral", "coral", "rose"],
+        ["rose", "purple", "purple", "coral", "coral", "coral"],
+        [null, null, "rose", "purple", "purple", "rose"]
+      ]
+    },
+    {
+      "id": 9,
+      "gridSize": 6,
+      "pieceSet": "classic-six",
+      "title": "Финальный рисунок.",
+      "instruction": "Собери все шесть деталей.",
+      "sampleAlt": "Образец девятого уровня",
+      "target": [
+        [null, null, "rose", "purple", "purple", "rose"],
+        [null, null, "coral", "rose", "rose", "rose"],
+        ["rose", "coral", "coral", "coral", "coral", "rose"],
+        ["rose", "purple", "purple", "coral", "coral", "coral"],
+        [null, null, null, "coral", "coral", null],
+        [null, null, null, "coral", "coral", null]
+      ]
+    }
   ]
 }

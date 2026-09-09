@@ -1,46 +1,54 @@
-# game-template
+# Pixel Drop
 
-Стартовый репозиторий для Android-игр: DOM-оболочка + Phaser-механика +
-Capacitor. Оболочка написана и протестирована один раз; под новую игру меняется
-только `src/mechanic/**`.
+Мобильная puzzle-игра: игрок переносит шесть цветных фигур на поле 6×6 и
+воспроизводит рисунок-образец. Проект работает как веб-приложение, PWA-подобная
+мобильная версия и Android-приложение через Capacitor.
 
-**Читать в таком порядке:** [`CLAUDE.md`](./CLAUDE.md) →
-[`docs/architecture.md`](./docs/architecture.md) →
-[`docs/decisions.md`](./docs/decisions.md).
+## Архитектура игры
 
-## Новая игра
+Игровая часть разделена по ответственности:
 
-```bash
-# GitHub → «Use this template» → новый репозиторий
-npm ci
-npm run new-game -- --name "Screw Mahjong" --id "com.example.screwmahjong"
-npm run build && npx cap add android
+```text
+src/mechanic/
+├── engine/       чистые правила, состояние и проверка размещения
+├── levels/       JSON-контент, схема, валидация и репозиторий уровней
+├── render/       DOM-графика игрового поля и фигур
+├── input/        pointer/touch/click → игровые намерения
+├── application/ координация движка, ввода, графики и lifecycle
+└── index.ts      точка сборки механики для shell
 ```
 
-Дальше — концепт в `docs/rules.md`, и реализовать `src/mechanic/**`:
-`engine` (чистые правила) → `levels` (JSON) → `render` (Phaser-сцена).
-`src/shell/**` не трогать.
+Направление зависимостей и правила добавления контента описаны в
+[`docs/pixel-drop-architecture.md`](./docs/pixel-drop-architecture.md). Правила
+игры находятся в [`docs/rules.md`](./docs/rules.md).
 
-## Команды
+## Запуск
 
-| | |
-|---|---|
-| `npm run dev` | dev-сервер |
-| `npm run check` | typecheck + lint + test + build + e2e |
-| `npm run verify-template` | падает, пока остались строки шаблона |
-| `npm run cap:sync` | сборка + синхронизация в android/ |
-| `npm run android:open` | открыть проект в Android Studio |
+```bash
+npm ci
+npm run dev
+```
 
-Сборка APK локально — [`docs/android-setup.md`](./docs/android-setup.md)
-(Java и Android SDK без прав администратора).
+## Проверка
 
-## Что уже готово
+```bash
+npm run check
+npm run verify-template
+```
 
-Главный экран, онбординг с версионированием, сетка уровней с полосами
-сложности и последовательной разблокировкой, экран игры, попапы победы и
-«Ещё?», прогресс через `@capacitor/preferences`, сигнал через ntfy,
-аппаратная кнопка «назад», safe areas для Android 15+, bootstrap-скрипт,
-CI со сборкой APK.
+`npm run check` последовательно выполняет typecheck, ESLint, unit-тесты,
+production build и Playwright E2E.
 
-Механика в шаблоне — заглушка (`Tap Targets`), она существует только чтобы
-оболочке было что монтировать.
+## Android
+
+```bash
+npm run cap:sync
+npm run android:open
+```
+
+Подготовка локального Android toolchain описана в
+[`docs/android-setup.md`](./docs/android-setup.md).
+
+Общая DOM-оболочка (`src/shell/**`) отвечает за онбординг, выбор уровня,
+прогресс и системную навигацию. Игровая механика подключается к ней только
+через `src/shell-contract.ts`.

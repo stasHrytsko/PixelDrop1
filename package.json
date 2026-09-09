@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "description": "Android game template: DOM shell + Phaser mechanic + Capacitor.",
+  "description": "Pixel Drop mobile puzzle game built with TypeScript, Vite and Capacitor.",
   "engines": {
     "node": ">=22.12"
   },
