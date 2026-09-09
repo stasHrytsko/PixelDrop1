@@ -7,8 +7,8 @@ async function openFirstLevel(page: Page): Promise<void> {
   await expect(testId(page, 'pixel-drop-board')).toBeVisible();
 }
 
-async function place(page: Page, piece: number, row: number, col: number): Promise<void> {
-  await testId(page, 'pixel-drop-piece-' + String(piece)).click();
+async function movePiece(page: Page, fromRow: number, fromCol: number, row: number, col: number): Promise<void> {
+  await testId(page, 'pixel-drop-cell-' + String(fromRow) + '-' + String(fromCol)).click();
   await testId(page, 'pixel-drop-cell-' + String(row) + '-' + String(col)).click();
 }
 
@@ -23,65 +23,66 @@ async function dragBetween(page: Page, from: Locator, to: Locator): Promise<void
 }
 
 test.describe('Pixel Drop picture board', () => {
-  test('matches the reference structure: sample, 6×6 board and six-piece tray', async ({ page }) => {
+  test('shows the sample above a spacious 10×10 board with every piece already placed', async ({ page }) => {
     await openFirstLevel(page);
 
-    await expect(testId(page, 'pixel-drop-board').getByRole('gridcell')).toHaveCount(36);
+    await expect(testId(page, 'pixel-drop-board').getByRole('gridcell')).toHaveCount(100);
     await expect(page.getByRole('img', { name: /Образец: домик/ })).toBeVisible();
-    await expect(page.getByRole('region', { name: 'Доступные фигуры' }).getByRole('button')).toHaveCount(6);
-    await expect(testId(page, 'pixel-drop-progress')).toHaveText('0 / 6 фигур');
-    await expect(page.getByText('Можно переставлять сколько угодно')).toBeVisible();
+    await expect(page.locator('.pixel-drop-board-cell.occupied')).toHaveCount(24);
+    await expect(testId(page, 'pixel-drop-progress')).toHaveText('6 фигур на поле');
+    await expect(page.getByText('Перетаскивай или меняй фигуры местами')).toBeVisible();
   });
 
-  test('places pieces, restarts, and restores the full tray', async ({ page }) => {
+  test('moves a piece and restores the initial field on restart', async ({ page }) => {
     await openFirstLevel(page);
-    await place(page, 2, 0, 2);
-    await expect(testId(page, 'pixel-drop-progress')).toHaveText('1 / 6 фигур');
-    await expect(testId(page, 'pixel-drop-piece-2')).toHaveClass(/used/);
-
-    for (const [row, col] of [[0, 2], [0, 3], [1, 2], [1, 3]]) {
-      await expect(testId(page, 'pixel-drop-cell-' + String(row) + '-' + String(col))).toHaveCSS(
-        'background-color',
-        'rgb(245, 164, 84)',
-      );
-    }
+    await movePiece(page, 0, 6, 2, 4);
+    await expect(testId(page, 'pixel-drop-cell-0-6')).not.toHaveClass(/occupied/);
+    await expect(testId(page, 'pixel-drop-cell-2-4')).toHaveClass(/occupied/);
+    await expect(page.locator('.pixel-drop-board-cell.occupied')).toHaveCount(24);
 
     await testId(page, 'pixel-drop-restart').click();
-    await expect(testId(page, 'pixel-drop-progress')).toHaveText('0 / 6 фигур');
-    await expect(testId(page, 'pixel-drop-piece-2')).not.toHaveClass(/used/);
+    await expect(testId(page, 'pixel-drop-cell-0-6')).toHaveClass(/occupied/);
+    await expect(testId(page, 'pixel-drop-cell-2-4')).not.toHaveClass(/occupied/);
   });
 
-  test('drags tray and placed pieces without partial placement', async ({ page }) => {
+  test('drags field pieces without partial placement', async ({ page }) => {
     await openFirstLevel(page);
-    const piece = testId(page, 'pixel-drop-piece-2');
-    const pieceAnchor = piece.locator('.pixel-drop-pixel[data-dr="0"][data-dc="0"]');
     const occupiedCells = page.locator('.pixel-drop-board-cell.occupied');
 
-    await dragBetween(page, pieceAnchor, testId(page, 'pixel-drop-cell-5-5'));
-    await expect(testId(page, 'pixel-drop-progress')).toHaveText('0 / 6 фигур');
-    await expect(occupiedCells).toHaveCount(0);
+    await dragBetween(page, testId(page, 'pixel-drop-cell-0-0'), testId(page, 'pixel-drop-cell-9-9'));
+    await expect(occupiedCells).toHaveCount(24);
+    await expect(testId(page, 'pixel-drop-cell-0-0')).toHaveClass(/occupied/);
 
-    await dragBetween(page, pieceAnchor, testId(page, 'pixel-drop-cell-0-2'));
-    await expect(testId(page, 'pixel-drop-progress')).toHaveText('1 / 6 фигур');
-    await expect(occupiedCells).toHaveCount(4);
+    await dragBetween(page, testId(page, 'pixel-drop-cell-0-0'), testId(page, 'pixel-drop-cell-2-0'));
+    await expect(occupiedCells).toHaveCount(24);
+    await expect(testId(page, 'pixel-drop-cell-0-0')).not.toHaveClass(/occupied/);
+    await expect(testId(page, 'pixel-drop-cell-2-0')).toHaveClass(/occupied/);
 
-    await dragBetween(page, testId(page, 'pixel-drop-cell-1-3'), testId(page, 'pixel-drop-cell-4-5'));
-    await expect(testId(page, 'pixel-drop-progress')).toHaveText('1 / 6 фигур');
-    await expect(testId(page, 'pixel-drop-cell-0-2')).not.toHaveClass(/occupied/);
-    await expect(testId(page, 'pixel-drop-cell-3-4')).toHaveClass(/occupied/);
-    await expect(occupiedCells).toHaveCount(4);
+    await dragBetween(page, testId(page, 'pixel-drop-cell-3-2'), testId(page, 'pixel-drop-cell-7-6'));
+    await expect(testId(page, 'pixel-drop-cell-2-0')).not.toHaveClass(/occupied/);
+    await expect(testId(page, 'pixel-drop-cell-6-4')).toHaveClass(/occupied/);
+    await expect(occupiedCells).toHaveCount(24);
+  });
+
+  test('swaps two figures when one is dragged onto another', async ({ page }) => {
+    await openFirstLevel(page);
+
+    await dragBetween(page, testId(page, 'pixel-drop-cell-0-0'), testId(page, 'pixel-drop-cell-0-6'));
+    await expect(testId(page, 'pixel-drop-cell-0-0')).toHaveClass(/coral/);
+    await expect(testId(page, 'pixel-drop-cell-0-6')).toHaveClass(/rose/);
+    await expect(page.locator('.pixel-drop-board-cell.occupied')).toHaveCount(24);
   });
 
   test('completes the exact house sample', async ({ page }) => {
     await openFirstLevel(page);
-    await place(page, 2, 0, 2);
-    await place(page, 4, 1, 0);
-    await place(page, 6, 1, 3);
-    await place(page, 1, 3, 1);
-    await place(page, 3, 5, 1);
-    await place(page, 5, 3, 2);
+    await movePiece(page, 0, 6, 2, 4);
+    await movePiece(page, 4, 0, 7, 3);
+    await movePiece(page, 4, 7, 3, 2);
+    await movePiece(page, 8, 7, 3, 5);
+    await movePiece(page, 0, 0, 5, 3);
+    await movePiece(page, 8, 0, 5, 4);
 
-    await expect(testId(page, 'pixel-drop-progress')).toHaveText('6 / 6 фигур');
+    await expect(testId(page, 'pixel-drop-progress')).toHaveText('Готово!');
     await expect(testId(page, 'win-popup')).toBeVisible();
   });
 });

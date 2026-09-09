@@ -16,6 +16,7 @@ function cloneLevel(level: LevelConfig): LevelConfig {
         color: cell.color,
       })),
     })),
+    initialPlacements: level.initialPlacements.map((placement) => ({ ...placement })),
   };
 }
 

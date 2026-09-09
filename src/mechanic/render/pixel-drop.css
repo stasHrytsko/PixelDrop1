@@ -31,10 +31,13 @@
 
 .pixel-drop-intro {
   display: flex;
-  min-height: 114px;
+  min-height: 148px;
+  flex-direction: column;
   align-items: center;
-  gap: 15px;
-  padding: 18px 0 16px;
+  justify-content: center;
+  gap: 13px;
+  padding: 16px 0 18px;
+  text-align: center;
 }
 
 .pixel-drop-intro__copy {
@@ -60,17 +63,17 @@
 .pixel-drop-sample-box {
   flex-shrink: 0;
   align-self: center;
-  padding: 9px 10px 7px;
+  padding: 9px 12px 7px;
   border: 1px solid #e7e9f0;
-  border-radius: 12px;
+  border-radius: 14px;
   background: #fff;
   text-align: center;
 }
 
 .pixel-drop-sample {
   display: grid;
-  grid-template-columns: repeat(var(--size), 10px);
-  grid-template-rows: repeat(var(--size), 10px);
+  grid-template-columns: repeat(var(--size), 7px);
+  grid-template-rows: repeat(var(--size), 7px);
 }
 
 .pixel-drop-sample span {
@@ -105,7 +108,7 @@
 }
 
 .pixel-drop-board-card {
-  padding: 15px 12px 13px;
+  padding: 14px 10px 12px;
   border: 1px solid #e5e7f0;
   border-radius: 21px;
   background: #fff;
@@ -131,9 +134,9 @@
 }
 
 .pixel-drop-board-layout {
-  width: calc(100% - 72px);
-  max-width: 313px;
-  margin: 0 auto 59px;
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto 22px;
 }
 
 .pixel-drop-board {
@@ -143,10 +146,12 @@
   aspect-ratio: 1;
   grid-template-columns: repeat(var(--size), 1fr);
   grid-template-rows: repeat(var(--size), 1fr);
+  gap: 3px;
+  padding: 7px;
   overflow: hidden;
-  border: 1px solid #d9ddea;
-  border-radius: 7px;
-  background: #e6e9f1;
+  border: 1px solid #e1ddcf;
+  border-radius: 18px;
+  background: #eeeadd;
   touch-action: none;
 }
 
@@ -155,24 +160,17 @@
   min-width: 0;
   min-height: 0;
   padding: 0;
-  border: 0.5px solid #e2e5ee !important;
-  background: #f3f5fa;
+  border: 0 !important;
+  border-radius: 6px;
+  background: #ded9c8;
   color: #fff;
   touch-action: none;
 }
 
-.pixel-drop-board-cell:not(.occupied):nth-child(12n + 2),
-.pixel-drop-board-cell:not(.occupied):nth-child(12n + 4),
-.pixel-drop-board-cell:not(.occupied):nth-child(12n + 6),
-.pixel-drop-board-cell:not(.occupied):nth-child(12n + 7),
-.pixel-drop-board-cell:not(.occupied):nth-child(12n + 9),
-.pixel-drop-board-cell:not(.occupied):nth-child(12n + 11) {
-  background: #eef1f7;
-}
-
 .pixel-drop-board-cell.occupied {
   cursor: grab;
-  border-color: rgb(255 255 255 / 53%) !important;
+  border-radius: 5px;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 35%), 0 1px 2px rgb(48 52 68 / 18%);
 }
 
 .pixel-drop-board-cell.selected {
@@ -189,7 +187,7 @@
   top: 3px;
   right: 3px;
   color: rgb(255 255 255 / 72%);
-  font-size: 8px;
+  font-size: 6px;
   line-height: 1;
 }
 
@@ -216,75 +214,6 @@
   height: 5px;
   border-radius: 50%;
   background: #b9e536;
-}
-
-.pixel-drop-tray-area {
-  margin-top: 22px;
-  padding: 0 1px 8px;
-  border-radius: 15px;
-}
-
-.pixel-drop-tray-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 0 13px;
-}
-
-.pixel-drop-tray-heading h2 {
-  margin: 0;
-  color: #303444;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: -0.2px;
-}
-
-.pixel-drop-tray-heading h2 span {
-  margin-left: 4px;
-  padding: 2px 6px;
-  border-radius: 6px;
-  background: #e9ebf3;
-  color: #82889b;
-  font-size: 11px;
-}
-
-.pixel-drop-tray-heading > span {
-  color: #9398a9;
-  font-size: 12px;
-}
-
-.pixel-drop-tray {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-
-.pixel-drop-tray-slot {
-  position: relative;
-  display: flex;
-  height: 98px;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 2px 15px;
-  border: 1px solid #e3e6ef !important;
-  border-radius: 12px;
-  background: #fff;
-  cursor: grab;
-  touch-action: none;
-  transition: border-color 150ms, background 150ms;
-}
-
-.pixel-drop-tray-slot.chosen {
-  border-color: #9391e4 !important;
-  background: #f1f0fd;
-  box-shadow: 0 0 0 2px rgb(147 145 228 / 13%);
-}
-
-.pixel-drop-tray-slot.used {
-  border-color: #e0e4ef !important;
-  border-style: dashed !important;
-  background: transparent;
-  cursor: default;
 }
 
 .pixel-drop-piece-shape {
@@ -390,23 +319,11 @@
 
 @media (max-width: 370px) {
   .pixel-drop-board-card {
-    padding: 13px 8px;
+    padding: 12px 7px;
   }
 
   .pixel-drop-board-layout {
-    width: calc(100% - 64px);
-  }
-
-  .pixel-drop-tray {
-    gap: 5px;
-  }
-
-  .pixel-drop-tray-slot {
-    height: 94px;
-  }
-
-  .pixel-drop-tray-heading > span {
-    font-size: 11px;
+    width: 100%;
   }
 
   .pixel-drop-intro h1 {

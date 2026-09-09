@@ -31,15 +31,31 @@ export function computeTargetCells(row: number, col: number, piece: Piece): Targ
   }));
 }
 
-function isInsideBoard(row: number, col: number): boolean {
+export function isInsideBoard(row: number, col: number): boolean {
   return row >= 0 && row < GRID_SIZE && col >= 0 && col < GRID_SIZE;
+}
+
+export function areTargetCellsInsideBoard(targets: readonly TargetCell[]): boolean {
+  return targets.every(({ row, col }) => isInsideBoard(row, col));
 }
 
 export function isValidPlacement(
   grid: readonly (readonly (Cell | null)[])[],
   targets: readonly TargetCell[],
 ): boolean {
-  return targets.every(({ row, col }) => isInsideBoard(row, col) && grid[row]?.[col] === null);
+  return areTargetCellsInsideBoard(targets) && targets.every(({ row, col }) => grid[row]?.[col] === null);
+}
+
+export function canCreateGridFromPlacements(
+  pieces: readonly Piece[],
+  placements: readonly Placement[],
+): boolean {
+  try {
+    createGridFromPlacements(pieces, placements);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export function createGridFromPlacements(

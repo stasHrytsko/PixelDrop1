@@ -8,7 +8,6 @@ export class PixelDropView {
   readonly #board: HTMLElement;
   readonly #progress: HTMLElement;
   readonly #boardCells: readonly HTMLButtonElement[];
-  readonly #traySlots: readonly HTMLButtonElement[];
   readonly #effectTimers = new Set<number>();
 
   constructor(level: LevelConfig) {
@@ -18,7 +17,6 @@ export class PixelDropView {
     this.#board = built.board;
     this.#progress = built.progress;
     this.#boardCells = built.boardCells;
-    this.#traySlots = built.traySlots;
   }
 
   get element(): HTMLElement {
@@ -36,8 +34,7 @@ export class PixelDropView {
   }
 
   render(state: LevelState): void {
-    this.#progress.textContent =
-      String(state.placements.length) + ' / ' + String(state.pieces.length) + ' фигур';
+    this.#progress.textContent = state.gameState === 'won' ? 'Готово!' : String(state.pieces.length) + ' фигур на поле';
     this.#board.classList.toggle('won', state.gameState === 'won');
 
     this.#boardCells.forEach((button, index) => {
@@ -47,10 +44,13 @@ export class PixelDropView {
       button.className = 'pixel-drop-board-cell';
       button.replaceChildren();
       delete button.dataset['pieceId'];
+      button.setAttribute('aria-label', 'Строка ' + String(row + 1) + ', столбец ' + String(col + 1));
       if (cell === null) return;
 
       button.classList.add('occupied', cell.color);
       button.dataset['pieceId'] = cell.pieceId;
+      const piece = this.getPiece(cell.pieceId);
+      if (piece !== null) button.setAttribute('aria-label', pieceAriaLabel(piece));
       if (state.selectedPieceId === cell.pieceId) button.classList.add('selected');
 
       const symbol = document.createElement('span');
@@ -59,18 +59,6 @@ export class PixelDropView {
       button.append(symbol);
     });
 
-    this.#traySlots.forEach((slot, index) => {
-      const piece = state.pieces[index];
-      if (piece === undefined) return;
-      const isPlaced = state.placements.some((placement) => placement.pieceId === piece.id);
-      slot.className = 'pixel-drop-tray-slot';
-      slot.replaceChildren();
-      slot.setAttribute('aria-pressed', String(state.selectedPieceId === piece.id));
-
-      if (isPlaced) slot.classList.add('used');
-      else slot.append(createPieceGraphic(piece, 22));
-      if (state.selectedPieceId === piece.id) slot.classList.add('chosen');
-    });
   }
 
   getPiece(pieceId: string): Piece | null {
@@ -119,7 +107,6 @@ export class PixelDropView {
     board: HTMLElement;
     progress: HTMLElement;
     boardCells: readonly HTMLButtonElement[];
-    traySlots: readonly HTMLButtonElement[];
   } {
     const root = document.createElement('article');
     root.className = 'pixel-drop-app';
@@ -132,7 +119,7 @@ export class PixelDropView {
     card.dataset['testid'] = 'pixel-drop-board-card';
     const meta = createDiv('pixel-drop-board-meta');
     const metaTitle = document.createElement('span');
-    metaTitle.textContent = 'СОБЕРИ РИСУНОК';
+    metaTitle.textContent = 'РАССТАВЬ ФИГУРЫ';
     const progress = document.createElement('span');
     progress.dataset['testid'] = 'pixel-drop-progress';
     meta.append(metaTitle, progress);
@@ -140,7 +127,7 @@ export class PixelDropView {
     const layout = createDiv('pixel-drop-board-layout');
     const board = createDiv('pixel-drop-board');
     board.setAttribute('role', 'grid');
-    board.setAttribute('aria-label', 'Игровое поле 6 на 6');
+    board.setAttribute('aria-label', 'Игровое поле 10 на 10');
     board.dataset['testid'] = 'pixel-drop-board';
     const boardCells: HTMLButtonElement[] = [];
     for (let row = 0; row < GRID_SIZE; row += 1) {
@@ -159,35 +146,12 @@ export class PixelDropView {
     const caption = createDiv('pixel-drop-board-caption');
     const captionDot = document.createElement('span');
     captionDot.className = 'pixel-drop-caption-dot';
-    caption.append(captionDot, 'Можно переставлять сколько угодно');
+    caption.append(captionDot, 'Перетаскивай или меняй фигуры местами');
     card.append(meta, layout, caption);
     root.append(card);
+    root.append(this.#buildFooter());
 
-    const trayArea = document.createElement('section');
-    trayArea.className = 'pixel-drop-tray-area';
-    trayArea.setAttribute('aria-label', 'Доступные фигуры');
-    const trayHeading = createDiv('pixel-drop-tray-heading');
-    const trayTitle = document.createElement('h2');
-    trayTitle.append('Твои фигуры ');
-    const trayCount = document.createElement('span');
-    trayCount.textContent = String(this.#level.pieces.length);
-    trayTitle.append(trayCount);
-    const trayHint = document.createElement('span');
-    trayHint.textContent = 'Перетаскивай на поле';
-    trayHeading.append(trayTitle, trayHint);
-
-    const tray = createDiv('pixel-drop-tray');
-    const traySlots = this.#level.pieces.map((piece, index) => {
-      const slot = createButton('pixel-drop-tray-slot', 'pixel-drop-piece-' + String(index + 1));
-      slot.dataset['pieceId'] = piece.id;
-      slot.setAttribute('aria-label', pieceAriaLabel(piece));
-      tray.append(slot);
-      return slot;
-    });
-    trayArea.append(trayHeading, tray);
-    root.append(trayArea, this.#buildFooter());
-
-    return { root, board, progress, boardCells, traySlots };
+    return { root, board, progress, boardCells };
   }
 
   #buildIntro(): HTMLElement {

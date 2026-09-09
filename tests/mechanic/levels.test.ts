@@ -10,18 +10,19 @@ const sourceLevel = getLevel(0);
 
 function validPack(): unknown {
   return {
-    schemaVersion: 3,
+    schemaVersion: 4,
     pieceSets: {
       test: sourceLevel.pieces,
     },
     levels: [
       {
         id: 1,
-        gridSize: 6,
+        gridSize: 10,
         pieceSet: 'test',
         title: 'Test level',
         instruction: 'Recreate the sample',
         sampleAlt: 'Test sample',
+        initialPlacements: sourceLevel.initialPlacements,
         target: sourceLevel.target,
       },
     ],
@@ -29,17 +30,18 @@ function validPack(): unknown {
 }
 
 describe('level pack', () => {
-  it('ships nine distinct, playable 6x6 levels', () => {
+  it('ships nine distinct, playable 10x10 levels', () => {
     const levels = getAllLevels();
 
     expect(levels).toHaveLength(9);
     expect(new Set(levels.map((level) => JSON.stringify(level.target))).size).toBe(9);
 
     for (const level of levels) {
-      expect(level.gridSize).toBe(6);
-      expect(level.target).toHaveLength(6);
-      expect(level.target.every((row) => row.length === 6)).toBe(true);
+      expect(level.gridSize).toBe(10);
+      expect(level.target).toHaveLength(10);
+      expect(level.target.every((row) => row.length === 10)).toBe(true);
       expect(level.pieces).toHaveLength(6);
+      expect(level.initialPlacements).toHaveLength(6);
     }
   });
 
@@ -50,6 +52,7 @@ describe('level pack', () => {
     expect(firstRead).not.toBe(secondRead);
     expect(firstRead.target).not.toBe(secondRead.target);
     expect(firstRead.pieces).not.toBe(secondRead.pieces);
+    expect(firstRead.initialPlacements).not.toBe(secondRead.initialPlacements);
     expect(firstRead).toEqual(secondRead);
   });
 
@@ -60,21 +63,21 @@ describe('level pack', () => {
     expect(parsed[0]?.pieces).toHaveLength(6);
   });
 
-  it('rejects an unsupported schema and non-6x6 boards', () => {
+  it('rejects an unsupported schema and non-10x10 boards', () => {
     const wrongSchema = validPack() as Record<string, unknown>;
     wrongSchema.schemaVersion = 2;
 
-    expect(() => parseLevelPack(wrongSchema, 1)).toThrow(/schemaVersion must be 3/);
+    expect(() => parseLevelPack(wrongSchema, 1)).toThrow(/schemaVersion must be 4/);
 
     const wrongGrid = validPack() as {
       levels: Array<Record<string, unknown>>;
     };
     wrongGrid.levels[0]!.gridSize = 8;
 
-    expect(() => parseLevelPack(wrongGrid, 1)).toThrow(/gridSize must be 6/);
+    expect(() => parseLevelPack(wrongGrid, 1)).toThrow(/gridSize must be 10/);
   });
 
-  it('rejects missing piece sets and trays that do not contain six figures', () => {
+  it('rejects missing piece sets and sets that do not contain six figures', () => {
     const unknownSet = validPack() as {
       levels: Array<Record<string, unknown>>;
     };
@@ -90,7 +93,7 @@ describe('level pack', () => {
     expect(() => parseLevelPack(shortTray, 1)).toThrow(/exactly 6 pieces/);
   });
 
-  it('rejects targets whose color inventory does not match the tray', () => {
+  it('rejects targets whose color inventory does not match the pieces', () => {
     const badInventory = validPack() as {
       levels: Array<{ target: Array<Array<string | null>> }>;
     };
@@ -105,14 +108,14 @@ describe('level pack', () => {
     };
     const target = unsolvable.levels[0]!.target;
 
-    target[4]![2] = null;
-    target[4]![3] = null;
-    target[5]![2] = null;
-    target[5]![3] = null;
+    target[6]![4] = null;
+    target[6]![5] = null;
+    target[7]![4] = null;
+    target[7]![5] = null;
     target[0]![0] = 'purple';
-    target[0]![5] = 'purple';
-    target[5]![0] = 'purple';
-    target[5]![5] = 'purple';
+    target[0]![9] = 'purple';
+    target[9]![0] = 'purple';
+    target[9]![9] = 'purple';
 
     expect(() => parseLevelPack(unsolvable, 1)).toThrow(/cannot be tiled/);
   });

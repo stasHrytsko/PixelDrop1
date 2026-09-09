@@ -71,14 +71,6 @@ export class PixelDropInputController {
       return;
     }
 
-    const slot = target.closest<HTMLButtonElement>('.pixel-drop-tray-slot');
-    if (slot !== null) {
-      const pieceId = slot.dataset['pieceId'];
-      if (pieceId === undefined || slot.classList.contains('used')) return;
-      this.#callbacks.onSelectPiece(pieceId);
-      return;
-    }
-
     const cell = target.closest<HTMLButtonElement>('.pixel-drop-board-cell');
     if (cell !== null) {
       this.#handleBoardClick(cell);
@@ -93,6 +85,10 @@ export class PixelDropInputController {
     const row = Number(cell.dataset['row']);
     const col = Number(cell.dataset['col']);
     if (state.selectedPieceId !== null) {
+      if (cell.dataset['pieceId'] === state.selectedPieceId) {
+        this.#callbacks.onClearSelection();
+        return;
+      }
       if (!this.#callbacks.onPlacePiece(state.selectedPieceId, row, col)) this.#view.flashInvalid(cell);
       return;
     }
@@ -108,9 +104,8 @@ export class PixelDropInputController {
     const target = event.target;
     if (!(target instanceof Element)) return;
 
-    const slot = target.closest<HTMLButtonElement>('.pixel-drop-tray-slot:not(.used)');
     const boardCell = target.closest<HTMLButtonElement>('.pixel-drop-board-cell.occupied');
-    const pieceId = slot?.dataset['pieceId'] ?? boardCell?.dataset['pieceId'];
+    const pieceId = boardCell?.dataset['pieceId'];
     if (pieceId === undefined) return;
 
     let offsetRow = Number(target.closest<HTMLElement>('.pixel-drop-pixel')?.dataset['dr'] ?? 0);

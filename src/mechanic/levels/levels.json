@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "pieceSets": {
     "classic-six": [
       {
@@ -67,146 +67,254 @@
   "levels": [
     {
       "id": 1,
-      "gridSize": 6,
+      "gridSize": 10,
       "pieceSet": "classic-six",
       "title": "Теперь шесть деталей.",
       "instruction": "Собери такой же домик.",
       "sampleAlt": "Образец: домик с оранжевой крышей, розовыми стенами и фиолетовой дверью",
+      "initialPlacements": [
+        { "pieceId": "j-mixed", "row": 0, "col": 0 },
+        { "pieceId": "o-coral", "row": 0, "col": 6 },
+        { "pieceId": "i-mixed", "row": 4, "col": 0 },
+        { "pieceId": "t-coral-a", "row": 4, "col": 6 },
+        { "pieceId": "j-rose", "row": 8, "col": 0 },
+        { "pieceId": "t-coral-b", "row": 8, "col": 6 }
+      ],
       "target": [
-        [null, null, "coral", "coral", null, null],
-        [null, "coral", "coral", "coral", "coral", null],
-        ["coral", "coral", "coral", "coral", "coral", "coral"],
-        [null, "rose", "rose", "rose", "rose", null],
-        [null, "rose", "purple", "purple", "rose", null],
-        [null, "rose", "purple", "purple", "rose", null]
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, "coral", "coral", null, null, null, null],
+        [null, null, null, "coral", "coral", "coral", "coral", null, null, null],
+        [null, null, "coral", "coral", "coral", "coral", "coral", "coral", null, null],
+        [null, null, null, "rose", "rose", "rose", "rose", null, null, null],
+        [null, null, null, "rose", "purple", "purple", "rose", null, null, null],
+        [null, null, null, "rose", "purple", "purple", "rose", null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null]
       ]
     },
     {
       "id": 2,
-      "gridSize": 6,
+      "gridSize": 10,
       "pieceSet": "classic-six",
       "title": "Сложи первый силуэт.",
       "instruction": "Начни с верхнего ряда.",
       "sampleAlt": "Образец второго уровня",
+      "initialPlacements": [
+        { "pieceId": "j-mixed", "row": 0, "col": 0 },
+        { "pieceId": "o-coral", "row": 0, "col": 6 },
+        { "pieceId": "i-mixed", "row": 4, "col": 0 },
+        { "pieceId": "t-coral-a", "row": 4, "col": 6 },
+        { "pieceId": "j-rose", "row": 8, "col": 0 },
+        { "pieceId": "t-coral-b", "row": 8, "col": 6 }
+      ],
       "target": [
-        [null, null, null, null, null, null],
-        [null, null, "coral", "rose", "rose", "rose"],
-        ["rose", "coral", "coral", "coral", "coral", "rose"],
-        ["rose", "purple", "purple", "coral", "coral", "coral"],
-        ["coral", "coral", "rose", "purple", "purple", "rose"],
-        ["coral", "coral", null, null, null, null]
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, "coral", "rose", "rose", "rose", null, null],
+        [null, null, "rose", "coral", "coral", "coral", "coral", "rose", null, null],
+        [null, null, "rose", "purple", "purple", "coral", "coral", "coral", null, null],
+        [null, null, "coral", "coral", "rose", "purple", "purple", "rose", null, null],
+        [null, null, "coral", "coral", null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null]
       ]
     },
     {
       "id": 3,
-      "gridSize": 6,
+      "gridSize": 10,
       "pieceSet": "classic-six",
       "title": "Цвета меняют направление.",
       "instruction": "Сверяй край каждой фигуры.",
       "sampleAlt": "Образец третьего уровня",
+      "initialPlacements": [
+        { "pieceId": "j-mixed", "row": 0, "col": 0 },
+        { "pieceId": "o-coral", "row": 0, "col": 6 },
+        { "pieceId": "i-mixed", "row": 4, "col": 0 },
+        { "pieceId": "t-coral-a", "row": 4, "col": 6 },
+        { "pieceId": "j-rose", "row": 8, "col": 0 },
+        { "pieceId": "t-coral-b", "row": 8, "col": 6 }
+      ],
       "target": [
-        [null, null, null, null, null, null],
-        [null, null, "coral", "rose", "rose", "rose"],
-        ["rose", "coral", "coral", "coral", "coral", "rose"],
-        ["rose", "purple", "purple", "coral", "coral", "coral"],
-        ["rose", "purple", "purple", "rose", "coral", "coral"],
-        [null, null, null, null, "coral", "coral"]
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, "coral", "rose", "rose", "rose", null, null],
+        [null, null, "rose", "coral", "coral", "coral", "coral", "rose", null, null],
+        [null, null, "rose", "purple", "purple", "coral", "coral", "coral", null, null],
+        [null, null, "rose", "purple", "purple", "rose", "coral", "coral", null, null],
+        [null, null, null, null, null, null, "coral", "coral", null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null]
       ]
     },
     {
       "id": 4,
-      "gridSize": 6,
+      "gridSize": 10,
       "pieceSet": "classic-six",
       "title": "Заполни середину.",
       "instruction": "Длинная фигура связывает половины.",
       "sampleAlt": "Образец четвёртого уровня",
+      "initialPlacements": [
+        { "pieceId": "j-mixed", "row": 0, "col": 0 },
+        { "pieceId": "o-coral", "row": 0, "col": 6 },
+        { "pieceId": "i-mixed", "row": 4, "col": 0 },
+        { "pieceId": "t-coral-a", "row": 4, "col": 6 },
+        { "pieceId": "j-rose", "row": 8, "col": 0 },
+        { "pieceId": "t-coral-b", "row": 8, "col": 6 }
+      ],
       "target": [
-        [null, null, null, null, null, null],
-        [null, "coral", null, null, "coral", null],
-        ["coral", "coral", "coral", "coral", "coral", "coral"],
-        ["coral", "coral", "rose", "purple", "purple", "rose"],
-        ["coral", "coral", "rose", "rose", "rose", "rose"],
-        [null, null, "rose", "purple", "purple", "rose"]
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, "coral", null, null, "coral", null, null, null],
+        [null, null, "coral", "coral", "coral", "coral", "coral", "coral", null, null],
+        [null, null, "coral", "coral", "rose", "purple", "purple", "rose", null, null],
+        [null, null, "coral", "coral", "rose", "rose", "rose", "rose", null, null],
+        [null, null, null, null, "rose", "purple", "purple", "rose", null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null]
       ]
     },
     {
       "id": 5,
-      "gridSize": 6,
+      "gridSize": 10,
       "pieceSet": "classic-six",
       "title": "Две стороны.",
       "instruction": "Собери рисунок сверху вниз.",
       "sampleAlt": "Образец пятого уровня",
+      "initialPlacements": [
+        { "pieceId": "j-mixed", "row": 0, "col": 0 },
+        { "pieceId": "o-coral", "row": 0, "col": 6 },
+        { "pieceId": "i-mixed", "row": 4, "col": 0 },
+        { "pieceId": "t-coral-a", "row": 4, "col": 6 },
+        { "pieceId": "j-rose", "row": 8, "col": 0 },
+        { "pieceId": "t-coral-b", "row": 8, "col": 6 }
+      ],
       "target": [
-        [null, "coral", null, null, "coral", null],
-        ["coral", "coral", "coral", "coral", "coral", "coral"],
-        ["rose", "rose", "rose", "rose", "coral", "coral"],
-        ["rose", "purple", "purple", "rose", "coral", "coral"],
-        ["rose", "purple", "purple", "rose", null, null],
-        [null, null, null, null, null, null]
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, "coral", null, null, "coral", null, null, null],
+        [null, null, "coral", "coral", "coral", "coral", "coral", "coral", null, null],
+        [null, null, "rose", "rose", "rose", "rose", "coral", "coral", null, null],
+        [null, null, "rose", "purple", "purple", "rose", "coral", "coral", null, null],
+        [null, null, "rose", "purple", "purple", "rose", null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null]
       ]
     },
     {
       "id": 6,
-      "gridSize": 6,
+      "gridSize": 10,
       "pieceSet": "classic-six",
       "title": "Почти симметрия.",
       "instruction": "Отличие спрятано в нижнем ряду.",
       "sampleAlt": "Образец шестого уровня",
+      "initialPlacements": [
+        { "pieceId": "j-mixed", "row": 0, "col": 0 },
+        { "pieceId": "o-coral", "row": 0, "col": 6 },
+        { "pieceId": "i-mixed", "row": 4, "col": 0 },
+        { "pieceId": "t-coral-a", "row": 4, "col": 6 },
+        { "pieceId": "j-rose", "row": 8, "col": 0 },
+        { "pieceId": "t-coral-b", "row": 8, "col": 6 }
+      ],
       "target": [
-        [null, "coral", null, null, "coral", null],
-        ["coral", "coral", "coral", "coral", "coral", "coral"],
-        ["rose", "rose", "rose", "rose", "coral", "coral"],
-        ["rose", "purple", "purple", "rose", "coral", "coral"],
-        [null, null, "rose", "purple", "purple", "rose"],
-        [null, null, null, null, null, null]
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, "coral", null, null, "coral", null, null, null],
+        [null, null, "coral", "coral", "coral", "coral", "coral", "coral", null, null],
+        [null, null, "rose", "rose", "rose", "rose", "coral", "coral", null, null],
+        [null, null, "rose", "purple", "purple", "rose", "coral", "coral", null, null],
+        [null, null, null, null, "rose", "purple", "purple", "rose", null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null]
       ]
     },
     {
       "id": 7,
-      "gridSize": 6,
+      "gridSize": 10,
       "pieceSet": "classic-six",
       "title": "Собери башню.",
       "instruction": "Опирайся на центральную полосу.",
       "sampleAlt": "Образец седьмого уровня",
+      "initialPlacements": [
+        { "pieceId": "j-mixed", "row": 0, "col": 0 },
+        { "pieceId": "o-coral", "row": 0, "col": 6 },
+        { "pieceId": "i-mixed", "row": 4, "col": 0 },
+        { "pieceId": "t-coral-a", "row": 4, "col": 6 },
+        { "pieceId": "j-rose", "row": 8, "col": 0 },
+        { "pieceId": "t-coral-b", "row": 8, "col": 6 }
+      ],
       "target": [
-        [null, null, "rose", "rose", "rose", null],
-        [null, null, "coral", "coral", "rose", null],
-        [null, "coral", "coral", "coral", "coral", null],
-        ["coral", "coral", "coral", "coral", "coral", "coral"],
-        [null, "rose", "rose", "purple", "purple", "rose"],
-        [null, "rose", "purple", "purple", null, null]
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, "rose", "rose", "rose", null, null, null],
+        [null, null, null, null, "coral", "coral", "rose", null, null, null],
+        [null, null, null, "coral", "coral", "coral", "coral", null, null, null],
+        [null, null, "coral", "coral", "coral", "coral", "coral", "coral", null, null],
+        [null, null, null, "rose", "rose", "purple", "purple", "rose", null, null],
+        [null, null, null, "rose", "purple", "purple", null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null]
       ]
     },
     {
       "id": 8,
-      "gridSize": 6,
+      "gridSize": 10,
       "pieceSet": "classic-six",
       "title": "Последние повороты.",
       "instruction": "Фигуры не вращаются — ищи их контур.",
       "sampleAlt": "Образец восьмого уровня",
+      "initialPlacements": [
+        { "pieceId": "j-mixed", "row": 0, "col": 0 },
+        { "pieceId": "o-coral", "row": 0, "col": 6 },
+        { "pieceId": "i-mixed", "row": 4, "col": 0 },
+        { "pieceId": "t-coral-a", "row": 4, "col": 6 },
+        { "pieceId": "j-rose", "row": 8, "col": 0 },
+        { "pieceId": "t-coral-b", "row": 8, "col": 6 }
+      ],
       "target": [
-        [null, null, "coral", "coral", null, null],
-        [null, null, "coral", "coral", null, null],
-        [null, null, "coral", "rose", "rose", "rose"],
-        ["rose", "coral", "coral", "coral", "coral", "rose"],
-        ["rose", "purple", "purple", "coral", "coral", "coral"],
-        [null, null, "rose", "purple", "purple", "rose"]
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, "coral", "coral", null, null, null, null],
+        [null, null, null, null, "coral", "coral", null, null, null, null],
+        [null, null, null, null, "coral", "rose", "rose", "rose", null, null],
+        [null, null, "rose", "coral", "coral", "coral", "coral", "rose", null, null],
+        [null, null, "rose", "purple", "purple", "coral", "coral", "coral", null, null],
+        [null, null, null, null, "rose", "purple", "purple", "rose", null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null]
       ]
     },
     {
       "id": 9,
-      "gridSize": 6,
+      "gridSize": 10,
       "pieceSet": "classic-six",
       "title": "Финальный рисунок.",
       "instruction": "Собери все шесть деталей.",
       "sampleAlt": "Образец девятого уровня",
+      "initialPlacements": [
+        { "pieceId": "j-mixed", "row": 0, "col": 0 },
+        { "pieceId": "o-coral", "row": 0, "col": 6 },
+        { "pieceId": "i-mixed", "row": 4, "col": 0 },
+        { "pieceId": "t-coral-a", "row": 4, "col": 6 },
+        { "pieceId": "j-rose", "row": 8, "col": 0 },
+        { "pieceId": "t-coral-b", "row": 8, "col": 6 }
+      ],
       "target": [
-        [null, null, "rose", "purple", "purple", "rose"],
-        [null, null, "coral", "rose", "rose", "rose"],
-        ["rose", "coral", "coral", "coral", "coral", "rose"],
-        ["rose", "purple", "purple", "coral", "coral", "coral"],
-        [null, null, null, "coral", "coral", null],
-        [null, null, null, "coral", "coral", null]
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, "rose", "purple", "purple", "rose", null, null],
+        [null, null, null, null, "coral", "rose", "rose", "rose", null, null],
+        [null, null, "rose", "coral", "coral", "coral", "coral", "rose", null, null],
+        [null, null, "rose", "purple", "purple", "coral", "coral", "coral", null, null],
+        [null, null, null, null, null, "coral", "coral", null, null, null],
+        [null, null, null, null, null, "coral", "coral", null, null, null],
+        [null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null]
       ]
     }
   ]

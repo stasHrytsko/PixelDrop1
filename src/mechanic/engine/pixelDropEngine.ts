@@ -1,4 +1,6 @@
 import {
+  areTargetCellsInsideBoard,
+  canCreateGridFromPlacements,
   computeTargetCells,
   createGridFromPlacements,
   findPiece,
@@ -26,7 +28,7 @@ function createState(
 
 export const pixelDropEngine: MechanicEngine<LevelState, GameInput, LevelConfig> = {
   create(level: LevelConfig): LevelState {
-    return createState(level.pieces, [], null, level.target);
+    return createState(level.pieces, level.initialPlacements, null, level.target);
   },
 
   apply(state: LevelState, input: GameInput): LevelState {
@@ -45,17 +47,53 @@ export const pixelDropEngine: MechanicEngine<LevelState, GameInput, LevelConfig>
         const piece = findPiece(state.pieces, input.pieceId);
         if (piece === null) return state;
 
+        const currentPlacement = state.placements.find((placement) => placement.pieceId === input.pieceId);
+        if (currentPlacement === undefined) return state;
         const otherPlacements = state.placements.filter((placement) => placement.pieceId !== input.pieceId);
         const gridWithoutPiece = createGridFromPlacements(state.pieces, otherPlacements);
         const targetCells = computeTargetCells(input.row, input.col, piece);
-        if (!isValidPlacement(gridWithoutPiece, targetCells)) return state;
+        if (!areTargetCellsInsideBoard(targetCells)) return state;
 
-        return createState(
-          state.pieces,
-          [...otherPlacements, { pieceId: input.pieceId, row: input.row, col: input.col }],
-          null,
-          state.target,
+        const overlappingPieceIds = new Set(
+          targetCells
+            .map(({ row, col }) => gridWithoutPiece[row]?.[col]?.pieceId)
+            .filter((pieceId): pieceId is string => pieceId !== undefined),
         );
+
+        if (overlappingPieceIds.size === 0) {
+          if (!isValidPlacement(gridWithoutPiece, targetCells)) return state;
+          return createState(
+            state.pieces,
+            [...otherPlacements, { pieceId: input.pieceId, row: input.row, col: input.col }],
+            null,
+            state.target,
+          );
+        }
+
+        if (overlappingPieceIds.size !== 1) return state;
+        const displacedPieceId = [...overlappingPieceIds][0];
+        const displacedPlacement = state.placements.find((placement) => placement.pieceId === displacedPieceId);
+        if (displacedPieceId === undefined || displacedPlacement === undefined) return state;
+
+        const stationaryPlacements = otherPlacements.filter(
+          (placement) => placement.pieceId !== displacedPieceId,
+        );
+        const swappedPlacements: readonly Placement[] = [
+          ...stationaryPlacements,
+          {
+            pieceId: input.pieceId,
+            row: displacedPlacement.row,
+            col: displacedPlacement.col,
+          },
+          {
+            pieceId: displacedPieceId,
+            row: currentPlacement.row,
+            col: currentPlacement.col,
+          },
+        ];
+        if (!canCreateGridFromPlacements(state.pieces, swappedPlacements)) return state;
+
+        return createState(state.pieces, swappedPlacements, null, state.target);
       }
     }
   },

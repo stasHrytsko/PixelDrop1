@@ -31,8 +31,8 @@ export interface Placement {
   readonly col: number;
 }
 
-export const GRID_SIZE = 6;
-export const TRAY_SIZE = 6;
+export const GRID_SIZE = 10;
+export const PIECE_COUNT = 6;
 
 export interface LevelState {
   readonly gameState: GameState;
@@ -50,10 +50,11 @@ export type GameInput =
 
 export interface LevelConfig {
   readonly id: number;
-  readonly gridSize: 6;
+  readonly gridSize: 10;
   readonly title: string;
   readonly instruction: string;
   readonly sampleAlt: string;
   readonly target: readonly (readonly (ColorId | null)[])[];
   readonly pieces: readonly Piece[];
+  readonly initialPlacements: readonly Placement[];
 }

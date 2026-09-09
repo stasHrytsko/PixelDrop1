@@ -1,6 +1,15 @@
-import { GRID_SIZE, TRAY_SIZE, type ColorId, type LevelConfig, type Piece, type PieceCell } from '../engine/types.ts';
+import { createGridFromPlacements, gridMatchesTarget } from '../engine/board.ts';
+import {
+  GRID_SIZE,
+  PIECE_COUNT,
+  type ColorId,
+  type LevelConfig,
+  type Piece,
+  type PieceCell,
+  type Placement,
+} from '../engine/types.ts';
 
-export const LEVELS_SCHEMA_VERSION = 3;
+export const LEVELS_SCHEMA_VERSION = 4;
 const COLOR_IDS: readonly ColorId[] = ['coral', 'rose', 'purple'];
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -79,8 +88,8 @@ function parsePiece(value: unknown, where: string): Piece {
 }
 
 function parsePieceSet(value: unknown, where: string): readonly Piece[] {
-  if (!Array.isArray(value) || value.length !== TRAY_SIZE) {
-    throw new Error(where + ' must contain exactly ' + String(TRAY_SIZE) + ' pieces.');
+  if (!Array.isArray(value) || value.length !== PIECE_COUNT) {
+    throw new Error(where + ' must contain exactly ' + String(PIECE_COUNT) + ' pieces.');
   }
 
   const pieces = (value as unknown[]).map((piece, index) => parsePiece(piece, where + '[' + String(index) + ']'));
@@ -88,6 +97,34 @@ function parsePieceSet(value: unknown, where: string): readonly Piece[] {
     throw new Error(where + ' piece ids must be unique.');
   }
   return pieces;
+}
+
+function parseInitialPlacements(
+  value: unknown,
+  pieces: readonly Piece[],
+  where: string,
+): readonly Placement[] {
+  if (!Array.isArray(value) || value.length !== PIECE_COUNT) {
+    throw new Error(where + ' must place exactly ' + String(PIECE_COUNT) + ' pieces.');
+  }
+
+  const placements = (value as unknown[]).map((placement, index): Placement => {
+    const placementWhere = where + '[' + String(index) + ']';
+    if (!isRecord(placement)) throw new Error(placementWhere + ' must be an object.');
+    const pieceId = requiredText(placement, 'pieceId', placementWhere);
+    const row = placement['row'];
+    const col = placement['col'];
+    if (!Number.isInteger(row) || !Number.isInteger(col)) {
+      throw new Error(placementWhere + ' row and col must be integers.');
+    }
+    return { pieceId, row: row as number, col: col as number };
+  });
+
+  const ids = placements.map((placement) => placement.pieceId);
+  if (new Set(ids).size !== PIECE_COUNT) throw new Error(where + ' must place every piece once.');
+  const knownIds = new Set(pieces.map((piece) => piece.id));
+  if (ids.some((id) => !knownIds.has(id))) throw new Error(where + ' references an unknown piece.');
+  return placements;
 }
 
 function parsePieceSets(value: unknown): ReadonlyMap<string, readonly Piece[]> {
@@ -174,6 +211,23 @@ function parseLevel(
   checkColorInventory(target, pieceSet, where);
   if (!canTileTarget(target, pieceSet)) throw new Error(where + ' cannot be tiled by its configured pieces.');
 
+  const idPrefix = 'l' + String(index + 1) + '-';
+  const pieces = pieceSet.map((piece) => ({ ...piece, id: idPrefix + piece.id }));
+  const initialPlacements = parseInitialPlacements(
+    value['initialPlacements'],
+    pieceSet,
+    where + '.initialPlacements',
+  ).map((placement) => ({ ...placement, pieceId: idPrefix + placement.pieceId }));
+  let initialGrid;
+  try {
+    initialGrid = createGridFromPlacements(pieces, initialPlacements);
+  } catch {
+    throw new Error(where + '.initialPlacements must fit on the board without overlaps.');
+  }
+  if (gridMatchesTarget(initialGrid, target)) {
+    throw new Error(where + '.initialPlacements must not start in the solved state.');
+  }
+
   return {
     id: index + 1,
     gridSize: GRID_SIZE,
@@ -181,7 +235,8 @@ function parseLevel(
     instruction: requiredText(value, 'instruction', where),
     sampleAlt: requiredText(value, 'sampleAlt', where),
     target,
-    pieces: pieceSet.map((piece) => ({ ...piece, id: 'l' + String(index + 1) + '-' + piece.id })),
+    pieces,
+    initialPlacements,
   };
 }
 
