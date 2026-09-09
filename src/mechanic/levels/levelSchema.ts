@@ -1,15 +1,17 @@
 import { createGridFromPlacements, gridMatchesTarget } from '../engine/board.ts';
 import {
   GRID_SIZE,
+  PHASE_COUNT,
   PIECE_COUNT,
   type ColorId,
   type LevelConfig,
+  type LevelPhaseConfig,
   type Piece,
   type PieceCell,
   type Placement,
 } from '../engine/types.ts';
 
-export const LEVELS_SCHEMA_VERSION = 4;
+export const LEVELS_SCHEMA_VERSION = 5;
 const COLOR_IDS: readonly ColorId[] = ['coral', 'rose', 'purple'];
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -137,11 +139,42 @@ function parsePieceSets(value: unknown): ReadonlyMap<string, readonly Piece[]> {
   );
 }
 
+interface PictureDefinition {
+  readonly id: string;
+  readonly title: string;
+  readonly instruction: string;
+  readonly sampleAlt: string;
+  readonly target: LevelPhaseConfig['target'];
+}
+
+function parsePictures(value: unknown): ReadonlyMap<string, PictureDefinition> {
+  if (!isRecord(value) || Object.keys(value).length === 0) {
+    throw new Error('Level pack must contain at least one picture.');
+  }
+
+  return new Map(
+    Object.entries(value).map(([id, rawPicture]) => {
+      const where = 'pictures.' + id;
+      if (!isRecord(rawPicture)) throw new Error(where + ' must be an object.');
+      return [
+        id,
+        {
+          id,
+          title: requiredText(rawPicture, 'title', where),
+          instruction: requiredText(rawPicture, 'instruction', where),
+          sampleAlt: requiredText(rawPicture, 'sampleAlt', where),
+          target: parseTarget(rawPicture['target'], where + '.target'),
+        },
+      ] as const;
+    }),
+  );
+}
+
 function countColor(colors: readonly (ColorId | null)[], color: ColorId): number {
   return colors.filter((item) => item === color).length;
 }
 
-function checkColorInventory(target: LevelConfig['target'], pieces: readonly Piece[], where: string): void {
+function checkColorInventory(target: LevelPhaseConfig['target'], pieces: readonly Piece[], where: string): void {
   const targetColors = target.flat();
   const pieceColors = pieces.flatMap((piece) => piece.cells.map((cell) => cell.color));
   for (const color of COLOR_IDS) {
@@ -155,7 +188,7 @@ interface CandidatePlacement {
   readonly cells: readonly (readonly [number, number])[];
 }
 
-function candidatePlacements(piece: Piece, target: LevelConfig['target']): CandidatePlacement[] {
+function candidatePlacements(piece: Piece, target: LevelPhaseConfig['target']): CandidatePlacement[] {
   const candidates: CandidatePlacement[] = [];
   for (let row = 0; row < GRID_SIZE; row += 1) {
     for (let col = 0; col < GRID_SIZE; col += 1) {
@@ -170,7 +203,7 @@ function candidatePlacements(piece: Piece, target: LevelConfig['target']): Candi
   return candidates;
 }
 
-function canTileTarget(target: LevelConfig['target'], pieces: readonly Piece[]): boolean {
+function canTileTarget(target: LevelPhaseConfig['target'], pieces: readonly Piece[]): boolean {
   const candidates = pieces
     .map((piece) => ({ piece, placements: candidatePlacements(piece, target) }))
     .sort((a, b) => a.placements.length - b.placements.length);
@@ -198,6 +231,7 @@ function parseLevel(
   value: unknown,
   index: number,
   pieceSets: ReadonlyMap<string, readonly Piece[]>,
+  pictures: ReadonlyMap<string, PictureDefinition>,
 ): LevelConfig {
   const where = 'levels[' + String(index) + ']';
   if (!isRecord(value)) throw new Error(where + ' must be an object.');
@@ -207,36 +241,57 @@ function parseLevel(
   const pieceSetId = requiredText(value, 'pieceSet', where);
   const pieceSet = pieceSets.get(pieceSetId);
   if (pieceSet === undefined) throw new Error(where + '.pieceSet references unknown set ' + pieceSetId + '.');
-  const target = parseTarget(value['target'], where + '.target');
-  checkColorInventory(target, pieceSet, where);
-  if (!canTileTarget(target, pieceSet)) throw new Error(where + ' cannot be tiled by its configured pieces.');
 
   const idPrefix = 'l' + String(index + 1) + '-';
   const pieces = pieceSet.map((piece) => ({ ...piece, id: idPrefix + piece.id }));
-  const initialPlacements = parseInitialPlacements(
-    value['initialPlacements'],
-    pieceSet,
-    where + '.initialPlacements',
-  ).map((placement) => ({ ...placement, pieceId: idPrefix + placement.pieceId }));
-  let initialGrid;
-  try {
-    initialGrid = createGridFromPlacements(pieces, initialPlacements);
-  } catch {
-    throw new Error(where + '.initialPlacements must fit on the board without overlaps.');
+  const rawPhases = value['phases'];
+  if (!Array.isArray(rawPhases) || rawPhases.length !== PHASE_COUNT) {
+    throw new Error(where + '.phases must contain exactly ' + String(PHASE_COUNT) + ' phases.');
   }
-  if (gridMatchesTarget(initialGrid, target)) {
-    throw new Error(where + '.initialPlacements must not start in the solved state.');
-  }
+  const phases = (rawPhases as unknown[]).map((rawPhase, phaseIndex): LevelPhaseConfig => {
+    const phaseWhere = where + '.phases[' + String(phaseIndex) + ']';
+    if (!isRecord(rawPhase)) throw new Error(phaseWhere + ' must be an object.');
+    if (rawPhase['id'] !== phaseIndex + 1) {
+      throw new Error(phaseWhere + '.id must be ' + String(phaseIndex + 1) + '.');
+    }
+    const pictureId = requiredText(rawPhase, 'picture', phaseWhere);
+    const picture = pictures.get(pictureId);
+    if (picture === undefined) throw new Error(phaseWhere + '.picture references unknown picture ' + pictureId + '.');
+    const target = picture.target;
+    checkColorInventory(target, pieceSet, phaseWhere);
+    if (!canTileTarget(target, pieceSet)) {
+      throw new Error(phaseWhere + ' cannot be tiled by its configured pieces.');
+    }
+    const initialPlacements = parseInitialPlacements(
+      rawPhase['initialPlacements'],
+      pieceSet,
+      phaseWhere + '.initialPlacements',
+    ).map((placement) => ({ ...placement, pieceId: idPrefix + placement.pieceId }));
+    let initialGrid;
+    try {
+      initialGrid = createGridFromPlacements(pieces, initialPlacements);
+    } catch {
+      throw new Error(phaseWhere + '.initialPlacements must fit on the board without overlaps.');
+    }
+    if (gridMatchesTarget(initialGrid, target)) {
+      throw new Error(phaseWhere + '.initialPlacements must not start in the solved state.');
+    }
+    return {
+      id: phaseIndex + 1,
+      pictureId,
+      title: picture.title,
+      instruction: picture.instruction,
+      sampleAlt: picture.sampleAlt,
+      target,
+      initialPlacements,
+    };
+  });
 
   return {
     id: index + 1,
     gridSize: GRID_SIZE,
-    title: requiredText(value, 'title', where),
-    instruction: requiredText(value, 'instruction', where),
-    sampleAlt: requiredText(value, 'sampleAlt', where),
-    target,
     pieces,
-    initialPlacements,
+    phases,
   };
 }
 
@@ -247,10 +302,11 @@ export function parseLevelPack(raw: unknown, expectedLevelCount: number): LevelC
   }
 
   const pieceSets = parsePieceSets(raw['pieceSets']);
+  const pictures = parsePictures(raw['pictures']);
   const levels = raw['levels'];
   if (!Array.isArray(levels) || levels.length !== expectedLevelCount) {
     throw new Error('Level pack must contain exactly ' + String(expectedLevelCount) + ' levels.');
   }
 
-  return (levels as unknown[]).map((level, index) => parseLevel(level, index, pieceSets));
+  return (levels as unknown[]).map((level, index) => parseLevel(level, index, pieceSets, pictures));
 }

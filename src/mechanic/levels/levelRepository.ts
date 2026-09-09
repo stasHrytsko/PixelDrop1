@@ -8,7 +8,6 @@ const LEVELS: readonly LevelConfig[] = parseLevelPack(rawLevelPack, GAME.levelCo
 function cloneLevel(level: LevelConfig): LevelConfig {
   return {
     ...level,
-    target: level.target.map((row) => row.slice()),
     pieces: level.pieces.map((piece) => ({
       ...piece,
       cells: piece.cells.map((cell) => ({
@@ -16,7 +15,11 @@ function cloneLevel(level: LevelConfig): LevelConfig {
         color: cell.color,
       })),
     })),
-    initialPlacements: level.initialPlacements.map((placement) => ({ ...placement })),
+    phases: level.phases.map((phase) => ({
+      ...phase,
+      target: phase.target.map((row) => row.slice()),
+      initialPlacements: phase.initialPlacements.map((placement) => ({ ...placement })),
+    })),
   };
 }
 

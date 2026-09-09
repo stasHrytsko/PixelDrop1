@@ -16,6 +16,7 @@ export class PixelDropGame {
   readonly #input: PixelDropInputController;
   #state: LevelState;
   #completionTimer: number | null = null;
+  #phaseTimer: number | null = null;
   #completionReported = false;
   #destroyed = false;
 
@@ -39,9 +40,10 @@ export class PixelDropGame {
   }
 
   restart(): void {
-    this.#cancelCompletion();
-    this.#completionReported = false;
-    this.#state = pixelDropEngine.create(this.#options.level);
+    this.#cancelPhaseAdvance();
+    const restarted = pixelDropEngine.apply(this.#state, { type: 'restart_phase' });
+    if (restarted === this.#state) return;
+    this.#state = restarted;
     this.#view.render(this.#state);
   }
 
@@ -49,6 +51,7 @@ export class PixelDropGame {
     if (this.#destroyed) return;
     this.#destroyed = true;
     this.#cancelCompletion();
+    this.#cancelPhaseAdvance();
     this.#input.destroy();
     this.#view.destroy();
   }
@@ -66,8 +69,21 @@ export class PixelDropGame {
 
     this.#state = next;
     this.#view.render(next);
+    if (next.gameState === 'phase_complete') this.#schedulePhaseAdvance();
     if (next.gameState === 'won') this.#scheduleCompletion();
     return true;
+  }
+
+  #schedulePhaseAdvance(): void {
+    if (this.#phaseTimer !== null || this.#destroyed) return;
+    this.#phaseTimer = window.setTimeout(() => {
+      this.#phaseTimer = null;
+      if (this.#destroyed) return;
+      const next = pixelDropEngine.apply(this.#state, { type: 'advance_phase' });
+      if (next === this.#state) return;
+      this.#state = next;
+      this.#view.render(next);
+    }, WIN_ANIMATION_MS);
   }
 
   #scheduleCompletion(): void {
@@ -82,5 +98,10 @@ export class PixelDropGame {
   #cancelCompletion(): void {
     if (this.#completionTimer !== null) window.clearTimeout(this.#completionTimer);
     this.#completionTimer = null;
+  }
+
+  #cancelPhaseAdvance(): void {
+    if (this.#phaseTimer !== null) window.clearTimeout(this.#phaseTimer);
+    this.#phaseTimer = null;
   }
 }

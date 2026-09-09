@@ -10,38 +10,49 @@ const sourceLevel = getLevel(0);
 
 function validPack(): unknown {
   return {
-    schemaVersion: 4,
+    schemaVersion: 5,
     pieceSets: {
       test: sourceLevel.pieces,
+    },
+    pictures: {
+      test: {
+        title: 'Test picture',
+        instruction: 'Recreate the sample',
+        sampleAlt: 'Test sample',
+        target: sourceLevel.phases[0]?.target,
+      },
     },
     levels: [
       {
         id: 1,
         gridSize: 10,
         pieceSet: 'test',
-        title: 'Test level',
-        instruction: 'Recreate the sample',
-        sampleAlt: 'Test sample',
-        initialPlacements: sourceLevel.initialPlacements,
-        target: sourceLevel.target,
+        phases: sourceLevel.phases.map((phase) => ({
+          id: phase.id,
+          picture: 'test',
+          initialPlacements: phase.initialPlacements,
+        })),
       },
     ],
   };
 }
 
 describe('level pack', () => {
-  it('ships nine distinct, playable 10x10 levels', () => {
+  it('ships nine playable 10x10 levels with three pictures each', () => {
     const levels = getAllLevels();
 
     expect(levels).toHaveLength(9);
-    expect(new Set(levels.map((level) => JSON.stringify(level.target))).size).toBe(9);
+    expect(new Set(levels.flatMap((level) => level.phases.map((phase) => JSON.stringify(phase.target)))).size).toBe(9);
 
     for (const level of levels) {
       expect(level.gridSize).toBe(10);
-      expect(level.target).toHaveLength(10);
-      expect(level.target.every((row) => row.length === 10)).toBe(true);
       expect(level.pieces).toHaveLength(6);
-      expect(level.initialPlacements).toHaveLength(6);
+      expect(level.phases).toHaveLength(3);
+      for (const phase of level.phases) {
+        expect(phase.target).toHaveLength(10);
+        expect(phase.target.every((row) => row.length === 10)).toBe(true);
+        expect(phase.initialPlacements).toHaveLength(6);
+      }
     }
   });
 
@@ -50,9 +61,10 @@ describe('level pack', () => {
     const secondRead = getLevel(0);
 
     expect(firstRead).not.toBe(secondRead);
-    expect(firstRead.target).not.toBe(secondRead.target);
     expect(firstRead.pieces).not.toBe(secondRead.pieces);
-    expect(firstRead.initialPlacements).not.toBe(secondRead.initialPlacements);
+    expect(firstRead.phases).not.toBe(secondRead.phases);
+    expect(firstRead.phases[0]?.target).not.toBe(secondRead.phases[0]?.target);
+    expect(firstRead.phases[0]?.initialPlacements).not.toBe(secondRead.phases[0]?.initialPlacements);
     expect(firstRead).toEqual(secondRead);
   });
 
@@ -67,7 +79,7 @@ describe('level pack', () => {
     const wrongSchema = validPack() as Record<string, unknown>;
     wrongSchema.schemaVersion = 2;
 
-    expect(() => parseLevelPack(wrongSchema, 1)).toThrow(/schemaVersion must be 4/);
+    expect(() => parseLevelPack(wrongSchema, 1)).toThrow(/schemaVersion must be 5/);
 
     const wrongGrid = validPack() as {
       levels: Array<Record<string, unknown>>;
@@ -95,18 +107,18 @@ describe('level pack', () => {
 
   it('rejects targets whose color inventory does not match the pieces', () => {
     const badInventory = validPack() as {
-      levels: Array<{ target: Array<Array<string | null>> }>;
+      pictures: { test: { target: Array<Array<string | null>> } };
     };
-    badInventory.levels[0]!.target[0]![0] = 'coral';
+    badInventory.pictures.test.target[0]![0] = 'coral';
 
     expect(() => parseLevelPack(badInventory, 1)).toThrow(/same number/);
   });
 
   it('rejects targets that have the right colors but cannot be tiled', () => {
     const unsolvable = validPack() as {
-      levels: Array<{ target: Array<Array<string | null>> }>;
+      pictures: { test: { target: Array<Array<string | null>> } };
     };
-    const target = unsolvable.levels[0]!.target;
+    const target = unsolvable.pictures.test.target;
 
     target[6]![4] = null;
     target[6]![5] = null;
@@ -118,5 +130,14 @@ describe('level pack', () => {
     target[9]![9] = 'purple';
 
     expect(() => parseLevelPack(unsolvable, 1)).toThrow(/cannot be tiled/);
+  });
+
+  it('rejects levels that do not contain exactly three phases', () => {
+    const wrongPhaseCount = validPack() as {
+      levels: Array<{ phases: unknown[] }>;
+    };
+    wrongPhaseCount.levels[0]!.phases.pop();
+
+    expect(() => parseLevelPack(wrongPhaseCount, 1)).toThrow(/exactly 3 phases/);
   });
 });

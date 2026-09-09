@@ -29,7 +29,7 @@ test.describe('Pixel Drop picture board', () => {
     await expect(testId(page, 'pixel-drop-board').getByRole('gridcell')).toHaveCount(100);
     await expect(page.getByRole('img', { name: /Образец: домик/ })).toBeVisible();
     await expect(page.locator('.pixel-drop-board-cell.occupied')).toHaveCount(24);
-    await expect(testId(page, 'pixel-drop-progress')).toHaveText('6 фигур на поле');
+    await expect(testId(page, 'pixel-drop-progress')).toHaveText('Картинка 1 из 3');
     await expect(page.getByText('Перетаскивай или меняй фигуры местами')).toBeVisible();
   });
 
@@ -73,7 +73,7 @@ test.describe('Pixel Drop picture board', () => {
     await expect(page.locator('.pixel-drop-board-cell.occupied')).toHaveCount(24);
   });
 
-  test('completes the exact house sample', async ({ page }) => {
+  test('moves to the second picture after completing the first', async ({ page }) => {
     await openFirstLevel(page);
     await movePiece(page, 0, 6, 2, 4);
     await movePiece(page, 4, 0, 7, 3);
@@ -82,8 +82,10 @@ test.describe('Pixel Drop picture board', () => {
     await movePiece(page, 0, 0, 5, 3);
     await movePiece(page, 8, 0, 5, 4);
 
-    await expect(testId(page, 'pixel-drop-progress')).toHaveText('Готово!');
-    await expect(testId(page, 'win-popup')).toBeVisible();
+    await expect(testId(page, 'pixel-drop-progress')).toHaveText('Картинка 1 из 3 готова!');
+    await expect(testId(page, 'win-popup')).not.toBeVisible();
+    await expect(testId(page, 'pixel-drop-progress')).toHaveText('Картинка 2 из 3');
+    await expect(page.getByRole('img', { name: /Образец второго уровня/ })).toBeVisible();
   });
 
   test('completes the same picture anywhere on the field', async ({ page }) => {
@@ -95,6 +97,7 @@ test.describe('Pixel Drop picture board', () => {
     await movePiece(page, 8, 7, 1, 3);
     await movePiece(page, 8, 0, 3, 2);
 
-    await expect(testId(page, 'win-popup')).toBeVisible();
+    await expect(testId(page, 'pixel-drop-progress')).toHaveText('Картинка 2 из 3');
+    await expect(testId(page, 'win-popup')).not.toBeVisible();
   });
 });

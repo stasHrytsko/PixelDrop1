@@ -7,6 +7,9 @@ export class PixelDropView {
   readonly #root: HTMLElement;
   readonly #board: HTMLElement;
   readonly #progress: HTMLElement;
+  readonly #title: HTMLElement;
+  readonly #instruction: HTMLElement;
+  readonly #sample: HTMLElement;
   readonly #boardCells: readonly HTMLButtonElement[];
   readonly #effectTimers = new Set<number>();
 
@@ -16,6 +19,9 @@ export class PixelDropView {
     this.#root = built.root;
     this.#board = built.board;
     this.#progress = built.progress;
+    this.#title = built.title;
+    this.#instruction = built.instruction;
+    this.#sample = built.sample;
     this.#boardCells = built.boardCells;
   }
 
@@ -34,8 +40,24 @@ export class PixelDropView {
   }
 
   render(state: LevelState): void {
-    this.#progress.textContent = state.gameState === 'won' ? 'Готово!' : String(state.pieces.length) + ' фигур на поле';
-    this.#board.classList.toggle('won', state.gameState === 'won');
+    const phase = state.phases[state.phaseIndex];
+    if (phase === undefined) return;
+    const phaseNumber = state.phaseIndex + 1;
+    const phaseCount = state.phases.length;
+    this.#title.textContent = phase.title;
+    this.#instruction.textContent = phase.instruction;
+    this.#sample.setAttribute('aria-label', phase.sampleAlt);
+    phase.target.flat().forEach((color, index) => {
+      const cell = this.#sample.children.item(index);
+      if (cell instanceof HTMLElement) cell.className = color ?? '';
+    });
+    this.#progress.textContent =
+      state.gameState === 'won'
+        ? String(phaseCount) + ' из ' + String(phaseCount) + ' — готово!'
+        : state.gameState === 'phase_complete'
+          ? 'Картинка ' + String(phaseNumber) + ' из ' + String(phaseCount) + ' готова!'
+          : 'Картинка ' + String(phaseNumber) + ' из ' + String(phaseCount);
+    this.#board.classList.toggle('won', state.gameState !== 'playing');
 
     this.#boardCells.forEach((button, index) => {
       const row = Math.floor(index / GRID_SIZE);
@@ -106,6 +128,9 @@ export class PixelDropView {
     root: HTMLElement;
     board: HTMLElement;
     progress: HTMLElement;
+    title: HTMLElement;
+    instruction: HTMLElement;
+    sample: HTMLElement;
     boardCells: readonly HTMLButtonElement[];
   } {
     const root = document.createElement('article');
@@ -113,7 +138,8 @@ export class PixelDropView {
     root.style.setProperty('--size', String(GRID_SIZE));
     root.dataset['testid'] = 'pixel-drop-app';
 
-    root.append(this.#buildIntro());
+    const intro = this.#buildIntro();
+    root.append(intro.element);
 
     const card = createDiv('pixel-drop-board-card');
     card.dataset['testid'] = 'pixel-drop-board-card';
@@ -151,37 +177,42 @@ export class PixelDropView {
     root.append(card);
     root.append(this.#buildFooter());
 
-    return { root, board, progress, boardCells };
+    return {
+      root,
+      board,
+      progress,
+      title: intro.title,
+      instruction: intro.instruction,
+      sample: intro.sample,
+      boardCells,
+    };
   }
 
-  #buildIntro(): HTMLElement {
+  #buildIntro(): { element: HTMLElement; title: HTMLElement; instruction: HTMLElement; sample: HTMLElement } {
     const intro = document.createElement('section');
     intro.className = 'pixel-drop-intro';
     const copy = createDiv('pixel-drop-intro__copy');
     const title = document.createElement('h1');
-    title.textContent = this.#level.title;
     const instruction = document.createElement('p');
     instruction.className = 'pixel-drop-instruction';
-    instruction.textContent = this.#level.instruction;
     copy.append(title, instruction);
-    intro.append(copy, this.#buildSample());
-    return intro;
+    const sampleBox = this.#buildSample();
+    intro.append(copy, sampleBox.box);
+    return { element: intro, title, instruction, sample: sampleBox.sample };
   }
 
-  #buildSample(): HTMLElement {
+  #buildSample(): { box: HTMLElement; sample: HTMLElement } {
     const box = createDiv('pixel-drop-sample-box');
     const sample = createDiv('pixel-drop-sample');
     sample.setAttribute('role', 'img');
-    sample.setAttribute('aria-label', this.#level.sampleAlt);
-    this.#level.target.flat().forEach((color) => {
+    for (let index = 0; index < GRID_SIZE * GRID_SIZE; index += 1) {
       const cell = document.createElement('span');
-      if (color !== null) cell.className = color;
       sample.append(cell);
-    });
+    }
     const label = document.createElement('span');
     label.textContent = 'ОБРАЗЕЦ';
     box.append(sample, label);
-    return box;
+    return { box, sample };
   }
 
   #buildFooter(): HTMLElement {

@@ -1,65 +1,137 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "pieceSets": {
     "classic-six": [
       {
         "id": "j-mixed",
         "label": "J",
         "cells": [
-          { "offset": [0, 0], "color": "rose" },
-          { "offset": [1, 0], "color": "rose" },
-          { "offset": [1, 1], "color": "purple" },
-          { "offset": [1, 2], "color": "purple" }
+          {
+            "offset": [0, 0],
+            "color": "rose"
+          },
+          {
+            "offset": [1, 0],
+            "color": "rose"
+          },
+          {
+            "offset": [1, 1],
+            "color": "purple"
+          },
+          {
+            "offset": [1, 2],
+            "color": "purple"
+          }
         ]
       },
       {
         "id": "o-coral",
         "label": "O",
         "cells": [
-          { "offset": [0, 0], "color": "coral" },
-          { "offset": [0, 1], "color": "coral" },
-          { "offset": [1, 0], "color": "coral" },
-          { "offset": [1, 1], "color": "coral" }
+          {
+            "offset": [0, 0],
+            "color": "coral"
+          },
+          {
+            "offset": [0, 1],
+            "color": "coral"
+          },
+          {
+            "offset": [1, 0],
+            "color": "coral"
+          },
+          {
+            "offset": [1, 1],
+            "color": "coral"
+          }
         ]
       },
       {
         "id": "i-mixed",
         "label": "I",
         "cells": [
-          { "offset": [0, 0], "color": "rose" },
-          { "offset": [0, 1], "color": "purple" },
-          { "offset": [0, 2], "color": "purple" },
-          { "offset": [0, 3], "color": "rose" }
+          {
+            "offset": [0, 0],
+            "color": "rose"
+          },
+          {
+            "offset": [0, 1],
+            "color": "purple"
+          },
+          {
+            "offset": [0, 2],
+            "color": "purple"
+          },
+          {
+            "offset": [0, 3],
+            "color": "rose"
+          }
         ]
       },
       {
         "id": "t-coral-a",
         "label": "T",
         "cells": [
-          { "offset": [0, 1], "color": "coral" },
-          { "offset": [1, 0], "color": "coral" },
-          { "offset": [1, 1], "color": "coral" },
-          { "offset": [1, 2], "color": "coral" }
+          {
+            "offset": [0, 1],
+            "color": "coral"
+          },
+          {
+            "offset": [1, 0],
+            "color": "coral"
+          },
+          {
+            "offset": [1, 1],
+            "color": "coral"
+          },
+          {
+            "offset": [1, 2],
+            "color": "coral"
+          }
         ]
       },
       {
         "id": "j-rose",
         "label": "J",
         "cells": [
-          { "offset": [0, 0], "color": "rose" },
-          { "offset": [0, 1], "color": "rose" },
-          { "offset": [0, 2], "color": "rose" },
-          { "offset": [1, 2], "color": "rose" }
+          {
+            "offset": [0, 0],
+            "color": "rose"
+          },
+          {
+            "offset": [0, 1],
+            "color": "rose"
+          },
+          {
+            "offset": [0, 2],
+            "color": "rose"
+          },
+          {
+            "offset": [1, 2],
+            "color": "rose"
+          }
         ]
       },
       {
         "id": "t-coral-b",
         "label": "T",
         "cells": [
-          { "offset": [0, 1], "color": "coral" },
-          { "offset": [1, 0], "color": "coral" },
-          { "offset": [1, 1], "color": "coral" },
-          { "offset": [1, 2], "color": "coral" }
+          {
+            "offset": [0, 1],
+            "color": "coral"
+          },
+          {
+            "offset": [1, 0],
+            "color": "coral"
+          },
+          {
+            "offset": [1, 1],
+            "color": "coral"
+          },
+          {
+            "offset": [1, 2],
+            "color": "coral"
+          }
         ]
       }
     ]
@@ -69,17 +141,1043 @@
       "id": 1,
       "gridSize": 10,
       "pieceSet": "classic-six",
+      "phases": [
+        {
+          "id": 1,
+          "picture": "picture-1",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "picture": "picture-2",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "picture": "picture-3",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "gridSize": 10,
+      "pieceSet": "classic-six",
+      "phases": [
+        {
+          "id": 1,
+          "picture": "picture-2",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "picture": "picture-3",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "picture": "picture-4",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "gridSize": 10,
+      "pieceSet": "classic-six",
+      "phases": [
+        {
+          "id": 1,
+          "picture": "picture-3",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "picture": "picture-4",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "picture": "picture-5",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "gridSize": 10,
+      "pieceSet": "classic-six",
+      "phases": [
+        {
+          "id": 1,
+          "picture": "picture-4",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "picture": "picture-5",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "picture": "picture-6",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "gridSize": 10,
+      "pieceSet": "classic-six",
+      "phases": [
+        {
+          "id": 1,
+          "picture": "picture-5",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "picture": "picture-6",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "picture": "picture-7",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "gridSize": 10,
+      "pieceSet": "classic-six",
+      "phases": [
+        {
+          "id": 1,
+          "picture": "picture-6",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "picture": "picture-7",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "picture": "picture-8",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "gridSize": 10,
+      "pieceSet": "classic-six",
+      "phases": [
+        {
+          "id": 1,
+          "picture": "picture-7",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "picture": "picture-8",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "picture": "picture-9",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "gridSize": 10,
+      "pieceSet": "classic-six",
+      "phases": [
+        {
+          "id": 1,
+          "picture": "picture-8",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "picture": "picture-9",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "picture": "picture-1",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "gridSize": 10,
+      "pieceSet": "classic-six",
+      "phases": [
+        {
+          "id": 1,
+          "picture": "picture-9",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "picture": "picture-1",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "picture": "picture-2",
+          "initialPlacements": [
+            {
+              "pieceId": "j-mixed",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "o-coral",
+              "row": 0,
+              "col": 6
+            },
+            {
+              "pieceId": "i-mixed",
+              "row": 4,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-a",
+              "row": 4,
+              "col": 6
+            },
+            {
+              "pieceId": "j-rose",
+              "row": 8,
+              "col": 0
+            },
+            {
+              "pieceId": "t-coral-b",
+              "row": 8,
+              "col": 6
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "pictures": {
+    "picture-1": {
       "title": "Теперь шесть деталей.",
       "instruction": "Собери такой же домик.",
       "sampleAlt": "Образец: домик с оранжевой крышей, розовыми стенами и фиолетовой дверью",
-      "initialPlacements": [
-        { "pieceId": "j-mixed", "row": 0, "col": 0 },
-        { "pieceId": "o-coral", "row": 0, "col": 6 },
-        { "pieceId": "i-mixed", "row": 4, "col": 0 },
-        { "pieceId": "t-coral-a", "row": 4, "col": 6 },
-        { "pieceId": "j-rose", "row": 8, "col": 0 },
-        { "pieceId": "t-coral-b", "row": 8, "col": 6 }
-      ],
       "target": [
         [null, null, null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null, null, null],
@@ -93,21 +1191,10 @@
         [null, null, null, null, null, null, null, null, null, null]
       ]
     },
-    {
-      "id": 2,
-      "gridSize": 10,
-      "pieceSet": "classic-six",
+    "picture-2": {
       "title": "Сложи первый силуэт.",
       "instruction": "Начни с верхнего ряда.",
       "sampleAlt": "Образец второго уровня",
-      "initialPlacements": [
-        { "pieceId": "j-mixed", "row": 0, "col": 0 },
-        { "pieceId": "o-coral", "row": 0, "col": 6 },
-        { "pieceId": "i-mixed", "row": 4, "col": 0 },
-        { "pieceId": "t-coral-a", "row": 4, "col": 6 },
-        { "pieceId": "j-rose", "row": 8, "col": 0 },
-        { "pieceId": "t-coral-b", "row": 8, "col": 6 }
-      ],
       "target": [
         [null, null, null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null, null, null],
@@ -121,21 +1208,10 @@
         [null, null, null, null, null, null, null, null, null, null]
       ]
     },
-    {
-      "id": 3,
-      "gridSize": 10,
-      "pieceSet": "classic-six",
+    "picture-3": {
       "title": "Цвета меняют направление.",
       "instruction": "Сверяй край каждой фигуры.",
       "sampleAlt": "Образец третьего уровня",
-      "initialPlacements": [
-        { "pieceId": "j-mixed", "row": 0, "col": 0 },
-        { "pieceId": "o-coral", "row": 0, "col": 6 },
-        { "pieceId": "i-mixed", "row": 4, "col": 0 },
-        { "pieceId": "t-coral-a", "row": 4, "col": 6 },
-        { "pieceId": "j-rose", "row": 8, "col": 0 },
-        { "pieceId": "t-coral-b", "row": 8, "col": 6 }
-      ],
       "target": [
         [null, null, null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null, null, null],
@@ -149,21 +1225,10 @@
         [null, null, null, null, null, null, null, null, null, null]
       ]
     },
-    {
-      "id": 4,
-      "gridSize": 10,
-      "pieceSet": "classic-six",
+    "picture-4": {
       "title": "Заполни середину.",
       "instruction": "Длинная фигура связывает половины.",
       "sampleAlt": "Образец четвёртого уровня",
-      "initialPlacements": [
-        { "pieceId": "j-mixed", "row": 0, "col": 0 },
-        { "pieceId": "o-coral", "row": 0, "col": 6 },
-        { "pieceId": "i-mixed", "row": 4, "col": 0 },
-        { "pieceId": "t-coral-a", "row": 4, "col": 6 },
-        { "pieceId": "j-rose", "row": 8, "col": 0 },
-        { "pieceId": "t-coral-b", "row": 8, "col": 6 }
-      ],
       "target": [
         [null, null, null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null, null, null],
@@ -177,21 +1242,10 @@
         [null, null, null, null, null, null, null, null, null, null]
       ]
     },
-    {
-      "id": 5,
-      "gridSize": 10,
-      "pieceSet": "classic-six",
+    "picture-5": {
       "title": "Две стороны.",
       "instruction": "Собери рисунок сверху вниз.",
       "sampleAlt": "Образец пятого уровня",
-      "initialPlacements": [
-        { "pieceId": "j-mixed", "row": 0, "col": 0 },
-        { "pieceId": "o-coral", "row": 0, "col": 6 },
-        { "pieceId": "i-mixed", "row": 4, "col": 0 },
-        { "pieceId": "t-coral-a", "row": 4, "col": 6 },
-        { "pieceId": "j-rose", "row": 8, "col": 0 },
-        { "pieceId": "t-coral-b", "row": 8, "col": 6 }
-      ],
       "target": [
         [null, null, null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null, null, null],
@@ -205,21 +1259,10 @@
         [null, null, null, null, null, null, null, null, null, null]
       ]
     },
-    {
-      "id": 6,
-      "gridSize": 10,
-      "pieceSet": "classic-six",
+    "picture-6": {
       "title": "Почти симметрия.",
       "instruction": "Отличие спрятано в нижнем ряду.",
       "sampleAlt": "Образец шестого уровня",
-      "initialPlacements": [
-        { "pieceId": "j-mixed", "row": 0, "col": 0 },
-        { "pieceId": "o-coral", "row": 0, "col": 6 },
-        { "pieceId": "i-mixed", "row": 4, "col": 0 },
-        { "pieceId": "t-coral-a", "row": 4, "col": 6 },
-        { "pieceId": "j-rose", "row": 8, "col": 0 },
-        { "pieceId": "t-coral-b", "row": 8, "col": 6 }
-      ],
       "target": [
         [null, null, null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null, null, null],
@@ -233,21 +1276,10 @@
         [null, null, null, null, null, null, null, null, null, null]
       ]
     },
-    {
-      "id": 7,
-      "gridSize": 10,
-      "pieceSet": "classic-six",
+    "picture-7": {
       "title": "Собери башню.",
       "instruction": "Опирайся на центральную полосу.",
       "sampleAlt": "Образец седьмого уровня",
-      "initialPlacements": [
-        { "pieceId": "j-mixed", "row": 0, "col": 0 },
-        { "pieceId": "o-coral", "row": 0, "col": 6 },
-        { "pieceId": "i-mixed", "row": 4, "col": 0 },
-        { "pieceId": "t-coral-a", "row": 4, "col": 6 },
-        { "pieceId": "j-rose", "row": 8, "col": 0 },
-        { "pieceId": "t-coral-b", "row": 8, "col": 6 }
-      ],
       "target": [
         [null, null, null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null, null, null],
@@ -261,21 +1293,10 @@
         [null, null, null, null, null, null, null, null, null, null]
       ]
     },
-    {
-      "id": 8,
-      "gridSize": 10,
-      "pieceSet": "classic-six",
+    "picture-8": {
       "title": "Последние повороты.",
       "instruction": "Фигуры не вращаются — ищи их контур.",
       "sampleAlt": "Образец восьмого уровня",
-      "initialPlacements": [
-        { "pieceId": "j-mixed", "row": 0, "col": 0 },
-        { "pieceId": "o-coral", "row": 0, "col": 6 },
-        { "pieceId": "i-mixed", "row": 4, "col": 0 },
-        { "pieceId": "t-coral-a", "row": 4, "col": 6 },
-        { "pieceId": "j-rose", "row": 8, "col": 0 },
-        { "pieceId": "t-coral-b", "row": 8, "col": 6 }
-      ],
       "target": [
         [null, null, null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null, null, null],
@@ -289,21 +1310,10 @@
         [null, null, null, null, null, null, null, null, null, null]
       ]
     },
-    {
-      "id": 9,
-      "gridSize": 10,
-      "pieceSet": "classic-six",
+    "picture-9": {
       "title": "Финальный рисунок.",
       "instruction": "Собери все шесть деталей.",
       "sampleAlt": "Образец девятого уровня",
-      "initialPlacements": [
-        { "pieceId": "j-mixed", "row": 0, "col": 0 },
-        { "pieceId": "o-coral", "row": 0, "col": 6 },
-        { "pieceId": "i-mixed", "row": 4, "col": 0 },
-        { "pieceId": "t-coral-a", "row": 4, "col": 6 },
-        { "pieceId": "j-rose", "row": 8, "col": 0 },
-        { "pieceId": "t-coral-b", "row": 8, "col": 6 }
-      ],
       "target": [
         [null, null, null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null, null, null],
@@ -317,5 +1327,5 @@
         [null, null, null, null, null, null, null, null, null, null]
       ]
     }
-  ]
+  }
 }

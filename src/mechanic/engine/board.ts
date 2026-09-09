@@ -1,7 +1,7 @@
 import {
   GRID_SIZE,
   type Cell,
-  type LevelConfig,
+  type LevelPhaseConfig,
   type LevelState,
   type Piece,
   type Placement,
@@ -85,7 +85,7 @@ export function createGridFromPlacements(
 
 export function gridMatchesTarget(
   grid: readonly (readonly (Cell | null)[])[],
-  target: LevelConfig['target'],
+  target: LevelPhaseConfig['target'],
 ): boolean {
   const gridCells = grid.flatMap((row, rowIndex) =>
     row.flatMap((cell, colIndex) =>

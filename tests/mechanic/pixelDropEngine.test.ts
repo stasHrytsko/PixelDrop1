@@ -15,7 +15,11 @@ function place(state: LevelState, piece: string, row: number, col: number): Leve
 }
 
 function solve(level: LevelConfig): LevelState {
-  let state = pixelDropEngine.create(level);
+  return solveFromState(level, pixelDropEngine.create(level));
+}
+
+function solveFromState(level: LevelConfig, initialState: LevelState): LevelState {
+  let state = initialState;
   state = place(state, pieceId(level, 'o-coral'), 2, 4);
   state = place(state, pieceId(level, 'i-mixed'), 7, 3);
   state = place(state, pieceId(level, 't-coral-a'), 3, 2);
@@ -97,18 +101,48 @@ describe('pixelDropEngine — picture mode', () => {
     expect(anchors).not.toContainEqual({ row: 0, col: 8 });
   });
 
-  it('wins only when the 10×10 board exactly matches the sample', () => {
+  it('completes the first picture when the 10×10 board exactly matches the sample', () => {
     const state = solve(level);
-    expect(state.gameState).toBe('won');
-    expect(pixelDropEngine.isComplete(state)).toBe(true);
-    expect(state.grid.map((row) => row.map((cell) => cell?.color ?? null))).toEqual(level.target);
+    expect(state.gameState).toBe('phase_complete');
+    expect(pixelDropEngine.isComplete(state)).toBe(false);
+    expect(state.grid.map((row) => row.map((cell) => cell?.color ?? null))).toEqual(level.phases[0]?.target);
   });
 
-  it('wins when the same colored picture is assembled elsewhere on the board', () => {
+  it('completes a picture assembled elsewhere on the board', () => {
     const state = solveAtTopLeft(level);
 
+    expect(state.gameState).toBe('phase_complete');
+    expect(pixelDropEngine.isComplete(state)).toBe(false);
+    expect(state.grid.map((row) => row.map((cell) => cell?.color ?? null))).not.toEqual(level.phases[0]?.target);
+  });
+
+  it('advances through three pictures and wins only after the third', () => {
+    const firstPicture = level.phases[0];
+    if (firstPicture === undefined) throw new Error('Missing test phase.');
+    const repeatedLevel: LevelConfig = {
+      ...level,
+      phases: [
+        firstPicture,
+        { ...firstPicture, id: 2 },
+        { ...firstPicture, id: 3 },
+      ],
+    };
+
+    let state = solve(repeatedLevel);
+    expect(state.gameState).toBe('phase_complete');
+    expect(pixelDropEngine.isComplete(state)).toBe(false);
+
+    state = pixelDropEngine.apply(state, { type: 'advance_phase' });
+    expect(state.phaseIndex).toBe(1);
+    expect(state.gameState).toBe('playing');
+    state = solveFromState(repeatedLevel, state);
+    expect(state.gameState).toBe('phase_complete');
+
+    state = pixelDropEngine.apply(state, { type: 'advance_phase' });
+    expect(state.phaseIndex).toBe(2);
+    state = solveFromState(repeatedLevel, state);
     expect(state.gameState).toBe('won');
     expect(pixelDropEngine.isComplete(state)).toBe(true);
-    expect(state.grid.map((row) => row.map((cell) => cell?.color ?? null))).not.toEqual(level.target);
+    expect(pixelDropEngine.apply(state, { type: 'advance_phase' })).toBe(state);
   });
 });

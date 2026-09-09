@@ -7,32 +7,62 @@ import {
   gridMatchesTarget,
   isValidPlacement,
 } from './board.ts';
-import type { GameInput, LevelConfig, LevelState, MechanicEngine, Piece, Placement } from './types.ts';
+import type {
+  GameInput,
+  LevelConfig,
+  LevelPhaseConfig,
+  LevelState,
+  MechanicEngine,
+  Piece,
+  Placement,
+} from './types.ts';
 
 function createState(
   pieces: readonly Piece[],
   placements: readonly Placement[],
   selectedPieceId: string | null,
-  target: LevelConfig['target'],
+  phases: readonly LevelPhaseConfig[],
+  phaseIndex: number,
 ): LevelState {
+  const phase = phases[phaseIndex];
+  if (phase === undefined) throw new Error('Missing phase ' + String(phaseIndex + 1) + '.');
   const grid = createGridFromPlacements(pieces, placements);
+  const pictureComplete = gridMatchesTarget(grid, phase.target);
   return {
-    gameState: gridMatchesTarget(grid, target) ? 'won' : 'playing',
+    gameState: pictureComplete ? (phaseIndex === phases.length - 1 ? 'won' : 'phase_complete') : 'playing',
     grid,
     pieces,
     placements,
     selectedPieceId,
-    target,
+    target: phase.target,
+    phases,
+    phaseIndex,
   };
 }
 
 export const pixelDropEngine: MechanicEngine<LevelState, GameInput, LevelConfig> = {
   create(level: LevelConfig): LevelState {
-    return createState(level.pieces, level.initialPlacements, null, level.target);
+    const firstPhase = level.phases[0];
+    if (firstPhase === undefined) throw new Error('A level must contain at least one phase.');
+    return createState(level.pieces, firstPhase.initialPlacements, null, level.phases, 0);
   },
 
   apply(state: LevelState, input: GameInput): LevelState {
-    if (state.gameState === 'won') return state;
+    if (input.type === 'advance_phase') {
+      if (state.gameState !== 'phase_complete') return state;
+      const nextPhaseIndex = state.phaseIndex + 1;
+      const nextPhase = state.phases[nextPhaseIndex];
+      if (nextPhase === undefined) return state;
+      return createState(state.pieces, nextPhase.initialPlacements, null, state.phases, nextPhaseIndex);
+    }
+
+    if (input.type === 'restart_phase') {
+      const phase = state.phases[state.phaseIndex];
+      if (phase === undefined || state.gameState === 'won') return state;
+      return createState(state.pieces, phase.initialPlacements, null, state.phases, state.phaseIndex);
+    }
+
+    if (state.gameState !== 'playing') return state;
 
     switch (input.type) {
       case 'select_piece': {
@@ -66,7 +96,8 @@ export const pixelDropEngine: MechanicEngine<LevelState, GameInput, LevelConfig>
             state.pieces,
             [...otherPlacements, { pieceId: input.pieceId, row: input.row, col: input.col }],
             null,
-            state.target,
+            state.phases,
+            state.phaseIndex,
           );
         }
 
@@ -93,7 +124,7 @@ export const pixelDropEngine: MechanicEngine<LevelState, GameInput, LevelConfig>
         ];
         if (!canCreateGridFromPlacements(state.pieces, swappedPlacements)) return state;
 
-        return createState(state.pieces, swappedPlacements, null, state.target);
+        return createState(state.pieces, swappedPlacements, null, state.phases, state.phaseIndex);
       }
     }
   },
