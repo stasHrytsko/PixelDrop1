@@ -24,6 +24,16 @@ function solve(level: LevelConfig): LevelState {
   return place(state, pieceId(level, 'j-rose'), 5, 4);
 }
 
+function solveAtTopLeft(level: LevelConfig): LevelState {
+  let state = pixelDropEngine.create(level);
+  state = place(state, pieceId(level, 'i-mixed'), 5, 1);
+  state = place(state, pieceId(level, 'j-mixed'), 3, 1);
+  state = place(state, pieceId(level, 'o-coral'), 0, 2);
+  state = place(state, pieceId(level, 't-coral-a'), 1, 0);
+  state = place(state, pieceId(level, 't-coral-b'), 1, 3);
+  return place(state, pieceId(level, 'j-rose'), 3, 2);
+}
+
 describe('pixelDropEngine — picture mode', () => {
   const level = getLevel(0);
 
@@ -92,5 +102,13 @@ describe('pixelDropEngine — picture mode', () => {
     expect(state.gameState).toBe('won');
     expect(pixelDropEngine.isComplete(state)).toBe(true);
     expect(state.grid.map((row) => row.map((cell) => cell?.color ?? null))).toEqual(level.target);
+  });
+
+  it('wins when the same colored picture is assembled elsewhere on the board', () => {
+    const state = solveAtTopLeft(level);
+
+    expect(state.gameState).toBe('won');
+    expect(pixelDropEngine.isComplete(state)).toBe(true);
+    expect(state.grid.map((row) => row.map((cell) => cell?.color ?? null))).not.toEqual(level.target);
   });
 });

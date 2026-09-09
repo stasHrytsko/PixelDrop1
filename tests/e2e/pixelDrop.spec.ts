@@ -85,4 +85,16 @@ test.describe('Pixel Drop picture board', () => {
     await expect(testId(page, 'pixel-drop-progress')).toHaveText('Готово!');
     await expect(testId(page, 'win-popup')).toBeVisible();
   });
+
+  test('completes the same picture anywhere on the field', async ({ page }) => {
+    await openFirstLevel(page);
+    await movePiece(page, 4, 0, 5, 1);
+    await movePiece(page, 0, 0, 3, 1);
+    await movePiece(page, 0, 6, 0, 2);
+    await movePiece(page, 4, 7, 1, 0);
+    await movePiece(page, 8, 7, 1, 3);
+    await movePiece(page, 8, 0, 3, 2);
+
+    await expect(testId(page, 'win-popup')).toBeVisible();
+  });
 });

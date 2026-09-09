@@ -87,9 +87,32 @@ export function gridMatchesTarget(
   grid: readonly (readonly (Cell | null)[])[],
   target: LevelConfig['target'],
 ): boolean {
-  return target.every((row, rowIndex) =>
-    row.every((color, colIndex) => (grid[rowIndex]?.[colIndex]?.color ?? null) === color),
+  const gridCells = grid.flatMap((row, rowIndex) =>
+    row.flatMap((cell, colIndex) =>
+      cell === null ? [] : [{ row: rowIndex, col: colIndex, color: cell.color }],
+    ),
   );
+  const targetCells = target.flatMap((row, rowIndex) =>
+    row.flatMap((color, colIndex) =>
+      color === null ? [] : [{ row: rowIndex, col: colIndex, color }],
+    ),
+  );
+
+  if (gridCells.length !== targetCells.length || gridCells.length === 0) return false;
+
+  const signature = (
+    cells: readonly { readonly row: number; readonly col: number; readonly color: string }[],
+  ): string => {
+    const minRow = Math.min(...cells.map((cell) => cell.row));
+    const minCol = Math.min(...cells.map((cell) => cell.col));
+    return cells
+      .map((cell) => ({ ...cell, row: cell.row - minRow, col: cell.col - minCol }))
+      .sort((left, right) => left.row - right.row || left.col - right.col)
+      .map((cell) => String(cell.row) + ':' + String(cell.col) + ':' + cell.color)
+      .join('|');
+  };
+
+  return signature(gridCells) === signature(targetCells);
 }
 
 export function validAnchorsForPiece(state: LevelState, pieceId: string): { row: number; col: number }[] {
