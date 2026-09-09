@@ -4,6 +4,9 @@ Mobile puzzle game: DOM shell + isolated TypeScript mechanic + Capacitor.
 
 ## Architecture
 
+- `tech document.md` — canonical product and technical specification. Read it
+  before any product change and update it in the same commit; append every
+  shipped change to its change log.
 - `docs/architecture.md` — why the project is shaped this way. Read it once.
 - `docs/pixel-drop-architecture.md` — current mechanic layers and dependency flow.
 - `docs/decisions.md` — decisions taken while building, with their trade-offs.
@@ -78,3 +81,7 @@ Before coding: read the task, `docs/rules.md` and `src/shell-contract.ts`,
 present a short plan, flag ambiguities. After coding: run all checks, show the
 diff, state what is done and what is risky. Report failures with their output —
 never describe a red suite as green.
+
+For any gameplay, UI, level, progression, architecture, platform or product
+scope change, `tech document.md` must be updated in the same commit. Keep its
+current-state sections, versions, acceptance criteria and change log accurate.

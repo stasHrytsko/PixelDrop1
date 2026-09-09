@@ -20,7 +20,8 @@ src/mechanic/
 
 Направление зависимостей и правила добавления контента описаны в
 [`docs/pixel-drop-architecture.md`](./docs/pixel-drop-architecture.md). Правила
-игры находятся в [`docs/rules.md`](./docs/rules.md).
+игры находятся в [`docs/rules.md`](./docs/rules.md). Единая продуктовая и
+техническая спецификация ведётся в [`tech document.md`](./tech%20document.md).
 
 ## Запуск
 
