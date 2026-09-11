@@ -9,6 +9,8 @@ export function createMechanicHost(): MechanicHost {
       const game = new PixelDropGame({
         level: getLevel(params.levelIndex),
         onComplete: params.onComplete,
+        resumeState: params.resumeState,
+        onStateChange: params.onStateChange,
       });
       game.mount(params.container);
 

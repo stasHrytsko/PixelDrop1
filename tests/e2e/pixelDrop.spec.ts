@@ -1,103 +1,92 @@
-import { expect, test, type Locator, type Page } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+import type { LevelPhaseConfig, Piece, Placement } from '../../src/mechanic/engine/types.ts';
 import { openLevelSelect, testId } from './helpers.ts';
 
+interface RawPack {
+  pieceSets: Record<string, Piece[]>;
+  pictures: Record<string, Pick<LevelPhaseConfig, 'target'>>;
+  levels: Array<{ phases: Array<{ id: number; view: LevelPhaseConfig['view']; picture: string; pieceSet: string; initialPlacements: Placement[] }> }>;
+}
+const pack = JSON.parse(readFileSync(new URL('../../src/mechanic/levels/levels.json', import.meta.url), 'utf8')) as unknown as RawPack;
+const dogPhases: LevelPhaseConfig[] = pack.levels[0]!.phases.map((raw, index) => {
+  const prefix = 'l1p' + String(index + 1) + '-';
+  return {
+    id: raw.id, view: raw.view, pictureId: raw.picture, title: '', instruction: '', sampleAlt: '',
+    target: pack.pictures[raw.picture]!.target,
+    pieces: pack.pieceSets[raw.pieceSet]!.map((piece) => ({ ...piece, id: prefix + piece.id })),
+    initialPlacements: raw.initialPlacements.map((placement) => ({ ...placement, pieceId: prefix + placement.pieceId })),
+  };
+});
 async function openFirstLevel(page: Page): Promise<void> {
-  await openLevelSelect(page);
-  await testId(page, 'level-1').click();
-  await expect(testId(page, 'pixel-drop-board')).toBeVisible();
+  await openLevelSelect(page); await testId(page, 'level-1').click(); await expect(testId(page, 'pixel-drop-board')).toBeVisible();
+}
+async function move(page: Page, from: Placement, to: { row: number; col: number }): Promise<void> {
+  await testId(page, 'pixel-drop-cell-' + String(from.row) + '-' + String(from.col)).click();
+  await testId(page, 'pixel-drop-cell-' + String(to.row) + '-' + String(to.col)).click();
+}
+function matches(piece: Piece, phase: LevelPhaseConfig, row: number, col: number): boolean {
+  return piece.cells.every((cell) => phase.target[row + cell.offset[0]]?.[col + cell.offset[1]] === cell.color);
+}
+function desiredPlacements(phase: LevelPhaseConfig): Placement[] {
+  const used = new Set<string>();
+  return phase.pieces.map((piece) => {
+    for (let row = 0; row < 10; row += 2) for (let col = 0; col < 10; col += 2) {
+      const key = String(row) + ',' + String(col);
+      if (!used.has(key) && matches(piece, phase, row, col)) { used.add(key); return { pieceId: piece.id, row, col }; }
+    }
+    throw new Error('No solution anchor for ' + piece.id);
+  });
+}
+async function solvePhase(page: Page, phase: LevelPhaseConfig): Promise<void> {
+  const current = new Map(phase.initialPlacements.map((placement) => [placement.pieceId, { ...placement }]));
+  const desired = desiredPlacements(phase);
+  for (const target of desired) {
+    const from = current.get(target.pieceId)!;
+    if (from.row === target.row && from.col === target.col) continue;
+    const displaced = [...current.values()].find((placement) => placement.row === target.row && placement.col === target.col);
+    await move(page, from, target);
+    current.set(target.pieceId, { ...target });
+    if (displaced !== undefined) current.set(displaced.pieceId, { ...displaced, row: from.row, col: from.col });
+  }
 }
 
-async function movePiece(page: Page, fromRow: number, fromCol: number, row: number, col: number): Promise<void> {
-  await testId(page, 'pixel-drop-cell-' + String(fromRow) + '-' + String(fromCol)).click();
-  await testId(page, 'pixel-drop-cell-' + String(row) + '-' + String(col)).click();
-}
-
-async function dragBetween(page: Page, from: Locator, to: Locator): Promise<void> {
-  const [fromBox, toBox] = await Promise.all([from.boundingBox(), to.boundingBox()]);
-  if (fromBox === null || toBox === null) throw new Error('Drag endpoints must be visible.');
-
-  await page.mouse.move(fromBox.x + fromBox.width / 2, fromBox.y + fromBox.height / 2);
-  await page.mouse.down();
-  await page.mouse.move(toBox.x + toBox.width / 2, toBox.y + toBox.height / 2, { steps: 6 });
-  await page.mouse.up();
-}
-
-test.describe('Pixel Drop picture board', () => {
-  test('shows the sample above a spacious 10×10 board with every piece already placed', async ({ page }) => {
+test.describe('Pixel Drop dog level', () => {
+  test('shows a 10×10 board and the first unique set of 12 tetrominoes', async ({ page }) => {
     await openFirstLevel(page);
-
     await expect(testId(page, 'pixel-drop-board').getByRole('gridcell')).toHaveCount(100);
-    await expect(page.getByRole('img', { name: /Образец: домик/ })).toBeVisible();
-    await expect(page.locator('.pixel-drop-board-cell.occupied')).toHaveCount(24);
+    await expect(page.getByRole('img', { name: /Первая проекция/ })).toBeVisible();
+    await expect(page.locator('.pixel-drop-board-cell.occupied')).toHaveCount(48);
     await expect(testId(page, 'pixel-drop-progress')).toHaveText('Картинка 1 из 3');
-    await expect(page.getByText('Перетаскивай или меняй фигуры местами')).toBeVisible();
   });
 
-  test('moves a piece and restores the initial field on restart', async ({ page }) => {
+  test('restores an unfinished arrangement after reload', async ({ page }) => {
     await openFirstLevel(page);
-    await movePiece(page, 0, 6, 2, 4);
-    await expect(testId(page, 'pixel-drop-cell-0-6')).not.toHaveClass(/occupied/);
-    await expect(testId(page, 'pixel-drop-cell-2-4')).toHaveClass(/occupied/);
-    await expect(page.locator('.pixel-drop-board-cell.occupied')).toHaveCount(24);
+    const first = dogPhases[0]!.initialPlacements[0]!;
+    await move(page, first, { row: 8, col: 8 });
+    await expect(testId(page, 'pixel-drop-cell-8-8')).toHaveClass(/occupied/);
+    await page.reload();
+    await testId(page, 'continue-level').click();
+    await expect(testId(page, 'pixel-drop-cell-8-8')).toHaveClass(/occupied/);
+  });
 
+  test('restart restores the phase-specific starting arrangement', async ({ page }) => {
+    await openFirstLevel(page);
+    const first = dogPhases[0]!.initialPlacements[0]!;
+    await move(page, first, { row: 8, col: 8 });
     await testId(page, 'pixel-drop-restart').click();
-    await expect(testId(page, 'pixel-drop-cell-0-6')).toHaveClass(/occupied/);
-    await expect(testId(page, 'pixel-drop-cell-2-4')).not.toHaveClass(/occupied/);
+    await expect(testId(page, 'pixel-drop-cell-' + String(first.row) + '-' + String(first.col))).toHaveClass(/occupied/);
   });
 
-  test('drags field pieces without partial placement', async ({ page }) => {
+  test('reveals a rotatable 3D dog only after all three projections', async ({ page }) => {
     await openFirstLevel(page);
-    const occupiedCells = page.locator('.pixel-drop-board-cell.occupied');
-
-    await dragBetween(page, testId(page, 'pixel-drop-cell-0-0'), testId(page, 'pixel-drop-cell-9-9'));
-    await expect(occupiedCells).toHaveCount(24);
-    await expect(testId(page, 'pixel-drop-cell-0-0')).toHaveClass(/occupied/);
-
-    await dragBetween(page, testId(page, 'pixel-drop-cell-0-0'), testId(page, 'pixel-drop-cell-2-0'));
-    await expect(occupiedCells).toHaveCount(24);
-    await expect(testId(page, 'pixel-drop-cell-0-0')).not.toHaveClass(/occupied/);
-    await expect(testId(page, 'pixel-drop-cell-2-0')).toHaveClass(/occupied/);
-
-    await dragBetween(page, testId(page, 'pixel-drop-cell-3-2'), testId(page, 'pixel-drop-cell-7-6'));
-    await expect(testId(page, 'pixel-drop-cell-2-0')).not.toHaveClass(/occupied/);
-    await expect(testId(page, 'pixel-drop-cell-6-4')).toHaveClass(/occupied/);
-    await expect(occupiedCells).toHaveCount(24);
-  });
-
-  test('swaps two figures when one is dragged onto another', async ({ page }) => {
-    await openFirstLevel(page);
-
-    await dragBetween(page, testId(page, 'pixel-drop-cell-0-0'), testId(page, 'pixel-drop-cell-0-6'));
-    await expect(testId(page, 'pixel-drop-cell-0-0')).toHaveClass(/coral/);
-    await expect(testId(page, 'pixel-drop-cell-0-6')).toHaveClass(/rose/);
-    await expect(page.locator('.pixel-drop-board-cell.occupied')).toHaveCount(24);
-  });
-
-  test('moves to the second picture after completing the first', async ({ page }) => {
-    await openFirstLevel(page);
-    await movePiece(page, 0, 6, 2, 4);
-    await movePiece(page, 4, 0, 7, 3);
-    await movePiece(page, 4, 7, 3, 2);
-    await movePiece(page, 8, 7, 3, 5);
-    await movePiece(page, 0, 0, 5, 3);
-    await movePiece(page, 8, 0, 5, 4);
-
-    await expect(testId(page, 'pixel-drop-progress')).toHaveText('Картинка 1 из 3 готова!');
+    for (let index = 0; index < 3; index += 1) {
+      await solvePhase(page, dogPhases[index]!);
+      if (index < 2) await expect(testId(page, 'pixel-drop-progress')).toHaveText('Картинка ' + String(index + 2) + ' из 3');
+    }
+    await expect(testId(page, 'voxel-reveal')).toBeVisible();
     await expect(testId(page, 'win-popup')).not.toBeVisible();
-    await expect(testId(page, 'pixel-drop-progress')).toHaveText('Картинка 2 из 3');
-    await expect(page.getByRole('img', { name: /Образец второго уровня/ })).toBeVisible();
-  });
-
-  test('completes the same picture anywhere on the field', async ({ page }) => {
-    await openFirstLevel(page);
-    await movePiece(page, 4, 0, 5, 1);
-    await movePiece(page, 0, 0, 3, 1);
-    await movePiece(page, 0, 6, 0, 2);
-    await movePiece(page, 4, 7, 1, 0);
-    await movePiece(page, 8, 7, 1, 3);
-    await movePiece(page, 8, 0, 3, 2);
-
-    await expect(testId(page, 'pixel-drop-progress')).toHaveText('Картинка 2 из 3');
-    await expect(testId(page, 'win-popup')).not.toBeVisible();
+    await testId(page, 'voxel-continue').click();
+    await expect(testId(page, 'win-popup')).toBeVisible();
   });
 });

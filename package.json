@@ -32,12 +32,14 @@
     "@capacitor/app": "8.1.1",
     "@capacitor/core": "8.5.0",
     "@capacitor/preferences": "8.0.1",
-    "phaser": "4.2.1"
+    "phaser": "4.2.1",
+    "three": "^0.180.0"
   },
   "devDependencies": {
     "@capacitor/cli": "8.5.0",
     "@eslint/js": "10.0.1",
     "@playwright/test": "1.62.1",
+    "@types/three": "^0.180.0",
     "eslint": "10.9.1",
     "globals": "17.11.0",
     "jsdom": "29.1.1",

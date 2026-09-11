@@ -14,9 +14,11 @@ export interface ProgressState {
   readonly completedLevels: readonly number[];
   /** The "Ещё?" popup has already been shown — never ask twice. */
   readonly moreAsked: boolean;
+  /** One resumable mechanic session; its snapshot remains opaque to the shell. */
+  readonly activeLevel: { readonly levelIndex: number; readonly snapshot: unknown } | null;
 }
 
-export const PROGRESS_SCHEMA_VERSION = 1;
+export const PROGRESS_SCHEMA_VERSION = 2;
 
 export interface ProgressRepository {
   load(): Promise<ProgressState>;
@@ -30,6 +32,7 @@ export function emptyProgress(): ProgressState {
     onboardingVersion: 0,
     completedLevels: [],
     moreAsked: false,
+    activeLevel: null,
   };
 }
 
@@ -45,6 +48,13 @@ export function parseProgress(raw: unknown): ProgressState | null {
   if (candidate['schemaVersion'] !== PROGRESS_SCHEMA_VERSION) return null;
   if (typeof candidate['onboardingVersion'] !== 'number') return null;
   if (typeof candidate['moreAsked'] !== 'boolean') return null;
+  const active = candidate['activeLevel'];
+  if (active !== null && (
+    typeof active !== 'object' ||
+    !Number.isInteger((active as Record<string, unknown>)['levelIndex']) ||
+    (active as Record<string, unknown>)['levelIndex'] as number < 0 ||
+    !Object.prototype.hasOwnProperty.call(active, 'snapshot')
+  )) return null;
 
   const levels = candidate['completedLevels'];
   if (!Array.isArray(levels)) return null;
@@ -57,6 +67,10 @@ export function parseProgress(raw: unknown): ProgressState | null {
     onboardingVersion: candidate['onboardingVersion'],
     completedLevels: [...new Set(levels)].sort((a, b) => a - b),
     moreAsked: candidate['moreAsked'],
+    activeLevel: active === null ? null : {
+      levelIndex: (active as Record<string, unknown>)['levelIndex'] as number,
+      snapshot: (active as Record<string, unknown>)['snapshot'],
+    },
   };
 }
 
@@ -88,6 +102,15 @@ export function withOnboardingSeen(state: ProgressState, onboardingVersion: numb
 export function withMoreAsked(state: ProgressState): ProgressState {
   if (state.moreAsked) return state;
   return { ...state, moreAsked: true };
+}
+
+export function withActiveLevel(state: ProgressState, levelIndex: number, snapshot: unknown): ProgressState {
+  return { ...state, activeLevel: { levelIndex, snapshot } };
+}
+
+export function withoutActiveLevel(state: ProgressState, levelIndex?: number): ProgressState {
+  if (state.activeLevel === null || (levelIndex !== undefined && state.activeLevel.levelIndex !== levelIndex)) return state;
+  return { ...state, activeLevel: null };
 }
 
 export function allLevelsCompleted(state: ProgressState, levelCount: number): boolean {

@@ -157,3 +157,12 @@ There is deliberately **no** test-only sink, query flag or `window` hook in
 production code. **Cost:** the test knows `@capacitor/preferences` stores under
 `CapacitorStorage.<key>` in the browser, used to seed progress in one test.
 That coupling is documented at the constant.
+## D-011 — Resumable mechanic snapshot в shell contract
+
+**Дата:** 12 сентября 2026
+**Статус:** принято
+
+`CreateLevelParams` расширен полями `resumeState` и `onStateChange`. Shell не
+интерпретирует данные игры: он хранит один JSON-safe snapshot как `unknown`, а
+валидирует и восстанавливает его mechanic. Это позволяет сохранять каждый ход,
+не связывая переиспользуемую оболочку с правилами Pixel Drop.

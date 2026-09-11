@@ -5,6 +5,7 @@ import { staticScreen, type Screen } from '../Screen.ts';
 export interface MainMenuHandlers {
   onPlay: () => void;
   onShowRules: () => void;
+  onContinue?: () => void;
 }
 
 export function MainMenu(game: GameDefinition, handlers: MainMenuHandlers): Screen {
@@ -15,6 +16,7 @@ export function MainMenu(game: GameDefinition, handlers: MainMenuHandlers): Scre
     ]),
     el('div', { className: 'screen__spacer' }),
     el('div', { className: 'popup__actions' }, [
+      ...(handlers.onContinue === undefined ? [] : [button({ text: 'Продолжить уровень', variant: 'primary', testId: 'continue-level', onClick: handlers.onContinue })]),
       button({ text: 'Выбрать уровень', variant: 'primary', testId: 'play', onClick: handlers.onPlay }),
       button({ text: 'Как играть', variant: 'ghost', testId: 'show-rules', onClick: handlers.onShowRules }),
     ]),

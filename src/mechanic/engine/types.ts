@@ -6,7 +6,15 @@ export interface MechanicEngine<TState, TInput, TLevel> {
 
 export type GameState = 'playing' | 'phase_complete' | 'won';
 
-export type ColorId = 'coral' | 'rose' | 'purple';
+export type ColorId =
+  | 'coral'
+  | 'rose'
+  | 'purple'
+  | 'tan'
+  | 'brown'
+  | 'black'
+  | 'white'
+  | 'red';
 
 export interface Cell {
   readonly color: ColorId;
@@ -32,16 +40,35 @@ export interface Placement {
 }
 
 export const GRID_SIZE = 10;
-export const PIECE_COUNT = 6;
+export const MIN_PIECE_COUNT = 1;
+export const MAX_PIECE_COUNT = 13;
 export const PHASE_COUNT = 3;
+
+export type VoxelView = 'front' | 'side' | 'bottom';
+
+export interface Voxel {
+  readonly x: number;
+  readonly y: number;
+  readonly z: number;
+  readonly color: ColorId;
+}
+
+export interface VoxelObjectConfig {
+  readonly id: string;
+  readonly label: string;
+  readonly size: readonly [number, number, number];
+  readonly voxels: readonly Voxel[];
+}
 
 export interface LevelPhaseConfig {
   readonly id: number;
+  readonly view: VoxelView;
   readonly pictureId: string;
   readonly title: string;
   readonly instruction: string;
   readonly sampleAlt: string;
   readonly target: readonly (readonly (ColorId | null)[])[];
+  readonly pieces: readonly Piece[];
   readonly initialPlacements: readonly Placement[];
 }
 
@@ -66,6 +93,15 @@ export type GameInput =
 export interface LevelConfig {
   readonly id: number;
   readonly gridSize: 10;
-  readonly pieces: readonly Piece[];
+  readonly object: VoxelObjectConfig | null;
   readonly phases: readonly LevelPhaseConfig[];
+}
+
+/** JSON-safe mechanic snapshot stored by the shell after every valid change. */
+export interface LevelSnapshot {
+  readonly version: 1;
+  readonly levelId: number;
+  readonly phaseIndex: number;
+  readonly placements: readonly Placement[];
+  readonly revealPending: boolean;
 }

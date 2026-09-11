@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const PORT = 4173;
+const PORT = Number(process.env['PLAYWRIGHT_PORT'] ?? 4173);
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -22,7 +22,7 @@ export default defineConfig({
   ],
   webServer: {
     // Run E2E against the production bundle, not the dev server.
-    command: 'npm run build && npm run preview',
+    command: `npm run build && npm run preview -- --port ${String(PORT)}`,
     url: `http://127.0.0.1:${PORT}`,
     reuseExistingServer: !process.env['CI'],
     timeout: 180_000,

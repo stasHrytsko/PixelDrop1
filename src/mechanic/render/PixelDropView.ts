@@ -3,7 +3,7 @@ import { createButton, createDiv } from './dom.ts';
 import { createPieceGraphic, pieceAriaLabel, PIECE_SYMBOLS } from './pieceGraphics.ts';
 
 export class PixelDropView {
-  readonly #level: LevelConfig;
+  #pieces: readonly Piece[];
   readonly #root: HTMLElement;
   readonly #board: HTMLElement;
   readonly #progress: HTMLElement;
@@ -14,7 +14,7 @@ export class PixelDropView {
   readonly #effectTimers = new Set<number>();
 
   constructor(level: LevelConfig) {
-    this.#level = level;
+    this.#pieces = level.phases[0]?.pieces ?? [];
     const built = this.#build();
     this.#root = built.root;
     this.#board = built.board;
@@ -44,6 +44,7 @@ export class PixelDropView {
     if (phase === undefined) return;
     const phaseNumber = state.phaseIndex + 1;
     const phaseCount = state.phases.length;
+    this.#pieces = state.pieces;
     this.#title.textContent = phase.title;
     this.#instruction.textContent = phase.instruction;
     this.#sample.setAttribute('aria-label', phase.sampleAlt);
@@ -84,7 +85,7 @@ export class PixelDropView {
   }
 
   getPiece(pieceId: string): Piece | null {
-    return this.#level.pieces.find((piece) => piece.id === pieceId) ?? null;
+    return this.#pieces.find((piece) => piece.id === pieceId) ?? null;
   }
 
   getBoardCellSize(): number {

@@ -25,6 +25,10 @@ export interface CreateLevelParams {
   onComplete: () => void;
   /** The player asked to leave from inside the game surface. */
   onExit: () => void;
+  /** Opaque JSON-safe mechanic state saved from a previous session. */
+  resumeState?: unknown;
+  /** Persist a JSON-safe mechanic snapshot after every meaningful change. */
+  onStateChange?: (state: unknown) => void;
 }
 
 export interface MechanicHost {

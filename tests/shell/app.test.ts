@@ -6,6 +6,7 @@ import { MemoryProgressRepository } from '../../src/shell/progress/MemoryProgres
 import {
   emptyProgress,
   withOnboardingSeen,
+  withActiveLevel,
   type ProgressState,
 } from '../../src/shell/progress/ProgressRepository.ts';
 import { NoopSignalSink } from '../../src/shell/signal/SignalSink.ts';
@@ -206,6 +207,27 @@ describe('playing a level', () => {
     await startLevelOne();
     mechanic.exitLevel();
     expect(find('level-select')).not.toBeNull();
+  });
+
+  it('saves a mechanic snapshot and offers to continue it from the menu', async () => {
+    await startLevelOne();
+    const snapshot = { phaseIndex: 1, placements: [{ pieceId: 'x', row: 2, col: 3 }] };
+    mechanic.mounted?.onStateChange?.(snapshot);
+    await flush();
+    click('game-back');
+    click('levels-back');
+    expect(find('continue-level')).not.toBeNull();
+    click('continue-level');
+    expect(mechanic.mounted?.resumeState).toEqual(snapshot);
+  });
+
+  it('clears the active snapshot after completing its level', async () => {
+    const active = withActiveLevel(withOnboardingSeen(emptyProgress(), 2), 0, { phaseIndex: 2 });
+    await launch(active);
+    click('continue-level');
+    mechanic.finishLevel();
+    await flush();
+    expect((await progress.load()).activeLevel).toBeNull();
   });
 
   it('ignores a completion that arrives after the session was torn down', async () => {

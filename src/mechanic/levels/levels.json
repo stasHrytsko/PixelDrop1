@@ -1,25 +1,1335 @@
 {
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "pieceSets": {
-    "classic-six": [
+    "dog-front": [
+      {
+        "id": "p01",
+        "label": "O1",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "black"
+          }
+        ]
+      },
+      {
+        "id": "p02",
+        "label": "O2",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "tan"
+          }
+        ]
+      },
+      {
+        "id": "p03",
+        "label": "O3",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "black"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "brown"
+          }
+        ]
+      },
+      {
+        "id": "p04",
+        "label": "O4",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "white"
+          }
+        ]
+      },
+      {
+        "id": "p05",
+        "label": "O5",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "white"
+          }
+        ]
+      },
+      {
+        "id": "p06",
+        "label": "O6",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "brown"
+          }
+        ]
+      },
+      {
+        "id": "p07",
+        "label": "O7",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "red"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "red"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "red"
+          }
+        ]
+      },
+      {
+        "id": "p08",
+        "label": "O8",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "red"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "red"
+          }
+        ]
+      },
+      {
+        "id": "p09",
+        "label": "O9",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "red"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "red"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "red"
+          }
+        ]
+      },
+      {
+        "id": "p10",
+        "label": "O10",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "tan"
+          }
+        ]
+      },
+      {
+        "id": "p11",
+        "label": "O11",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "white"
+          }
+        ]
+      },
+      {
+        "id": "p12",
+        "label": "O12",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "tan"
+          }
+        ]
+      }
+    ],
+    "dog-side": [
+      {
+        "id": "p01",
+        "label": "O1",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "brown"
+          }
+        ]
+      },
+      {
+        "id": "p02",
+        "label": "O2",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "brown"
+          }
+        ]
+      },
+      {
+        "id": "p03",
+        "label": "O3",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "black"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "tan"
+          }
+        ]
+      },
+      {
+        "id": "p04",
+        "label": "O4",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "red"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "red"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "red"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "red"
+          }
+        ]
+      },
+      {
+        "id": "p05",
+        "label": "O5",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "tan"
+          }
+        ]
+      },
+      {
+        "id": "p06",
+        "label": "O6",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "tan"
+          }
+        ]
+      },
+      {
+        "id": "p07",
+        "label": "O7",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "tan"
+          }
+        ]
+      },
+      {
+        "id": "p08",
+        "label": "O8",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "red"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "red"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "red"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "red"
+          }
+        ]
+      },
+      {
+        "id": "p09",
+        "label": "O9",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "tan"
+          }
+        ]
+      },
+      {
+        "id": "p10",
+        "label": "O10",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "tan"
+          }
+        ]
+      },
+      {
+        "id": "p11",
+        "label": "O11",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "tan"
+          }
+        ]
+      },
+      {
+        "id": "p12",
+        "label": "O12",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "tan"
+          }
+        ]
+      },
+      {
+        "id": "p13",
+        "label": "O13",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "white"
+          }
+        ]
+      }
+    ],
+    "dog-bottom": [
+      {
+        "id": "p01",
+        "label": "O1",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "white"
+          }
+        ]
+      },
+      {
+        "id": "p02",
+        "label": "O2",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "white"
+          }
+        ]
+      },
+      {
+        "id": "p03",
+        "label": "O3",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "white"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "white"
+          }
+        ]
+      },
+      {
+        "id": "p04",
+        "label": "O4",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "brown"
+          }
+        ]
+      },
+      {
+        "id": "p05",
+        "label": "O5",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "tan"
+          }
+        ]
+      },
+      {
+        "id": "p06",
+        "label": "O6",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "tan"
+          }
+        ]
+      },
+      {
+        "id": "p07",
+        "label": "O7",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "tan"
+          }
+        ]
+      },
+      {
+        "id": "p08",
+        "label": "O8",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "brown"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "brown"
+          }
+        ]
+      },
+      {
+        "id": "p09",
+        "label": "O9",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "red"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "red"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "red"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "red"
+          }
+        ]
+      },
+      {
+        "id": "p10",
+        "label": "O10",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "tan"
+          }
+        ]
+      },
+      {
+        "id": "p11",
+        "label": "O11",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "tan"
+          }
+        ]
+      },
+      {
+        "id": "p12",
+        "label": "O12",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "tan"
+          }
+        ]
+      },
+      {
+        "id": "p13",
+        "label": "O13",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "tan"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "tan"
+          }
+        ]
+      }
+    ],
+    "legacy-l2-p1": [
       {
         "id": "j-mixed",
         "label": "J",
         "cells": [
           {
-            "offset": [0, 0],
+            "offset": [
+              0,
+              0
+            ],
             "color": "rose"
           },
           {
-            "offset": [1, 0],
+            "offset": [
+              1,
+              0
+            ],
             "color": "rose"
           },
           {
-            "offset": [1, 1],
+            "offset": [
+              1,
+              1
+            ],
             "color": "purple"
           },
           {
-            "offset": [1, 2],
+            "offset": [
+              1,
+              2
+            ],
             "color": "purple"
           }
         ]
@@ -29,19 +1339,31 @@
         "label": "O",
         "cells": [
           {
-            "offset": [0, 0],
+            "offset": [
+              0,
+              0
+            ],
             "color": "coral"
           },
           {
-            "offset": [0, 1],
+            "offset": [
+              0,
+              1
+            ],
             "color": "coral"
           },
           {
-            "offset": [1, 0],
+            "offset": [
+              1,
+              0
+            ],
             "color": "coral"
           },
           {
-            "offset": [1, 1],
+            "offset": [
+              1,
+              1
+            ],
             "color": "coral"
           }
         ]
@@ -51,19 +1373,31 @@
         "label": "I",
         "cells": [
           {
-            "offset": [0, 0],
+            "offset": [
+              0,
+              0
+            ],
             "color": "rose"
           },
           {
-            "offset": [0, 1],
+            "offset": [
+              0,
+              1
+            ],
             "color": "purple"
           },
           {
-            "offset": [0, 2],
+            "offset": [
+              0,
+              2
+            ],
             "color": "purple"
           },
           {
-            "offset": [0, 3],
+            "offset": [
+              0,
+              3
+            ],
             "color": "rose"
           }
         ]
@@ -73,19 +1407,31 @@
         "label": "T",
         "cells": [
           {
-            "offset": [0, 1],
+            "offset": [
+              0,
+              1
+            ],
             "color": "coral"
           },
           {
-            "offset": [1, 0],
+            "offset": [
+              1,
+              0
+            ],
             "color": "coral"
           },
           {
-            "offset": [1, 1],
+            "offset": [
+              1,
+              1
+            ],
             "color": "coral"
           },
           {
-            "offset": [1, 2],
+            "offset": [
+              1,
+              2
+            ],
             "color": "coral"
           }
         ]
@@ -95,19 +1441,31 @@
         "label": "J",
         "cells": [
           {
-            "offset": [0, 0],
+            "offset": [
+              0,
+              0
+            ],
             "color": "rose"
           },
           {
-            "offset": [0, 1],
+            "offset": [
+              0,
+              1
+            ],
             "color": "rose"
           },
           {
-            "offset": [0, 2],
+            "offset": [
+              0,
+              2
+            ],
             "color": "rose"
           },
           {
-            "offset": [1, 2],
+            "offset": [
+              1,
+              2
+            ],
             "color": "rose"
           }
         ]
@@ -117,136 +1475,7886 @@
         "label": "T",
         "cells": [
           {
-            "offset": [0, 1],
+            "offset": [
+              0,
+              1
+            ],
             "color": "coral"
           },
           {
-            "offset": [1, 0],
+            "offset": [
+              1,
+              0
+            ],
             "color": "coral"
           },
           {
-            "offset": [1, 1],
+            "offset": [
+              1,
+              1
+            ],
             "color": "coral"
           },
           {
-            "offset": [1, 2],
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l2-p2": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l2-p3": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l3-p1": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l3-p2": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l3-p3": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l4-p1": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l4-p2": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l4-p3": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l5-p1": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l5-p2": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l5-p3": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l6-p1": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l6-p2": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l6-p3": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l7-p1": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l7-p2": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l7-p3": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l8-p1": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l8-p2": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l8-p3": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l9-p1": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l9-p2": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      }
+    ],
+    "legacy-l9-p3": [
+      {
+        "id": "j-mixed",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "purple"
+          }
+        ]
+      },
+      {
+        "id": "o-coral",
+        "label": "O",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "i-mixed",
+        "label": "I",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "purple"
+          },
+          {
+            "offset": [
+              0,
+              3
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-a",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "coral"
+          }
+        ]
+      },
+      {
+        "id": "j-rose",
+        "label": "J",
+        "cells": [
+          {
+            "offset": [
+              0,
+              0
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              0,
+              2
+            ],
+            "color": "rose"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
+            "color": "rose"
+          }
+        ]
+      },
+      {
+        "id": "t-coral-b",
+        "label": "T",
+        "cells": [
+          {
+            "offset": [
+              0,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              0
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              1
+            ],
+            "color": "coral"
+          },
+          {
+            "offset": [
+              1,
+              2
+            ],
             "color": "coral"
           }
         ]
       }
     ]
   },
+  "pictures": {
+    "dog-front": {
+      "title": "Собери первый силуэт",
+      "instruction": "Повтори рисунок клетка в клетку.",
+      "sampleAlt": "Первая проекция неизвестного объекта",
+      "target": [
+        [
+          null,
+          null,
+          "brown",
+          "tan",
+          "tan",
+          "tan",
+          "tan",
+          "brown",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "brown",
+          "black",
+          "tan",
+          "tan",
+          "black",
+          "brown",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "brown",
+          "tan",
+          "brown",
+          "brown",
+          "tan",
+          "brown",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "brown",
+          "white",
+          "white",
+          "white",
+          "white",
+          "brown",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "red",
+          "white",
+          "white",
+          "white",
+          "white",
+          "red",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "red",
+          "red",
+          "red",
+          "red",
+          "red",
+          "red",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "tan",
+          "tan",
+          "white",
+          "white",
+          "tan",
+          "tan",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "tan",
+          "tan",
+          "white",
+          "white",
+          "tan",
+          "tan",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "dog-side": {
+      "title": "Собери второй силуэт",
+      "instruction": "Новый ракурс — новый набор деталей.",
+      "sampleAlt": "Вторая проекция неизвестного объекта",
+      "target": [
+        [
+          "brown",
+          "brown",
+          "brown",
+          "brown",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "brown",
+          "brown",
+          "brown",
+          "brown",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "brown",
+          "black",
+          "red",
+          "red",
+          "tan",
+          "tan",
+          "tan",
+          "tan",
+          "tan",
+          "tan"
+        ],
+        [
+          "brown",
+          "tan",
+          "red",
+          "red",
+          "tan",
+          "tan",
+          "tan",
+          "tan",
+          "tan",
+          "tan"
+        ],
+        [
+          null,
+          null,
+          "red",
+          "red",
+          "tan",
+          "tan",
+          "tan",
+          "tan",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "red",
+          "red",
+          "tan",
+          "tan",
+          "tan",
+          "tan",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "tan",
+          "tan",
+          null,
+          null,
+          "tan",
+          "tan"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "tan",
+          "tan",
+          null,
+          null,
+          "tan",
+          "tan"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "white",
+          "white",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "white",
+          "white",
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "dog-bottom": {
+      "title": "Собери третий силуэт",
+      "instruction": "Последний ракурс откроет объект.",
+      "sampleAlt": "Третья проекция неизвестного объекта",
+      "target": [
+        [
+          null,
+          null,
+          "white",
+          "white",
+          "white",
+          "white",
+          "white",
+          "white",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "white",
+          "white",
+          "white",
+          "white",
+          "white",
+          "white",
+          null,
+          null
+        ],
+        [
+          "brown",
+          "brown",
+          "tan",
+          "tan",
+          "tan",
+          "tan",
+          "tan",
+          "tan",
+          "brown",
+          "brown"
+        ],
+        [
+          "brown",
+          "brown",
+          "tan",
+          "tan",
+          "tan",
+          "tan",
+          "tan",
+          "tan",
+          "brown",
+          "brown"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "red",
+          "red",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "red",
+          "red",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "tan",
+          "tan",
+          null,
+          null,
+          "tan",
+          "tan",
+          null,
+          null,
+          "tan",
+          "tan"
+        ],
+        [
+          "tan",
+          "tan",
+          null,
+          null,
+          "tan",
+          "tan",
+          null,
+          null,
+          "tan",
+          "tan"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "tan",
+          "tan",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "tan",
+          "tan",
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "picture-1": {
+      "title": "Теперь шесть деталей.",
+      "instruction": "Собери такой же домик.",
+      "sampleAlt": "Образец: домик с оранжевой крышей, розовыми стенами и фиолетовой дверью",
+      "target": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "coral",
+          "coral",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "rose",
+          "rose",
+          "rose",
+          "rose",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "rose",
+          "purple",
+          "purple",
+          "rose",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "rose",
+          "purple",
+          "purple",
+          "rose",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "picture-2": {
+      "title": "Сложи первый силуэт.",
+      "instruction": "Начни с верхнего ряда.",
+      "sampleAlt": "Образец второго уровня",
+      "target": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "coral",
+          "rose",
+          "rose",
+          "rose",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "rose",
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          "rose",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "rose",
+          "purple",
+          "purple",
+          "coral",
+          "coral",
+          "coral",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "coral",
+          "coral",
+          "rose",
+          "purple",
+          "purple",
+          "rose",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "coral",
+          "coral",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "picture-3": {
+      "title": "Цвета меняют направление.",
+      "instruction": "Сверяй край каждой фигуры.",
+      "sampleAlt": "Образец третьего уровня",
+      "target": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "coral",
+          "rose",
+          "rose",
+          "rose",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "rose",
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          "rose",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "rose",
+          "purple",
+          "purple",
+          "coral",
+          "coral",
+          "coral",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "rose",
+          "purple",
+          "purple",
+          "rose",
+          "coral",
+          "coral",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "coral",
+          "coral",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "picture-4": {
+      "title": "Заполни середину.",
+      "instruction": "Длинная фигура связывает половины.",
+      "sampleAlt": "Образец четвёртого уровня",
+      "target": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "coral",
+          null,
+          null,
+          "coral",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "coral",
+          "coral",
+          "rose",
+          "purple",
+          "purple",
+          "rose",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "coral",
+          "coral",
+          "rose",
+          "rose",
+          "rose",
+          "rose",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "rose",
+          "purple",
+          "purple",
+          "rose",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "picture-5": {
+      "title": "Две стороны.",
+      "instruction": "Собери рисунок сверху вниз.",
+      "sampleAlt": "Образец пятого уровня",
+      "target": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "coral",
+          null,
+          null,
+          "coral",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "rose",
+          "rose",
+          "rose",
+          "rose",
+          "coral",
+          "coral",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "rose",
+          "purple",
+          "purple",
+          "rose",
+          "coral",
+          "coral",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "rose",
+          "purple",
+          "purple",
+          "rose",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "picture-6": {
+      "title": "Почти симметрия.",
+      "instruction": "Отличие спрятано в нижнем ряду.",
+      "sampleAlt": "Образец шестого уровня",
+      "target": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "coral",
+          null,
+          null,
+          "coral",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "rose",
+          "rose",
+          "rose",
+          "rose",
+          "coral",
+          "coral",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "rose",
+          "purple",
+          "purple",
+          "rose",
+          "coral",
+          "coral",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "rose",
+          "purple",
+          "purple",
+          "rose",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "picture-7": {
+      "title": "Собери башню.",
+      "instruction": "Опирайся на центральную полосу.",
+      "sampleAlt": "Образец седьмого уровня",
+      "target": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "rose",
+          "rose",
+          "rose",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "coral",
+          "coral",
+          "rose",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "rose",
+          "rose",
+          "purple",
+          "purple",
+          "rose",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          "rose",
+          "purple",
+          "purple",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "picture-8": {
+      "title": "Последние повороты.",
+      "instruction": "Фигуры не вращаются — ищи их контур.",
+      "sampleAlt": "Образец восьмого уровня",
+      "target": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "coral",
+          "coral",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "coral",
+          "coral",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "coral",
+          "rose",
+          "rose",
+          "rose",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "rose",
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          "rose",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "rose",
+          "purple",
+          "purple",
+          "coral",
+          "coral",
+          "coral",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "rose",
+          "purple",
+          "purple",
+          "rose",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "picture-9": {
+      "title": "Финальный рисунок.",
+      "instruction": "Собери все шесть деталей.",
+      "sampleAlt": "Образец девятого уровня",
+      "target": [
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "rose",
+          "purple",
+          "purple",
+          "rose",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "coral",
+          "rose",
+          "rose",
+          "rose",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "rose",
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          "rose",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "rose",
+          "purple",
+          "purple",
+          "coral",
+          "coral",
+          "coral",
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "coral",
+          "coral",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          "coral",
+          "coral",
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    }
+  },
+  "objects": {
+    "dog": {
+      "label": "Воксельная собака",
+      "size": [
+        6,
+        10,
+        9
+      ],
+      "voxels": [
+        {
+          "x": 1,
+          "y": 3,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 3,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 3,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 3,
+          "z": 5,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 3,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 3,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 4,
+          "z": 2,
+          "color": "red"
+        },
+        {
+          "x": 1,
+          "y": 4,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 4,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 4,
+          "z": 5,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 4,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 4,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 5,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 5,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 5,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 5,
+          "z": 5,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 5,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 5,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 6,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 6,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 6,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 6,
+          "z": 5,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 6,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 6,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 3,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 3,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 3,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 3,
+          "z": 5,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 3,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 3,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 4,
+          "z": 2,
+          "color": "red"
+        },
+        {
+          "x": 2,
+          "y": 4,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 4,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 4,
+          "z": 5,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 4,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 4,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 5,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 5,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 5,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 5,
+          "z": 5,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 5,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 5,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 6,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 6,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 6,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 6,
+          "z": 5,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 6,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 6,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 3,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 3,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 3,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 3,
+          "z": 5,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 3,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 3,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 4,
+          "z": 2,
+          "color": "red"
+        },
+        {
+          "x": 3,
+          "y": 4,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 4,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 4,
+          "z": 5,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 4,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 4,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 5,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 5,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 5,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 5,
+          "z": 5,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 5,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 5,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 6,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 6,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 6,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 6,
+          "z": 5,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 6,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 6,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 3,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 3,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 3,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 3,
+          "z": 5,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 3,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 3,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 4,
+          "z": 2,
+          "color": "red"
+        },
+        {
+          "x": 4,
+          "y": 4,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 4,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 4,
+          "z": 5,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 4,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 4,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 5,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 5,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 5,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 5,
+          "z": 5,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 5,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 5,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 6,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 6,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 6,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 6,
+          "z": 5,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 6,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 6,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 0,
+          "y": 5,
+          "z": 0,
+          "color": "tan"
+        },
+        {
+          "x": 0,
+          "y": 5,
+          "z": 1,
+          "color": "tan"
+        },
+        {
+          "x": 0,
+          "y": 5,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 0,
+          "y": 6,
+          "z": 0,
+          "color": "brown"
+        },
+        {
+          "x": 0,
+          "y": 6,
+          "z": 1,
+          "color": "brown"
+        },
+        {
+          "x": 0,
+          "y": 6,
+          "z": 2,
+          "color": "brown"
+        },
+        {
+          "x": 0,
+          "y": 7,
+          "z": 0,
+          "color": "brown"
+        },
+        {
+          "x": 0,
+          "y": 7,
+          "z": 1,
+          "color": "brown"
+        },
+        {
+          "x": 0,
+          "y": 7,
+          "z": 2,
+          "color": "brown"
+        },
+        {
+          "x": 0,
+          "y": 8,
+          "z": 0,
+          "color": "brown"
+        },
+        {
+          "x": 0,
+          "y": 8,
+          "z": 1,
+          "color": "brown"
+        },
+        {
+          "x": 0,
+          "y": 8,
+          "z": 2,
+          "color": "brown"
+        },
+        {
+          "x": 1,
+          "y": 5,
+          "z": 0,
+          "color": "white"
+        },
+        {
+          "x": 1,
+          "y": 5,
+          "z": 1,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 6,
+          "z": 0,
+          "color": "white"
+        },
+        {
+          "x": 1,
+          "y": 6,
+          "z": 1,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 7,
+          "z": 0,
+          "color": "black"
+        },
+        {
+          "x": 1,
+          "y": 7,
+          "z": 1,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 7,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 8,
+          "z": 0,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 8,
+          "z": 1,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 8,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 5,
+          "z": 0,
+          "color": "black"
+        },
+        {
+          "x": 2,
+          "y": 5,
+          "z": 1,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 6,
+          "z": 0,
+          "color": "brown"
+        },
+        {
+          "x": 2,
+          "y": 6,
+          "z": 1,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 7,
+          "z": 0,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 7,
+          "z": 1,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 7,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 8,
+          "z": 0,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 8,
+          "z": 1,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 8,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 5,
+          "z": 0,
+          "color": "black"
+        },
+        {
+          "x": 3,
+          "y": 5,
+          "z": 1,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 6,
+          "z": 0,
+          "color": "brown"
+        },
+        {
+          "x": 3,
+          "y": 6,
+          "z": 1,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 7,
+          "z": 0,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 7,
+          "z": 1,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 7,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 8,
+          "z": 0,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 8,
+          "z": 1,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 8,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 5,
+          "z": 0,
+          "color": "white"
+        },
+        {
+          "x": 4,
+          "y": 5,
+          "z": 1,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 6,
+          "z": 0,
+          "color": "white"
+        },
+        {
+          "x": 4,
+          "y": 6,
+          "z": 1,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 7,
+          "z": 0,
+          "color": "black"
+        },
+        {
+          "x": 4,
+          "y": 7,
+          "z": 1,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 7,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 8,
+          "z": 0,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 8,
+          "z": 1,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 8,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 5,
+          "y": 5,
+          "z": 0,
+          "color": "tan"
+        },
+        {
+          "x": 5,
+          "y": 5,
+          "z": 1,
+          "color": "tan"
+        },
+        {
+          "x": 5,
+          "y": 5,
+          "z": 2,
+          "color": "tan"
+        },
+        {
+          "x": 5,
+          "y": 6,
+          "z": 0,
+          "color": "brown"
+        },
+        {
+          "x": 5,
+          "y": 6,
+          "z": 1,
+          "color": "brown"
+        },
+        {
+          "x": 5,
+          "y": 6,
+          "z": 2,
+          "color": "brown"
+        },
+        {
+          "x": 5,
+          "y": 7,
+          "z": 0,
+          "color": "brown"
+        },
+        {
+          "x": 5,
+          "y": 7,
+          "z": 1,
+          "color": "brown"
+        },
+        {
+          "x": 5,
+          "y": 7,
+          "z": 2,
+          "color": "brown"
+        },
+        {
+          "x": 5,
+          "y": 8,
+          "z": 0,
+          "color": "brown"
+        },
+        {
+          "x": 5,
+          "y": 8,
+          "z": 1,
+          "color": "brown"
+        },
+        {
+          "x": 5,
+          "y": 8,
+          "z": 2,
+          "color": "brown"
+        },
+        {
+          "x": 0,
+          "y": 9,
+          "z": 0,
+          "color": "brown"
+        },
+        {
+          "x": 0,
+          "y": 9,
+          "z": 1,
+          "color": "brown"
+        },
+        {
+          "x": 0,
+          "y": 9,
+          "z": 2,
+          "color": "brown"
+        },
+        {
+          "x": 5,
+          "y": 9,
+          "z": 0,
+          "color": "brown"
+        },
+        {
+          "x": 5,
+          "y": 9,
+          "z": 1,
+          "color": "brown"
+        },
+        {
+          "x": 5,
+          "y": 9,
+          "z": 2,
+          "color": "brown"
+        },
+        {
+          "x": 0,
+          "y": 4,
+          "z": 2,
+          "color": "red"
+        },
+        {
+          "x": 5,
+          "y": 4,
+          "z": 2,
+          "color": "red"
+        },
+        {
+          "x": 1,
+          "y": 0,
+          "z": 3,
+          "color": "white"
+        },
+        {
+          "x": 1,
+          "y": 0,
+          "z": 4,
+          "color": "white"
+        },
+        {
+          "x": 1,
+          "y": 1,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 1,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 2,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 2,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 0,
+          "z": 3,
+          "color": "white"
+        },
+        {
+          "x": 2,
+          "y": 0,
+          "z": 4,
+          "color": "white"
+        },
+        {
+          "x": 2,
+          "y": 1,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 1,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 2,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 2,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 0,
+          "z": 3,
+          "color": "white"
+        },
+        {
+          "x": 4,
+          "y": 0,
+          "z": 4,
+          "color": "white"
+        },
+        {
+          "x": 4,
+          "y": 1,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 1,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 2,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 2,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 5,
+          "y": 0,
+          "z": 3,
+          "color": "white"
+        },
+        {
+          "x": 5,
+          "y": 0,
+          "z": 4,
+          "color": "white"
+        },
+        {
+          "x": 5,
+          "y": 1,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 5,
+          "y": 1,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 5,
+          "y": 2,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 5,
+          "y": 2,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 5,
+          "y": 3,
+          "z": 3,
+          "color": "tan"
+        },
+        {
+          "x": 5,
+          "y": 3,
+          "z": 4,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 0,
+          "z": 6,
+          "color": "white"
+        },
+        {
+          "x": 1,
+          "y": 0,
+          "z": 7,
+          "color": "white"
+        },
+        {
+          "x": 1,
+          "y": 1,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 1,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 2,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 1,
+          "y": 2,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 0,
+          "z": 6,
+          "color": "white"
+        },
+        {
+          "x": 2,
+          "y": 0,
+          "z": 7,
+          "color": "white"
+        },
+        {
+          "x": 2,
+          "y": 1,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 1,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 2,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 2,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 0,
+          "z": 6,
+          "color": "white"
+        },
+        {
+          "x": 4,
+          "y": 0,
+          "z": 7,
+          "color": "white"
+        },
+        {
+          "x": 4,
+          "y": 1,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 1,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 2,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 4,
+          "y": 2,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 5,
+          "y": 0,
+          "z": 6,
+          "color": "white"
+        },
+        {
+          "x": 5,
+          "y": 0,
+          "z": 7,
+          "color": "white"
+        },
+        {
+          "x": 5,
+          "y": 1,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 5,
+          "y": 1,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 5,
+          "y": 2,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 5,
+          "y": 2,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 5,
+          "y": 3,
+          "z": 6,
+          "color": "tan"
+        },
+        {
+          "x": 5,
+          "y": 3,
+          "z": 7,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 5,
+          "z": 8,
+          "color": "tan"
+        },
+        {
+          "x": 2,
+          "y": 6,
+          "z": 8,
+          "color": "brown"
+        },
+        {
+          "x": 3,
+          "y": 5,
+          "z": 8,
+          "color": "tan"
+        },
+        {
+          "x": 3,
+          "y": 6,
+          "z": 8,
+          "color": "brown"
+        },
+        {
+          "x": 2,
+          "y": 7,
+          "z": 8,
+          "color": "brown"
+        },
+        {
+          "x": 3,
+          "y": 7,
+          "z": 8,
+          "color": "brown"
+        }
+      ]
+    }
+  },
   "levels": [
     {
       "id": 1,
       "gridSize": 10,
-      "pieceSet": "classic-six",
+      "object": "dog",
       "phases": [
         {
           "id": 1,
-          "picture": "picture-1",
+          "view": "front",
+          "picture": "dog-front",
+          "pieceSet": "dog-front",
           "initialPlacements": [
             {
-              "pieceId": "j-mixed",
-              "row": 0,
-              "col": 0
-            },
-            {
-              "pieceId": "o-coral",
-              "row": 0,
+              "pieceId": "p01",
+              "row": 2,
               "col": 6
             },
             {
-              "pieceId": "i-mixed",
+              "pieceId": "p02",
               "row": 4,
               "col": 0
             },
             {
-              "pieceId": "t-coral-a",
+              "pieceId": "p03",
               "row": 4,
+              "col": 4
+            },
+            {
+              "pieceId": "p04",
+              "row": 4,
+              "col": 8
+            },
+            {
+              "pieceId": "p05",
+              "row": 6,
+              "col": 2
+            },
+            {
+              "pieceId": "p06",
+              "row": 6,
               "col": 6
             },
             {
-              "pieceId": "j-rose",
+              "pieceId": "p07",
               "row": 8,
               "col": 0
             },
             {
-              "pieceId": "t-coral-b",
+              "pieceId": "p08",
               "row": 8,
-              "col": 6
+              "col": 4
+            },
+            {
+              "pieceId": "p09",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "p10",
+              "row": 0,
+              "col": 4
+            },
+            {
+              "pieceId": "p11",
+              "row": 0,
+              "col": 8
+            },
+            {
+              "pieceId": "p12",
+              "row": 2,
+              "col": 2
             }
           ]
         },
         {
           "id": 2,
-          "picture": "picture-2",
+          "view": "side",
+          "picture": "dog-side",
+          "pieceSet": "dog-side",
           "initialPlacements": [
             {
-              "pieceId": "j-mixed",
-              "row": 0,
-              "col": 0
-            },
-            {
-              "pieceId": "o-coral",
-              "row": 0,
+              "pieceId": "p01",
+              "row": 2,
               "col": 6
             },
             {
-              "pieceId": "i-mixed",
+              "pieceId": "p02",
               "row": 4,
               "col": 0
             },
             {
-              "pieceId": "t-coral-a",
+              "pieceId": "p03",
               "row": 4,
+              "col": 4
+            },
+            {
+              "pieceId": "p04",
+              "row": 4,
+              "col": 8
+            },
+            {
+              "pieceId": "p05",
+              "row": 6,
+              "col": 2
+            },
+            {
+              "pieceId": "p06",
+              "row": 6,
               "col": 6
             },
             {
-              "pieceId": "j-rose",
+              "pieceId": "p07",
               "row": 8,
               "col": 0
             },
             {
-              "pieceId": "t-coral-b",
+              "pieceId": "p08",
               "row": 8,
-              "col": 6
+              "col": 4
+            },
+            {
+              "pieceId": "p09",
+              "row": 8,
+              "col": 8
+            },
+            {
+              "pieceId": "p10",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "p11",
+              "row": 0,
+              "col": 4
+            },
+            {
+              "pieceId": "p12",
+              "row": 0,
+              "col": 8
+            },
+            {
+              "pieceId": "p13",
+              "row": 2,
+              "col": 2
             }
           ]
         },
         {
           "id": 3,
-          "picture": "picture-3",
+          "view": "bottom",
+          "picture": "dog-bottom",
+          "pieceSet": "dog-bottom",
           "initialPlacements": [
             {
-              "pieceId": "j-mixed",
-              "row": 0,
-              "col": 0
-            },
-            {
-              "pieceId": "o-coral",
-              "row": 0,
+              "pieceId": "p01",
+              "row": 2,
               "col": 6
             },
             {
-              "pieceId": "i-mixed",
+              "pieceId": "p02",
               "row": 4,
               "col": 0
             },
             {
-              "pieceId": "t-coral-a",
+              "pieceId": "p03",
               "row": 4,
+              "col": 4
+            },
+            {
+              "pieceId": "p04",
+              "row": 4,
+              "col": 8
+            },
+            {
+              "pieceId": "p05",
+              "row": 6,
+              "col": 2
+            },
+            {
+              "pieceId": "p06",
+              "row": 6,
               "col": 6
             },
             {
-              "pieceId": "j-rose",
+              "pieceId": "p07",
               "row": 8,
               "col": 0
             },
             {
-              "pieceId": "t-coral-b",
+              "pieceId": "p08",
               "row": 8,
-              "col": 6
+              "col": 4
+            },
+            {
+              "pieceId": "p09",
+              "row": 8,
+              "col": 8
+            },
+            {
+              "pieceId": "p10",
+              "row": 0,
+              "col": 0
+            },
+            {
+              "pieceId": "p11",
+              "row": 0,
+              "col": 4
+            },
+            {
+              "pieceId": "p12",
+              "row": 0,
+              "col": 8
+            },
+            {
+              "pieceId": "p13",
+              "row": 2,
+              "col": 2
             }
           ]
         }
@@ -255,7 +9363,7 @@
     {
       "id": 2,
       "gridSize": 10,
-      "pieceSet": "classic-six",
+      "object": null,
       "phases": [
         {
           "id": 1,
@@ -291,7 +9399,9 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "front",
+          "pieceSet": "legacy-l2-p1"
         },
         {
           "id": 2,
@@ -327,7 +9437,9 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "side",
+          "pieceSet": "legacy-l2-p2"
         },
         {
           "id": 3,
@@ -363,14 +9475,16 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "bottom",
+          "pieceSet": "legacy-l2-p3"
         }
       ]
     },
     {
       "id": 3,
       "gridSize": 10,
-      "pieceSet": "classic-six",
+      "object": null,
       "phases": [
         {
           "id": 1,
@@ -406,7 +9520,9 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "front",
+          "pieceSet": "legacy-l3-p1"
         },
         {
           "id": 2,
@@ -442,7 +9558,9 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "side",
+          "pieceSet": "legacy-l3-p2"
         },
         {
           "id": 3,
@@ -478,14 +9596,16 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "bottom",
+          "pieceSet": "legacy-l3-p3"
         }
       ]
     },
     {
       "id": 4,
       "gridSize": 10,
-      "pieceSet": "classic-six",
+      "object": null,
       "phases": [
         {
           "id": 1,
@@ -521,7 +9641,9 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "front",
+          "pieceSet": "legacy-l4-p1"
         },
         {
           "id": 2,
@@ -557,7 +9679,9 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "side",
+          "pieceSet": "legacy-l4-p2"
         },
         {
           "id": 3,
@@ -593,14 +9717,16 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "bottom",
+          "pieceSet": "legacy-l4-p3"
         }
       ]
     },
     {
       "id": 5,
       "gridSize": 10,
-      "pieceSet": "classic-six",
+      "object": null,
       "phases": [
         {
           "id": 1,
@@ -636,7 +9762,9 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "front",
+          "pieceSet": "legacy-l5-p1"
         },
         {
           "id": 2,
@@ -672,7 +9800,9 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "side",
+          "pieceSet": "legacy-l5-p2"
         },
         {
           "id": 3,
@@ -708,14 +9838,16 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "bottom",
+          "pieceSet": "legacy-l5-p3"
         }
       ]
     },
     {
       "id": 6,
       "gridSize": 10,
-      "pieceSet": "classic-six",
+      "object": null,
       "phases": [
         {
           "id": 1,
@@ -751,7 +9883,9 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "front",
+          "pieceSet": "legacy-l6-p1"
         },
         {
           "id": 2,
@@ -787,7 +9921,9 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "side",
+          "pieceSet": "legacy-l6-p2"
         },
         {
           "id": 3,
@@ -823,14 +9959,16 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "bottom",
+          "pieceSet": "legacy-l6-p3"
         }
       ]
     },
     {
       "id": 7,
       "gridSize": 10,
-      "pieceSet": "classic-six",
+      "object": null,
       "phases": [
         {
           "id": 1,
@@ -866,7 +10004,9 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "front",
+          "pieceSet": "legacy-l7-p1"
         },
         {
           "id": 2,
@@ -902,7 +10042,9 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "side",
+          "pieceSet": "legacy-l7-p2"
         },
         {
           "id": 3,
@@ -938,14 +10080,16 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "bottom",
+          "pieceSet": "legacy-l7-p3"
         }
       ]
     },
     {
       "id": 8,
       "gridSize": 10,
-      "pieceSet": "classic-six",
+      "object": null,
       "phases": [
         {
           "id": 1,
@@ -981,7 +10125,9 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "front",
+          "pieceSet": "legacy-l8-p1"
         },
         {
           "id": 2,
@@ -1017,7 +10163,9 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "side",
+          "pieceSet": "legacy-l8-p2"
         },
         {
           "id": 3,
@@ -1053,14 +10201,16 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "bottom",
+          "pieceSet": "legacy-l8-p3"
         }
       ]
     },
     {
       "id": 9,
       "gridSize": 10,
-      "pieceSet": "classic-six",
+      "object": null,
       "phases": [
         {
           "id": 1,
@@ -1096,7 +10246,9 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "front",
+          "pieceSet": "legacy-l9-p1"
         },
         {
           "id": 2,
@@ -1132,7 +10284,9 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "side",
+          "pieceSet": "legacy-l9-p2"
         },
         {
           "id": 3,
@@ -1168,164 +10322,11 @@
               "row": 8,
               "col": 6
             }
-          ]
+          ],
+          "view": "bottom",
+          "pieceSet": "legacy-l9-p3"
         }
       ]
     }
-  ],
-  "pictures": {
-    "picture-1": {
-      "title": "Теперь шесть деталей.",
-      "instruction": "Собери такой же домик.",
-      "sampleAlt": "Образец: домик с оранжевой крышей, розовыми стенами и фиолетовой дверью",
-      "target": [
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, "coral", "coral", null, null, null, null],
-        [null, null, null, "coral", "coral", "coral", "coral", null, null, null],
-        [null, null, "coral", "coral", "coral", "coral", "coral", "coral", null, null],
-        [null, null, null, "rose", "rose", "rose", "rose", null, null, null],
-        [null, null, null, "rose", "purple", "purple", "rose", null, null, null],
-        [null, null, null, "rose", "purple", "purple", "rose", null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null]
-      ]
-    },
-    "picture-2": {
-      "title": "Сложи первый силуэт.",
-      "instruction": "Начни с верхнего ряда.",
-      "sampleAlt": "Образец второго уровня",
-      "target": [
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, "coral", "rose", "rose", "rose", null, null],
-        [null, null, "rose", "coral", "coral", "coral", "coral", "rose", null, null],
-        [null, null, "rose", "purple", "purple", "coral", "coral", "coral", null, null],
-        [null, null, "coral", "coral", "rose", "purple", "purple", "rose", null, null],
-        [null, null, "coral", "coral", null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null]
-      ]
-    },
-    "picture-3": {
-      "title": "Цвета меняют направление.",
-      "instruction": "Сверяй край каждой фигуры.",
-      "sampleAlt": "Образец третьего уровня",
-      "target": [
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, "coral", "rose", "rose", "rose", null, null],
-        [null, null, "rose", "coral", "coral", "coral", "coral", "rose", null, null],
-        [null, null, "rose", "purple", "purple", "coral", "coral", "coral", null, null],
-        [null, null, "rose", "purple", "purple", "rose", "coral", "coral", null, null],
-        [null, null, null, null, null, null, "coral", "coral", null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null]
-      ]
-    },
-    "picture-4": {
-      "title": "Заполни середину.",
-      "instruction": "Длинная фигура связывает половины.",
-      "sampleAlt": "Образец четвёртого уровня",
-      "target": [
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, "coral", null, null, "coral", null, null, null],
-        [null, null, "coral", "coral", "coral", "coral", "coral", "coral", null, null],
-        [null, null, "coral", "coral", "rose", "purple", "purple", "rose", null, null],
-        [null, null, "coral", "coral", "rose", "rose", "rose", "rose", null, null],
-        [null, null, null, null, "rose", "purple", "purple", "rose", null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null]
-      ]
-    },
-    "picture-5": {
-      "title": "Две стороны.",
-      "instruction": "Собери рисунок сверху вниз.",
-      "sampleAlt": "Образец пятого уровня",
-      "target": [
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, "coral", null, null, "coral", null, null, null],
-        [null, null, "coral", "coral", "coral", "coral", "coral", "coral", null, null],
-        [null, null, "rose", "rose", "rose", "rose", "coral", "coral", null, null],
-        [null, null, "rose", "purple", "purple", "rose", "coral", "coral", null, null],
-        [null, null, "rose", "purple", "purple", "rose", null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null]
-      ]
-    },
-    "picture-6": {
-      "title": "Почти симметрия.",
-      "instruction": "Отличие спрятано в нижнем ряду.",
-      "sampleAlt": "Образец шестого уровня",
-      "target": [
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, "coral", null, null, "coral", null, null, null],
-        [null, null, "coral", "coral", "coral", "coral", "coral", "coral", null, null],
-        [null, null, "rose", "rose", "rose", "rose", "coral", "coral", null, null],
-        [null, null, "rose", "purple", "purple", "rose", "coral", "coral", null, null],
-        [null, null, null, null, "rose", "purple", "purple", "rose", null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null]
-      ]
-    },
-    "picture-7": {
-      "title": "Собери башню.",
-      "instruction": "Опирайся на центральную полосу.",
-      "sampleAlt": "Образец седьмого уровня",
-      "target": [
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, "rose", "rose", "rose", null, null, null],
-        [null, null, null, null, "coral", "coral", "rose", null, null, null],
-        [null, null, null, "coral", "coral", "coral", "coral", null, null, null],
-        [null, null, "coral", "coral", "coral", "coral", "coral", "coral", null, null],
-        [null, null, null, "rose", "rose", "purple", "purple", "rose", null, null],
-        [null, null, null, "rose", "purple", "purple", null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null]
-      ]
-    },
-    "picture-8": {
-      "title": "Последние повороты.",
-      "instruction": "Фигуры не вращаются — ищи их контур.",
-      "sampleAlt": "Образец восьмого уровня",
-      "target": [
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, "coral", "coral", null, null, null, null],
-        [null, null, null, null, "coral", "coral", null, null, null, null],
-        [null, null, null, null, "coral", "rose", "rose", "rose", null, null],
-        [null, null, "rose", "coral", "coral", "coral", "coral", "rose", null, null],
-        [null, null, "rose", "purple", "purple", "coral", "coral", "coral", null, null],
-        [null, null, null, null, "rose", "purple", "purple", "rose", null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null]
-      ]
-    },
-    "picture-9": {
-      "title": "Финальный рисунок.",
-      "instruction": "Собери все шесть деталей.",
-      "sampleAlt": "Образец девятого уровня",
-      "target": [
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, "rose", "purple", "purple", "rose", null, null],
-        [null, null, null, null, "coral", "rose", "rose", "rose", null, null],
-        [null, null, "rose", "coral", "coral", "coral", "coral", "rose", null, null],
-        [null, null, "rose", "purple", "purple", "coral", "coral", "coral", null, null],
-        [null, null, null, null, null, "coral", "coral", null, null, null],
-        [null, null, null, null, null, "coral", "coral", null, null, null],
-        [null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null]
-      ]
-    }
-  }
+  ]
 }

@@ -10,8 +10,10 @@ import {
   parseProgress,
   PROGRESS_SCHEMA_VERSION,
   withLevelCompleted,
+  withActiveLevel,
   withMoreAsked,
   withOnboardingSeen,
+  withoutActiveLevel,
 } from '../../src/shell/progress/ProgressRepository.ts';
 
 describe('progress rules', () => {
@@ -61,6 +63,14 @@ describe('progress rules', () => {
   it('records that the "more?" question was asked', () => {
     expect(withMoreAsked(emptyProgress()).moreAsked).toBe(true);
   });
+
+  it('stores and clears a resumable mechanic snapshot', () => {
+    const snapshot = { phaseIndex: 1, placements: [] };
+    const active = withActiveLevel(emptyProgress(), 2, snapshot);
+    expect(active.activeLevel).toEqual({ levelIndex: 2, snapshot });
+    expect(withoutActiveLevel(active, 1)).toBe(active);
+    expect(withoutActiveLevel(active, 2).activeLevel).toBeNull();
+  });
 });
 
 describe('parseProgress', () => {
@@ -91,6 +101,7 @@ describe('parseProgress', () => {
       onboardingVersion: 1,
       completedLevels: [3, 1, 1, 0],
       moreAsked: false,
+      activeLevel: null,
     });
     expect(parsed?.completedLevels).toEqual([0, 1, 3]);
   });

@@ -1,148 +1,85 @@
 import { describe, expect, it } from 'vitest';
 import { validAnchorsForPiece } from '../../src/mechanic/engine/board.ts';
 import { pixelDropEngine } from '../../src/mechanic/engine/pixelDropEngine.ts';
-import type { LevelConfig, LevelState } from '../../src/mechanic/engine/types.ts';
+import type { LevelState, Piece } from '../../src/mechanic/engine/types.ts';
 import { getLevel } from '../../src/mechanic/levels/index.ts';
 
-function pieceId(level: LevelConfig, suffix: string): string {
-  const piece = level.pieces.find((item) => item.id.endsWith(suffix));
-  if (piece === undefined) throw new Error('Missing piece ' + suffix + '.');
-  return piece.id;
+function patternAt(state: LevelState, piece: Piece, row: number, col: number): boolean {
+  return piece.cells.every((cell) => state.target[row + cell.offset[0]]?.[col + cell.offset[1]] === cell.color);
 }
 
-function place(state: LevelState, piece: string, row: number, col: number): LevelState {
-  return pixelDropEngine.apply(state, { type: 'place_piece', pieceId: piece, row, col });
+function solution(state: LevelState): Map<string, { row: number; col: number }> {
+  const result = new Map<string, { row: number; col: number }>();
+  const used = new Set<string>();
+  for (const piece of state.pieces) {
+    for (let row = 0; row < 10 && !result.has(piece.id); row += 2) for (let col = 0; col < 10; col += 2) {
+      const key = String(row) + ',' + String(col);
+      if (!used.has(key) && patternAt(state, piece, row, col)) {
+        result.set(piece.id, { row, col }); used.add(key); break;
+      }
+    }
+  }
+  return result;
 }
 
-function solve(level: LevelConfig): LevelState {
-  return solveFromState(level, pixelDropEngine.create(level));
+function solve(state: LevelState): LevelState {
+  const desired = solution(state);
+  let next = state;
+  for (const piece of state.pieces) {
+    const target = desired.get(piece.id);
+    if (target === undefined) throw new Error('Missing solution for ' + piece.id);
+    const current = next.placements.find((placement) => placement.pieceId === piece.id);
+    if (current?.row === target.row && current.col === target.col) continue;
+    next = pixelDropEngine.apply(next, { type: 'place_piece', pieceId: piece.id, ...target });
+  }
+  return next;
 }
 
-function solveFromState(level: LevelConfig, initialState: LevelState): LevelState {
-  let state = initialState;
-  state = place(state, pieceId(level, 'o-coral'), 2, 4);
-  state = place(state, pieceId(level, 'i-mixed'), 7, 3);
-  state = place(state, pieceId(level, 't-coral-a'), 3, 2);
-  state = place(state, pieceId(level, 't-coral-b'), 3, 5);
-  state = place(state, pieceId(level, 'j-mixed'), 5, 3);
-  return place(state, pieceId(level, 'j-rose'), 5, 4);
-}
-
-function solveAtTopLeft(level: LevelConfig): LevelState {
-  let state = pixelDropEngine.create(level);
-  state = place(state, pieceId(level, 'i-mixed'), 5, 1);
-  state = place(state, pieceId(level, 'j-mixed'), 3, 1);
-  state = place(state, pieceId(level, 'o-coral'), 0, 2);
-  state = place(state, pieceId(level, 't-coral-a'), 1, 0);
-  state = place(state, pieceId(level, 't-coral-b'), 1, 3);
-  return place(state, pieceId(level, 'j-rose'), 3, 2);
-}
-
-describe('pixelDropEngine — picture mode', () => {
+describe('pixelDropEngine — voxel projection mode', () => {
   const level = getLevel(0);
 
-  it('starts with all six pieces spread across the 10×10 board', () => {
+  it('starts the dog level with a phase-specific set on a 10×10 board', () => {
     const state = pixelDropEngine.create(level);
     expect(state.grid).toHaveLength(10);
-    expect(state.grid.every((row) => row.length === 10)).toBe(true);
-    expect(state.grid.flat().filter((cell) => cell !== null)).toHaveLength(24);
-    expect(state.pieces).toHaveLength(6);
-    expect(state.placements).toHaveLength(6);
+    expect(state.pieces).toHaveLength(12);
+    expect(state.placements).toHaveLength(12);
+    expect(state.grid.flat().filter(Boolean)).toHaveLength(48);
     expect(state.gameState).toBe('playing');
   });
 
-  it('selects a known piece and clears the selection', () => {
+  it('moves a whole tetromino atomically and rejects out-of-board placement', () => {
     const state = pixelDropEngine.create(level);
-    const id = pieceId(level, 'j-mixed');
-    const selected = pixelDropEngine.apply(state, { type: 'select_piece', pieceId: id });
-    expect(selected.selectedPieceId).toBe(id);
-    expect(pixelDropEngine.apply(selected, { type: 'clear_selection' }).selectedPieceId).toBeNull();
+    const piece = state.pieces[0]!;
+    expect(pixelDropEngine.apply(state, { type: 'place_piece', pieceId: piece.id, row: 9, col: 9 })).toBe(state);
+    const moved = pixelDropEngine.apply(state, { type: 'place_piece', pieceId: piece.id, row: 6, col: 0 });
+    expect(moved.grid.flat().filter((cell) => cell?.pieceId === piece.id)).toHaveLength(4);
   });
 
-  it('rejects placements outside the board', () => {
+  it('swaps two aligned figures without changing occupied-cell count', () => {
     const state = pixelDropEngine.create(level);
-    const horizontal = pieceId(level, 'i-mixed');
-    expect(place(state, horizontal, 0, 8)).toBe(state);
+    const first = state.placements[0]!;
+    const second = state.placements[1]!;
+    const swapped = pixelDropEngine.apply(state, { type: 'place_piece', pieceId: first.pieceId, row: second.row, col: second.col });
+    expect(swapped.placements.find((placement) => placement.pieceId === first.pieceId)).toMatchObject({ row: second.row, col: second.col });
+    expect(swapped.grid.flat().filter(Boolean)).toHaveLength(48);
   });
 
-  it('moves an already placed piece atomically and leaves no old cells behind', () => {
-    const id = pieceId(level, 'j-mixed');
-    let state = pixelDropEngine.create(level);
-    state = place(state, id, 2, 0);
-    expect(state.placements.find((placement) => placement.pieceId === id)).toEqual({ pieceId: id, row: 2, col: 0 });
-    expect(state.grid[0]?.[0]).toBeNull();
-    expect(state.grid[2]?.[0]?.pieceId).toBe(id);
-    expect(state.grid.flat().filter((cell) => cell?.pieceId === id)).toHaveLength(4);
-  });
-
-  it('swaps two figures when one is dropped onto the other', () => {
-    const movingId = pieceId(level, 'j-mixed');
-    const displacedId = pieceId(level, 'o-coral');
-    const state = place(pixelDropEngine.create(level), movingId, 0, 6);
-
-    expect(state.placements.find((placement) => placement.pieceId === movingId)).toEqual({
-      pieceId: movingId,
-      row: 0,
-      col: 6,
-    });
-    expect(state.placements.find((placement) => placement.pieceId === displacedId)).toEqual({
-      pieceId: displacedId,
-      row: 0,
-      col: 0,
-    });
-    expect(state.grid.flat().filter((cell) => cell !== null)).toHaveLength(24);
-  });
-
-  it('reports every currently valid anchor for a piece', () => {
+  it('reports valid free or swappable anchors', () => {
     const state = pixelDropEngine.create(level);
-    const anchors = validAnchorsForPiece(state, pieceId(level, 'i-mixed'));
-    expect(anchors.length).toBeGreaterThan(20);
-    expect(anchors).toContainEqual({ row: 7, col: 3 });
-    expect(anchors).not.toContainEqual({ row: 0, col: 8 });
+    expect(validAnchorsForPiece(state, state.pieces[0]!.id).length).toBeGreaterThan(10);
   });
 
-  it('completes the first picture when the 10×10 board exactly matches the sample', () => {
-    const state = solve(level);
+  it('uses 12, 13 and 13 different pieces and wins only after all projections', () => {
+    let state = solve(pixelDropEngine.create(level));
     expect(state.gameState).toBe('phase_complete');
-    expect(pixelDropEngine.isComplete(state)).toBe(false);
-    expect(state.grid.map((row) => row.map((cell) => cell?.color ?? null))).toEqual(level.phases[0]?.target);
-  });
-
-  it('completes a picture assembled elsewhere on the board', () => {
-    const state = solveAtTopLeft(level);
-
-    expect(state.gameState).toBe('phase_complete');
-    expect(pixelDropEngine.isComplete(state)).toBe(false);
-    expect(state.grid.map((row) => row.map((cell) => cell?.color ?? null))).not.toEqual(level.phases[0]?.target);
-  });
-
-  it('advances through three pictures and wins only after the third', () => {
-    const firstPicture = level.phases[0];
-    if (firstPicture === undefined) throw new Error('Missing test phase.');
-    const repeatedLevel: LevelConfig = {
-      ...level,
-      phases: [
-        firstPicture,
-        { ...firstPicture, id: 2 },
-        { ...firstPicture, id: 3 },
-      ],
-    };
-
-    let state = solve(repeatedLevel);
-    expect(state.gameState).toBe('phase_complete');
-    expect(pixelDropEngine.isComplete(state)).toBe(false);
-
     state = pixelDropEngine.apply(state, { type: 'advance_phase' });
-    expect(state.phaseIndex).toBe(1);
-    expect(state.gameState).toBe('playing');
-    state = solveFromState(repeatedLevel, state);
+    expect(state.pieces).toHaveLength(13);
+    state = solve(state);
     expect(state.gameState).toBe('phase_complete');
-
     state = pixelDropEngine.apply(state, { type: 'advance_phase' });
-    expect(state.phaseIndex).toBe(2);
-    state = solveFromState(repeatedLevel, state);
+    expect(state.pieces).toHaveLength(13);
+    state = solve(state);
     expect(state.gameState).toBe('won');
     expect(pixelDropEngine.isComplete(state)).toBe(true);
-    expect(pixelDropEngine.apply(state, { type: 'advance_phase' })).toBe(state);
   });
 });

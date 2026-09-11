@@ -5,12 +5,22 @@ export const PIECE_SYMBOLS: Readonly<Record<ColorId, string>> = {
   coral: '◆',
   rose: '●',
   purple: '▲',
+  tan: '■',
+  brown: '●',
+  black: '◆',
+  white: '○',
+  red: '▲',
 };
 
 const COLOR_NAMES: Readonly<Record<ColorId, string>> = {
   coral: 'оранжевый',
   rose: 'розовый',
   purple: 'фиолетовый',
+  tan: 'песочный',
+  brown: 'коричневый',
+  black: 'чёрный',
+  white: 'белый',
+  red: 'красный',
 };
 
 export function pieceAriaLabel(piece: Piece): string {

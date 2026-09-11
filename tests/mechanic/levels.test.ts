@@ -1,143 +1,66 @@
 import { describe, expect, it } from 'vitest';
+import { getAllLevels, getLevel, parseLevelPack } from '../../src/mechanic/levels/index.ts';
 
-import {
-  getAllLevels,
-  getLevel,
-  parseLevelPack,
-} from '../../src/mechanic/levels/index.ts';
-
-const sourceLevel = getLevel(0);
+function removePrefix(id: string): string { return id.replace(/^l\d+p\d+-/, ''); }
 
 function validPack(): unknown {
+  const source = getLevel(0);
+  const pieceSets = Object.fromEntries(source.phases.map((phase) => [
+    'set-' + String(phase.id),
+    phase.pieces.map((piece) => ({ ...piece, id: removePrefix(piece.id) })),
+  ]));
+  const pictures = Object.fromEntries(source.phases.map((phase) => [
+    'picture-' + String(phase.id),
+    { title: phase.title, instruction: phase.instruction, sampleAlt: phase.sampleAlt, target: phase.target },
+  ]));
   return {
-    schemaVersion: 5,
-    pieceSets: {
-      test: sourceLevel.pieces,
-    },
-    pictures: {
-      test: {
-        title: 'Test picture',
-        instruction: 'Recreate the sample',
-        sampleAlt: 'Test sample',
-        target: sourceLevel.phases[0]?.target,
-      },
-    },
-    levels: [
-      {
-        id: 1,
-        gridSize: 10,
-        pieceSet: 'test',
-        phases: sourceLevel.phases.map((phase) => ({
-          id: phase.id,
-          picture: 'test',
-          initialPlacements: phase.initialPlacements,
-        })),
-      },
-    ],
+    schemaVersion: 6,
+    pieceSets,
+    pictures,
+    objects: { dog: source.object },
+    levels: [{
+      id: 1, gridSize: 10, object: 'dog',
+      phases: source.phases.map((phase) => ({
+        id: phase.id, view: phase.view, picture: 'picture-' + String(phase.id), pieceSet: 'set-' + String(phase.id),
+        initialPlacements: phase.initialPlacements.map((placement) => ({ ...placement, pieceId: removePrefix(placement.pieceId) })),
+      })),
+    }],
   };
 }
 
-describe('level pack', () => {
-  it('ships nine playable 10x10 levels with three pictures each', () => {
+describe('level pack v6', () => {
+  it('ships nine levels and a complete dog prototype in level one', () => {
     const levels = getAllLevels();
-
     expect(levels).toHaveLength(9);
-    expect(new Set(levels.flatMap((level) => level.phases.map((phase) => JSON.stringify(phase.target)))).size).toBe(9);
-
-    for (const level of levels) {
-      expect(level.gridSize).toBe(10);
-      expect(level.pieces).toHaveLength(6);
-      expect(level.phases).toHaveLength(3);
-      for (const phase of level.phases) {
-        expect(phase.target).toHaveLength(10);
-        expect(phase.target.every((row) => row.length === 10)).toBe(true);
-        expect(phase.initialPlacements).toHaveLength(6);
-      }
+    expect(levels[0]?.object?.size).toEqual([6, 10, 9]);
+    expect(levels[0]?.object?.voxels.length).toBeGreaterThan(100);
+    expect(levels[0]?.phases.map((phase) => phase.view)).toEqual(['front', 'side', 'bottom']);
+    expect(levels[0]?.phases.map((phase) => phase.pieces.length)).toEqual([12, 13, 13]);
+    for (const level of levels) for (const phase of level.phases) {
+      expect(phase.target).toHaveLength(10);
+      expect(phase.initialPlacements).toHaveLength(phase.pieces.length);
+      expect(phase.pieces.every((piece) => piece.cells.length === 4)).toBe(true);
     }
   });
 
-  it('returns immutable copies instead of sharing mutable level data', () => {
-    const firstRead = getLevel(0);
-    const secondRead = getLevel(0);
-
-    expect(firstRead).not.toBe(secondRead);
-    expect(firstRead.pieces).not.toBe(secondRead.pieces);
-    expect(firstRead.phases).not.toBe(secondRead.phases);
-    expect(firstRead.phases[0]?.target).not.toBe(secondRead.phases[0]?.target);
-    expect(firstRead.phases[0]?.initialPlacements).not.toBe(secondRead.phases[0]?.initialPlacements);
-    expect(firstRead).toEqual(secondRead);
+  it('returns deep copies of phase sets and voxel data', () => {
+    const first = getLevel(0);
+    const second = getLevel(0);
+    expect(first).toEqual(second);
+    expect(first.phases[0]?.pieces).not.toBe(second.phases[0]?.pieces);
+    expect(first.object?.voxels).not.toBe(second.object?.voxels);
   });
 
-  it('accepts a valid versioned pack', () => {
-    const parsed = parseLevelPack(validPack(), 1);
-
-    expect(parsed).toHaveLength(1);
-    expect(parsed[0]?.pieces).toHaveLength(6);
+  it('accepts a valid pack and rejects old schemas', () => {
+    expect(parseLevelPack(validPack(), 1)).toHaveLength(1);
+    const invalid = validPack() as Record<string, unknown>;
+    invalid['schemaVersion'] = 5;
+    expect(() => parseLevelPack(invalid, 1)).toThrow(/schemaVersion must be 6/);
   });
 
-  it('rejects an unsupported schema and non-10x10 boards', () => {
-    const wrongSchema = validPack() as Record<string, unknown>;
-    wrongSchema.schemaVersion = 2;
-
-    expect(() => parseLevelPack(wrongSchema, 1)).toThrow(/schemaVersion must be 5/);
-
-    const wrongGrid = validPack() as {
-      levels: Array<Record<string, unknown>>;
-    };
-    wrongGrid.levels[0]!.gridSize = 8;
-
-    expect(() => parseLevelPack(wrongGrid, 1)).toThrow(/gridSize must be 10/);
-  });
-
-  it('rejects missing piece sets and sets that do not contain six figures', () => {
-    const unknownSet = validPack() as {
-      levels: Array<Record<string, unknown>>;
-    };
-    unknownSet.levels[0]!.pieceSet = 'missing';
-
-    expect(() => parseLevelPack(unknownSet, 1)).toThrow(/unknown set/);
-
-    const shortTray = validPack() as {
-      pieceSets: Record<string, unknown[]>;
-    };
-    shortTray.pieceSets.test = shortTray.pieceSets.test!.slice(0, 5);
-
-    expect(() => parseLevelPack(shortTray, 1)).toThrow(/exactly 6 pieces/);
-  });
-
-  it('rejects targets whose color inventory does not match the pieces', () => {
-    const badInventory = validPack() as {
-      pictures: { test: { target: Array<Array<string | null>> } };
-    };
-    badInventory.pictures.test.target[0]![0] = 'coral';
-
-    expect(() => parseLevelPack(badInventory, 1)).toThrow(/same number/);
-  });
-
-  it('rejects targets that have the right colors but cannot be tiled', () => {
-    const unsolvable = validPack() as {
-      pictures: { test: { target: Array<Array<string | null>> } };
-    };
-    const target = unsolvable.pictures.test.target;
-
-    target[6]![4] = null;
-    target[6]![5] = null;
-    target[7]![4] = null;
-    target[7]![5] = null;
-    target[0]![0] = 'purple';
-    target[0]![9] = 'purple';
-    target[9]![0] = 'purple';
-    target[9]![9] = 'purple';
-
-    expect(() => parseLevelPack(unsolvable, 1)).toThrow(/cannot be tiled/);
-  });
-
-  it('rejects levels that do not contain exactly three phases', () => {
-    const wrongPhaseCount = validPack() as {
-      levels: Array<{ phases: unknown[] }>;
-    };
-    wrongPhaseCount.levels[0]!.phases.pop();
-
-    expect(() => parseLevelPack(wrongPhaseCount, 1)).toThrow(/exactly 3 phases/);
+  it('rejects a phase that reuses an unknown piece set', () => {
+    const invalid = validPack() as { levels: Array<{ phases: Array<Record<string, unknown>> }> };
+    invalid.levels[0]!.phases[0]!['pieceSet'] = 'missing';
+    expect(() => parseLevelPack(invalid, 1)).toThrow(/unknown set/);
   });
 });

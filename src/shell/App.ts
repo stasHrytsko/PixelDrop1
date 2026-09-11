@@ -5,8 +5,10 @@ import {
   needsOnboarding,
   nextLevelIndex,
   withLevelCompleted,
+  withActiveLevel,
   withMoreAsked,
   withOnboardingSeen,
+  withoutActiveLevel,
   type ProgressRepository,
   type ProgressState,
 } from './progress/ProgressRepository.ts';
@@ -44,6 +46,7 @@ export class ShellApp {
   #route: Route = 'menu';
   /** Where "Как играть" should return to when it was opened from the menu. */
   #rulesReturn: Route = 'menu';
+  #saveQueue: Promise<void> = Promise.resolve();
 
   constructor(deps: ShellAppDeps, initialState: ProgressState) {
     this.#deps = deps;
@@ -76,6 +79,7 @@ export class ShellApp {
           this.#rulesReturn = 'menu';
           this.goRules();
         },
+        ...(this.#state.activeLevel === null ? {} : { onContinue: () => this.goLevel(this.#state.activeLevel?.levelIndex ?? 0) }),
       }),
     );
   }
@@ -129,6 +133,12 @@ export class ShellApp {
         live = false;
         this.goLevelSelect();
       },
+      resumeState: this.#state.activeLevel?.levelIndex === levelIndex ? this.#state.activeLevel.snapshot : undefined,
+      onStateChange: (snapshot) => {
+        if (!live) return;
+        this.#state = withActiveLevel(this.#state, levelIndex, snapshot);
+        void this.#queueSave();
+      },
     });
 
     this.#session = {
@@ -180,8 +190,8 @@ export class ShellApp {
   }
 
   async #levelCompleted(levelIndex: number, screen: ReturnType<typeof GameScreen>): Promise<void> {
-    this.#state = withLevelCompleted(this.#state, levelIndex);
-    await this.#deps.progress.save(this.#state);
+    this.#state = withoutActiveLevel(withLevelCompleted(this.#state, levelIndex), levelIndex);
+    await this.#queueSave();
 
     const { game, levelCount } = { game: this.#deps.game, levelCount: this.#deps.game.levelCount };
     const finishedEverything = allLevelsCompleted(this.#state, levelCount) && !this.#state.moreAsked;
@@ -250,6 +260,12 @@ export class ShellApp {
     }
 
     this.goLevelSelect();
+  }
+
+  #queueSave(): Promise<void> {
+    const snapshot = this.#state;
+    this.#saveQueue = this.#saveQueue.then(() => this.#deps.progress.save(snapshot));
+    return this.#saveQueue;
   }
 
   // --- Screen plumbing ----------------------------------------------------

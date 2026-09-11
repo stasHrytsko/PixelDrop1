@@ -44,7 +44,7 @@ export const pixelDropEngine: MechanicEngine<LevelState, GameInput, LevelConfig>
   create(level: LevelConfig): LevelState {
     const firstPhase = level.phases[0];
     if (firstPhase === undefined) throw new Error('A level must contain at least one phase.');
-    return createState(level.pieces, firstPhase.initialPlacements, null, level.phases, 0);
+    return createState(firstPhase.pieces, firstPhase.initialPlacements, null, level.phases, 0);
   },
 
   apply(state: LevelState, input: GameInput): LevelState {
@@ -53,13 +53,13 @@ export const pixelDropEngine: MechanicEngine<LevelState, GameInput, LevelConfig>
       const nextPhaseIndex = state.phaseIndex + 1;
       const nextPhase = state.phases[nextPhaseIndex];
       if (nextPhase === undefined) return state;
-      return createState(state.pieces, nextPhase.initialPlacements, null, state.phases, nextPhaseIndex);
+      return createState(nextPhase.pieces, nextPhase.initialPlacements, null, state.phases, nextPhaseIndex);
     }
 
     if (input.type === 'restart_phase') {
       const phase = state.phases[state.phaseIndex];
       if (phase === undefined || state.gameState === 'won') return state;
-      return createState(state.pieces, phase.initialPlacements, null, state.phases, state.phaseIndex);
+      return createState(phase.pieces, phase.initialPlacements, null, state.phases, state.phaseIndex);
     }
 
     if (state.gameState !== 'playing') return state;
