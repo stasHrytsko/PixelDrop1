@@ -74,10 +74,15 @@
   display: grid;
   grid-template-columns: repeat(var(--size), 7px);
   grid-template-rows: repeat(var(--size), 7px);
+  gap: 1px;
+  padding: 3px;
+  border-radius: 5px;
+  background: #f0f1f4;
 }
 
 .pixel-drop-sample span {
   border-radius: 1px;
+  background: #dfe1e6;
 }
 
 .pixel-drop-sample .coral,
